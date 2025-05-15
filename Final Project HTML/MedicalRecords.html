@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Medical Records</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #eee;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #ddd;
+      padding: 10px;
+      position: relative;
+      border-bottom: 1px solid #aaa;
+      margin-bottom: 50px;
+    }
+
+    .back-button {
+      position: absolute;
+      left: 10px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .header h2 {
+      margin: 0;
+      font-weight: bold;
+    }
+
+    .content {
+      padding: 10px;
+    }
+
+    .top-section {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .profile-pic {
+      width: 100px;
+      height: 100px;
+      background-color: #ccc;
+      text-align: center;
+      font-size: 10px;
+      padding: 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+    }
+
+    .info-box {
+      flex: 1;
+      border: 1px solid #999;
+      padding: 10px;
+      text-align: center;
+      background-color: white;
+      font-weight: bold;
+    }
+
+    .notes-box {
+      border: 1px solid #999;
+      height: 200px;
+      overflow-y: scroll;
+      background-color: white;
+      padding: 20px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="back-button">←</div>
+    <h2>Medical Records</h2>
+  </div>
+
+  <div class="content">
+    <div class="top-section">
+      <div class="profile-pic">Patient's Picture</div>
+      <div class="info-box">Personal Information</div>
+    </div>
+
+    <div class="notes-box">
+      S.O.A.P. NOTES
+    </div>
+  </div>
+
+</body>
+</html>

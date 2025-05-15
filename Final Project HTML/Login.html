@@ -5,28 +5,57 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hospital Login</title>
   <style>
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background-color: #f2f2f2;
-      display: flex;
-      flex-direction: column;
+      background-color: #a39d9d;
+      display: flex;  
+      flex-direction: row;
       align-items: center;
       overflow-x: hidden;
     }
 
-    .header {
+    .backgroundImage {
       width: 100%;
-      background-color: white;
-      padding: 20px;
-      text-align: center;
-      border-bottom: 1px solid #ccc;
+      height: 100%;
+      overflow: hidden;
     }
 
-    .container {
+    .backgroundImage img{
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      display: block;
+      opacity: 0.8;
+    }
+
+    #loginLogo{
+      border-radius: 60%;
+      height: auto;
+      width: auto;
       position: absolute;
-      right: 30px;
-      bottom: 90px;
+    }
+    
+    .firstBox{
+      display: flex;
+      height: 100vh;
+      left: 0;
+      width: 40%;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .secondBox{
+      display: flex;
+      height: 100vh;
+      right: 0;
+      width: 60%;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .loginContainer {
       background-color: white;
       padding: 30px 40px;
       border: 1px solid #ccc;
@@ -35,8 +64,13 @@
       text-align: center;
     }
 
-    .container h2{
+    .loginContainer h2{
       padding-top: 20px;
+    }
+
+    .loginContainer p{
+      text-align: left;
+      font-family: 'Times New Roman', Times, serif;
     }
 
     h2 {
@@ -78,22 +112,25 @@
   </style>
 </head>
 <body>
+  <div class="firstBox">
+    <div class="loginContainer">
+      <p>RJ's Hospital Management System</p>
+      <h2>Log In</h2>
+      <input type="text" placeholder="Username" />
+      <input type="password" placeholder="Password" />
+      <button class="btn">Continue</button>
 
-  <div class="header">
-    <h1>Insert Hospital Logo</h1>
-  </div>
-
-  <div class="container">
-    <h2>Log In</h2>
-    <input type="text" placeholder="Username" />
-    <input type="password" placeholder="Password" />
-    <button class="btn">Continue</button>
-
-    <div class="links">
-      <a href="#">Forgot Password?</a>
-      <a href="#">Create new user</a>
+      <div class="links">
+        <a href="#">Forgot Password?</a>
+        <a href="#">Create new user</a>
+      </div>
     </div>
   </div>
 
+  <div class="secondBox">
+    <div class="backgroundImage">
+      <img src="pictures/hospitalBackground.jpg">
+    </div>
+  </div>
 </body>
 </html>

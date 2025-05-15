@@ -13,9 +13,31 @@
     }
 
     .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       background-color: white;
-      padding: 20px;
+      padding: 40px;
       border-bottom: 1px solid #ccc;
+      margin-bottom: 40px;
+    }
+
+    .left, .right {
+      width: 100px;
+      text-align: left;
+    }
+
+    .center-text {
+      flex: 1;
+      text-align: center;
+      font-size: 30px;
+      margin: 0;
+    }
+
+    .header a{
+      margin-top: 15px;
+      color: #0096ff;
+      text-decoration: none;
     }
 
     h1 {
@@ -71,10 +93,10 @@
 <body>
 
   <div class="header">
-    <h2>Insert Hospital Logo</h2>
+    <div class="left"><a href="#">Logout</a></div>
+    <h2 class="center-text">Welcome Nurse</h2>
+    <div class="right"></div>
   </div>
-
-  <h1>Welcome Nurses</h1>
 
   <div class="dashboard">
     <div class="row">

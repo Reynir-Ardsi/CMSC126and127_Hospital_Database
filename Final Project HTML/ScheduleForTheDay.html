@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Schedule For The Day</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #eee;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #ddd;
+      padding: 10px;
+      position: relative;
+      border-bottom: 1px solid #aaa;
+    }
+
+    .back-button {
+      position: absolute;
+      left: 10px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .header h2 {
+      margin: 0;
+      font-weight: bold;
+    }
+
+    .main-content {
+      display: flex;
+      gap: 20px;
+      padding: 20px;
+      justify-content: center;
+    }
+
+    .left-column {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .box {
+      width: 600px;
+      height: 300px;
+      background-color: white;
+      border: 1px solid #aaa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      font-weight: bold;
+      padding: 10px;
+    }
+
+    .schedule-box {
+      width: 600px;
+      background-color: white;
+      border: 1px solid #aaa;
+    }
+
+    .schedule-header {
+      text-align: center;
+      font-weight: bold;
+      padding: 10px;
+      border-bottom: 1px solid #aaa;
+    }
+
+    .schedule-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .schedule-table th, .schedule-table td {
+      padding: 8px;
+      border: 1px solid #aaa;
+      text-align: left;
+    }
+
+    .schedule-body {
+      max-height: 150px;
+      overflow-y: scroll;
+      background-color: #ddd;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="back-button">←</div>
+    <h2>Schedule For The Day</h2>
+  </div>
+
+  <div class="main-content">
+    <div class="left-column">
+      <div class="box">Digital Clock w/ Date</div>
+      <div class="box">Doctor Notes</div>
+    </div>
+
+    <div class="schedule-box">
+      <div class="schedule-header">Today's Schedule</div>
+      <div class="schedule-body">
+        <table class="schedule-table">
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Patient Name & Room Number</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>08:00</td>
+              <td>John Doe - Room 101</td>
+            </tr>
+            <tr>
+              <td>09:00</td>
+              <td>Jane Smith - Room 202</td>
+            </tr>
+            <!-- Add more rows as needed -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
