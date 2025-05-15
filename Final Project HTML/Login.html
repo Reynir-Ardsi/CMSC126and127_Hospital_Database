@@ -12,6 +12,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      overflow-x: hidden;
     }
 
     .header {
@@ -23,12 +24,19 @@
     }
 
     .container {
-      margin-top: 40px;
+      position: absolute;
+      right: 30px;
+      bottom: 90px;
       background-color: white;
       padding: 30px 40px;
       border: 1px solid #ccc;
+      height: 375px;
       width: 300px;
       text-align: center;
+    }
+
+    .container h2{
+      padding-top: 20px;
     }
 
     h2 {
@@ -39,7 +47,7 @@
     input[type="password"] {
       width: 100%;
       padding: 10px;
-      margin: 10px 0;
+      margin: 20px 0;
       border: 1px solid #ccc;
       box-sizing: border-box;
     }
@@ -63,6 +71,7 @@
     }
 
     .links a {
+      margin-top: 15px;
       color: #0096ff;
       text-decoration: none;
     }
@@ -81,8 +90,8 @@
     <button class="btn">Continue</button>
 
     <div class="links">
-      <a href="#">Forget Password</a>
-      <a href="#">Register Now</a>
+      <a href="#">Forgot Password?</a>
+      <a href="#">Create new user</a>
     </div>
   </div>
 
