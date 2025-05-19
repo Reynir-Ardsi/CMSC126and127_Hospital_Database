@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Patient Registration</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f0f0f0;
+    }
+
+    .container {
+      max-width: 90%;
+      margin: auto;
+      padding: 20px;
+      background-color: white;
+      border: 1px solid #ccc;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 10px 0;
+      font-size: 24px;
+      font-weight: bold;
+      background-color: #f5f5f5;
+    }
+
+    .back-button {
+      position: absolute;
+      left: 20px;
+      font-size: 20px;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .sub-heading {
+      font-weight: bold;
+      background-color: #ddd;
+      display: inline-block;
+      padding: 6px 12px;
+      margin: 20px 0 10px;
+    }
+
+    .form-container {
+      height: 500px;
+      border: 1px solid #ccc;
+      padding: 20px;
+      font-size: 28px;
+      font-weight: bold;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <button class="back-button" onclick="history.back()">←</button>
+      Patient Registration
+    </div>
+
+    <div class="sub-heading">Hospital Registration Form</div>
+
+    <div class="form-container">
+      Patient Information
+    </div>
+  </div>
+</body>
+</html>
