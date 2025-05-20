@@ -88,21 +88,69 @@
       overflow-y: scroll;
       background-color: #ddd;
     }
+
+    .box.clock-box {
+      width: 580px;
+      height: auto;
+      background-color: #1f1f1f;
+      border: 1px solid #555;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 30px 20px;
+      color: #00ffcc;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .clock {
+      font-size: 3.5em;
+      font-weight: bold;
+      margin-bottom: 15px;
+      letter-spacing: 2px;
+    }
+
+    .date {
+      font-size: 1.5em;
+      color: #ccc;
+    }
   </style>
 </head>
 <body>
 
-  <div class="header">
+   <div class="header">
     <div class="back-button" onclick="history.back()">←</div>
     <h2>Schedule For The Day</h2>
   </div>
 
   <div class="main-content">
     <div class="left-column">
-      <div class="box">Digital Clock w/ Date</div>
-      <div class="box">Doctor Notes</div>
-    </div>
+      <div class="box clock-box">
+        <div class="clock" id="clock">--:--:--</div>
+        <div class="date" id="date">Loading date...</div>
+      </div>
+    <script>
+      function updateClock() {
+        const now = new Date();
 
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+
+        const clock = `${hours}:${minutes}:${seconds}`;
+        document.getElementById('clock').textContent = clock;
+
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const date = now.toLocaleDateString(undefined, options);
+        document.getElementById('date').textContent = date;
+      }
+
+      setInterval(updateClock, 1000);
+      updateClock(); // Run immediately on page load
+    </script>
+    <div class="box">Doctor Notes</div>
+    </div>
     <div class="schedule-box">
       <div class="schedule-header">Today's Schedule</div>
       <div class="schedule-body">
