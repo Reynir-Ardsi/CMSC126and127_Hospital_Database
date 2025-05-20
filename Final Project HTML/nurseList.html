@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nurse List</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f2f2f2;
+      text-align: center;
+    }
+
+    header {
+      background-color: white;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      border-bottom: 1px solid #ccc;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .back-button {
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .search-container {
+      margin: 20px auto;
+      max-width: 500px;
+    }
+
+    .search-container input {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    .nurse-list {
+      background-color: white;
+      margin: 0 auto 20px;
+      padding: 20px;
+      max-width: 90%;
+      height: 500px;
+      overflow-y: scroll;
+      border: 1px solid #ccc;
+    }
+
+    .nurse-list h2 {
+      font-size: 32px;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <button class="back-button" onclick="history.back()">←</button>
+    <h1>Nurse List</h1>
+  </header>
+
+  <div class="search-container">
+    <input type="text" placeholder="Search Bar">
+  </div>
+
+  <div class="nurse-list">
+    <h2>Nurse List</h2>
+    <!-- Replace this with dynamic doctor entries -->
+  </div>
+
+</body>
+</html>
