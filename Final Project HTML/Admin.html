@@ -63,6 +63,12 @@
       align-items: center;
       margin-left: 50px;
       margin-right: 50px;
+      cursor: pointer;
+      transform: transform 0.2s;
+    }
+
+    .card:hover{
+      transform: scale(1.05);
     }
 
     .card h3 {
@@ -100,31 +106,31 @@
 
   <div class="dashboard">
     <div class="row">
-      <div class="card">
-        <a href="doctorList.html" style="text-decoration: none; color: inherit;">
-          <div style="
-          box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-          cursor: pointer;
-          transition: transform 0.2s;
-          " onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
-            <h3>Manage Doctors</h3>
-          </div>
-        </a>
-            <div class="placeholder"></div>
-      </div>
-      <div class="card">
-        <h3>Manage Patients</h3>
-        <div class="placeholder"></div>
-      </div>
+      <a href ="doctorList.html" style="text-decoration: none; color: inherit;">
+        <div class="card">
+          <h3>Manage Doctors</h3>
+          <div class="placeholder"></div>
+        </div>
+      </a>
+      <a href ="patientArchives.html" style="text-decoration: none; color: inherit;">
+        <div class="card">
+          <h3>Manage Patients</h3>
+          <div class="placeholder"></div>
+        </div>
+      </a>
+      <a href ="receptionistList.html" style="text-decoration: none; color: inherit;">
       <div class="card">
         <h3>Manage Receptionist</h3>
         <div class="placeholder"></div>
       </div>
+      </a>
     </div>
+    <a href="patientArchives.html" style="text-decoration: none; color: inherit;">
       <div class="card" style="width: 300px;">
         <h3>Reports and Analytics</h3>
         <div class="placeholder" style="height: 100%;"></div>
       </div>
+    </a>
     </div>
   </div>
 
