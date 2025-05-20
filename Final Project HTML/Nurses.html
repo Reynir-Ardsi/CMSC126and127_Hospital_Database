@@ -22,7 +22,26 @@
       margin-bottom: 40px;
     }
 
+    .right{
+      background-image: url("pictures/hospital_logo.jpeg");
+    }
+  
+    .logo {
+      width: 85px;
+      height: 85px;
+      border-radius: 50%;
+      border: 1px solid white;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      position: absolute;
+      top: 15px;
+      right: 40px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
     .left {
+      position: absolute;
       width: 100px;
       text-align: left;
     }
@@ -49,8 +68,9 @@
     .center-text {
       flex: 1;
       text-align: center;
-      font-size: 30px;
+      font-size: 45px;
       margin: 0;
+      color:#ffffff;
     }
 
     .header a{
@@ -148,7 +168,7 @@
   <div class="header">
     <div class="left"><a href="Login.html" class="logoutbtn">Logout</a></div>
     <h2 class="center-text">Welcome Nurse</h2>
-    <div class="right"></div>
+    <div class="right logo"></div>
   </div>
 
   <div class="dashboard">
