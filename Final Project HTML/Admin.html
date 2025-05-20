@@ -13,6 +13,7 @@
     }
 
     .header {
+      height: 40px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -21,28 +22,27 @@
       border-bottom: 1px solid #ccc;
       margin-bottom: 40px;
     }
-    /*
+
     .right{
       background-image: url("pictures/hospital_logo.jpeg");
     }
-    */
-    /*
+  
     .logo {
-      width: 80px;
-      height: 80px;
+      width: 85px;
+      height: 85px;
       border-radius: 50%;
       border: 1px solid white;
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
       position: absolute;
-      top: 54px;
+      top: 15px;
       right: 40px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
-    */
 
     .left {
+      position: absolute;
       width: 100px;
       text-align: left;
     }
@@ -55,7 +55,7 @@
       height: 60px;
       border-radius: 50%;
       background-color: #d7d7d7;
-      color: white;
+      color: black;
       text-decoration: none;
       font-weight: bold;
       transition: transform 0.2s;
@@ -69,13 +69,14 @@
     .center-text {
       flex: 1;
       text-align: center;
-      font-size: 30px;
+      font-size: 45px;
       margin: 0;
+      color:#ffffff;
     }
 
     .header a{
       margin-top: 15px;
-      color: #0096ff;
+      color: #000000;
       text-decoration: none;
     }
 
@@ -94,8 +95,8 @@
 
     .card {
       background-color: white;
-      width: 400px;
-      height: 200px;
+      width: 250px;
+      height: 400px;
       border: 1px solid #ccc;
       display: flex;
       flex-direction: column;
@@ -113,7 +114,7 @@
     .card h3 {
       background-color: #547792;
       margin: 0;
-      width: 100%;
+      width: 92%;
       padding: 10px;
       font-size: 16px;
       border-bottom: 1px solid #ccc;
@@ -126,9 +127,43 @@
       margin: 10px 0;
     }
 
-    .patient {
-      background-image: url("pictures/patient_icon.png");
-      background-size: 250px;
+    .cardh2 {
+      background-color: white;
+      width: 1000px;
+      height: 200px;
+      border: 1px solid #ccc;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-left: 50px;
+      margin-right: 50px;
+      cursor: pointer;
+      transform: transform 0.2s;
+    }
+
+    .cardh2:hover{
+      transform: scale(1.05);
+    }
+
+    .cardh2 h3 {
+      background-color: #547792;
+      margin: 0;
+      width: 98%;
+      padding: 10px;
+      font-size: 16px;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .cardh2 .placeholder {
+      flex: 1;
+      width: 90%;
+      background-color: #ddd;
+      margin: 10px 0;
+    }
+
+    .nurses {
+      background-image: url("pictures/Nurses ( Welcome Admin ).png");
+      background-size: contain;
       background-position: center;
       background-repeat: no-repeat;
     }
@@ -148,7 +183,7 @@
     }
 
     .doctor {
-      background-image: url("pictures/doctor_icon.png");
+      background-image: url("pictures/Doctors ( Welcome Doctors! ).png");
       background-size: contain;
       background-position: center;
       background-repeat: no-repeat;
@@ -179,22 +214,22 @@
           <div class="placeholder doctor"></div>
         </div>
       </a>
-      <a href ="patientArchives.html" style="text-decoration: none; color: inherit;">
+      <a href ="nurseList.html" style="text-decoration: none; color: inherit;">
         <div class="card">
-          <h3>Manage Patients</h3>
-          <div class="placeholder patient"></div>
+          <h3>Manage Nurses</h3>
+          <div class="placeholder nurses"></div>
         </div>
       </a>
-    </div>
-    <div class="row">
       <a href ="receptionistList.html" style="text-decoration: none; color: inherit;">
       <div class="card">
         <h3>Manage Receptionist</h3>
         <div class="placeholder receptionist"></div>
       </div>
     </a>
+    </div>
+    <div class="row">
     <a href="reportsAndAnalytics.html" style="text-decoration: none; color: inherit;">
-      <div class="card">
+      <div class="cardh2">
         <h3>Reports and Analytics</h3>
         <div class="placeholder reports"></div>
       </div>
