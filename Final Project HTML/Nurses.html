@@ -16,15 +16,34 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background-color: white;
+      background-color: #213448;
       padding: 40px;
       border-bottom: 1px solid #ccc;
       margin-bottom: 40px;
     }
 
-    .left, .right {
+    .left {
       width: 100px;
       text-align: left;
+    }
+
+    .logoutbtn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: #d7d7d7;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      transition: transform 0.2s;
+    }
+
+    .logoutbtn:hover {
+      transform: scale(1.05);
+      background-color: #cccccc;
     }
 
     .center-text {
@@ -55,18 +74,24 @@
 
     .card {
       background-color: white;
-      width: 240px;
-      height: 180px;
+      width: 400px;
+      height: 200px;
       border: 1px solid #ccc;
       display: flex;
       flex-direction: column;
       align-items: center;
       margin-left: 50px;
       margin-right: 50px;
+      cursor: pointer;
+      transform: transform 0.2s;
+    }
+
+    .card:hover{
+      transform: scale(1.05);
     }
 
     .card h3 {
-      background-color: #f8f8f8;
+      background-color: #547792;
       margin: 0;
       width: 100%;
       padding: 10px;
@@ -81,6 +106,34 @@
       margin: 10px 0;
     }
 
+    .observation {
+      background-image: url("pictures/patient_icon.png");
+      background-size: 250px;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .archives {
+      background-image: url("pictures/receptionist_icon.png");
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .records {
+      background-image: url("pictures/analytics_icon.png");
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .schedule {
+      background-image: url("pictures/doctor_icon.png");
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
     .row {
       width: 100%;
       display: flex;
@@ -93,32 +146,39 @@
 <body>
 
   <div class="header">
-    <div class="left"><a href="#">Logout</a></div>
+    <div class="left"><a href="Login.html" class="logoutbtn">Logout</a></div>
     <h2 class="center-text">Welcome Nurse</h2>
     <div class="right"></div>
   </div>
 
   <div class="dashboard">
     <div class="row">
-      <div class="card">
-        <h3>Patients</h3>
-        <div class="placeholder"></div>
-      </div>
-      <div class="card">
-        <h3>Patient Records</h3>
-        <div class="placeholder"></div>
-      </div>
-    </div>
-
+      <a href ="patientObservations.html" style="text-decoration: none; color: inherit;">
+        <div class="card">
+          <h3>Patients</h3>
+          <div class="placeholder observation"></div>
+        </div>
+      </a>
+      <a href ="patientArchives.html" style="text-decoration: none; color: inherit;">
+        <div class="card">
+          <h3>Patient Records</h3>
+          <div class="placeholder archives"></div>
+        </div>
+      </a>
+  </div>
     <div class="row">
+      <a href ="MedicalRecords.html" style="text-decoration: none; color: inherit;">
       <div class="card">
         <h3>Medical Records</h3>
-        <div class="placeholder"></div>
+        <div class="placeholder records"></div>
       </div>
+      </a>
+      <a href= ="#" style="text-decoration: none; color: inherit;">
       <div class="card">
         <h3>Scheduled Follow Ups</h3>
-        <div class="placeholder"></div>
+        <div class="placeholder schedule"></div>
       </div>
+      </a>
     </div>
   </div>
 

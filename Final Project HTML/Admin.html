@@ -8,7 +8,7 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background-color: #f2f2f2;
+      background-color: white;
       text-align: center;
     }
 
@@ -16,15 +16,57 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background-color: white;
+      background-color: #213448;
       padding: 40px;
       border-bottom: 1px solid #ccc;
       margin-bottom: 40px;
     }
+    .center-text{
+      text-align:center;
+    }
+    /*
+    .right{
+      background-image: url("pictures/hospital_logo.jpeg");
+    }
+    */
+    /*
+    .logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 1px solid white;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      position: absolute;
+      top: 54px;
+      right: 40px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    */
 
-    .left, .right {
+    .left {
       width: 100px;
       text-align: left;
+    }
+
+    .logoutbtn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: #d7d7d7;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      transition: transform 0.2s;
+    }
+
+    .logoutbtn:hover {
+      transform: scale(1.05);
+      background-color: #cccccc;
     }
 
     .center-text {
@@ -55,8 +97,8 @@
 
     .card {
       background-color: white;
-      width: 220px;
-      height: 180px;
+      width: 400px;
+      height: 200px;
       border: 1px solid #ccc;
       display: flex;
       flex-direction: column;
@@ -72,7 +114,7 @@
     }
 
     .card h3 {
-      background-color: #f8f8f8;
+      background-color: #547792;
       margin: 0;
       width: 100%;
       padding: 10px;
@@ -87,6 +129,34 @@
       margin: 10px 0;
     }
 
+    .patient {
+      background-image: url("pictures/patient_icon.png");
+      background-size: 250px;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .receptionist {
+      background-image: url("pictures/receptionist_icon.png");
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .reports {
+      background-image: url("pictures/analytics_icon.png");
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .doctor {
+      background-image: url("pictures/doctor_icon.png");
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
     .row {
       width: 100%;
       display: flex;
@@ -99,9 +169,9 @@
 <body>
 
   <div class="header">
-    <div class="left"><a href="Login.html">Logout</a></div>
+    <div class="left"><a href="Login.html" class="logoutbtn">Logout</a></div>
     <h2 class="center-text">Welcome Admin</h2>
-    <div class="right"></div>
+    <div class="right logo"></div>
   </div>
 
   <div class="dashboard">
@@ -109,26 +179,27 @@
       <a href ="doctorList.html" style="text-decoration: none; color: inherit;">
         <div class="card">
           <h3>Manage Doctors</h3>
-          <div class="placeholder"></div>
+          <div class="placeholder doctor"></div>
         </div>
       </a>
       <a href ="patientArchives.html" style="text-decoration: none; color: inherit;">
         <div class="card">
           <h3>Manage Patients</h3>
-          <div class="placeholder"></div>
+          <div class="placeholder patient"></div>
         </div>
       </a>
+    </div>
+    <div class="row">
       <a href ="receptionistList.html" style="text-decoration: none; color: inherit;">
       <div class="card">
         <h3>Manage Receptionist</h3>
-        <div class="placeholder"></div>
+        <div class="placeholder receptionist"></div>
       </div>
-      </a>
-    </div>
-    <a href="patientArchives.html" style="text-decoration: none; color: inherit;">
-      <div class="card" style="width: 300px;">
+    </a>
+    <a href="reportsAndAnalytics.html" style="text-decoration: none; color: inherit;">
+      <div class="card">
         <h3>Reports and Analytics</h3>
-        <div class="placeholder" style="height: 100%;"></div>
+        <div class="placeholder reports"></div>
       </div>
     </a>
     </div>
