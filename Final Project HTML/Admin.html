@@ -13,6 +13,7 @@
     }
 
     .header {
+      height: 40px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -43,6 +44,7 @@
     */
 
     .left {
+      position: absolute;
       width: 100px;
       text-align: left;
     }
@@ -69,8 +71,9 @@
     .center-text {
       flex: 1;
       text-align: center;
-      font-size: 30px;
+      font-size: 45px;
       margin: 0;
+      color:#547792;
     }
 
     .header a{
@@ -94,8 +97,8 @@
 
     .card {
       background-color: white;
-      width: 400px;
-      height: 200px;
+      width: 200px;
+      height: 350px;
       border: 1px solid #ccc;
       display: flex;
       flex-direction: column;
@@ -126,9 +129,9 @@
       margin: 10px 0;
     }
 
-    .patient {
-      background-image: url("pictures/patient_icon.png");
-      background-size: 250px;
+    .nurses {
+      background-image: url("pictures/Nurses ( Welcome Admin ).png");
+      background-size: contain;
       background-position: center;
       background-repeat: no-repeat;
     }
@@ -148,7 +151,7 @@
     }
 
     .doctor {
-      background-image: url("pictures/doctor_icon.png");
+      background-image: url("pictures/Doctors ( Welcome Doctors! ).png");
       background-size: contain;
       background-position: center;
       background-repeat: no-repeat;
@@ -179,20 +182,20 @@
           <div class="placeholder doctor"></div>
         </div>
       </a>
-      <a href ="patientArchives.html" style="text-decoration: none; color: inherit;">
+      <a href ="nurseList.html" style="text-decoration: none; color: inherit;">
         <div class="card">
-          <h3>Manage Patients</h3>
-          <div class="placeholder patient"></div>
+          <h3>Manage Nurses</h3>
+          <div class="placeholder nurses"></div>
         </div>
       </a>
-    </div>
-    <div class="row">
       <a href ="receptionistList.html" style="text-decoration: none; color: inherit;">
       <div class="card">
         <h3>Manage Receptionist</h3>
         <div class="placeholder receptionist"></div>
       </div>
     </a>
+    </div>
+    <div class="row">
     <a href="reportsAndAnalytics.html" style="text-decoration: none; color: inherit;">
       <div class="card">
         <h3>Reports and Analytics</h3>
