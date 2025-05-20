@@ -69,16 +69,23 @@
     }
 
     .profile-box {
+      margin: 10px;
       display: flex;
       align-items: center;
       gap: 15px;
       background-color: #f0f0f0;
-      padding: 10px 20px;
+      padding: 10px 10px;
       border-radius: 8px;
       border: 1px solid #ccc;
       font-size: 20px;
       font-weight: normal;
       width: 100%;
+      cursor: pointer;
+      transform: transform 0.2s;
+    }
+
+    .profile-box:hover {
+      transform: scale(1.05);
     }
 
     .profile-pic {

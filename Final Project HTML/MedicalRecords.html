@@ -46,8 +46,8 @@
     }
 
     .profile-pic {
-      width: 100px;
-      height: 100px;
+      width: 200px;
+      height: 200px;
       background-color: #ccc;
       text-align: center;
       font-size: 10px;
@@ -59,41 +59,229 @@
     }
 
     .info-box {
+      height: 200px;
       flex: 1;
       border: 1px solid #999;
-      padding: 10px;
-      text-align: center;
+      padding: 5px;
+      text-align: left;
       background-color: white;
+      font-size: 16px;
       font-weight: bold;
     }
 
     .notes-box {
       border: 1px solid #999;
-      height: 200px;
+      height: 500px;
       overflow-y: scroll;
       background-color: white;
       padding: 20px;
-      text-align: center;
+      text-align: left;
       font-weight: bold;
       font-size: 18px;
     }
+
+    .note {
+      margin-top: 10px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      background-color: #f0f0f0;
+      padding: 5px 5px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 20px;
+      font-weight: normal;
+      width: 95%;
+    }
+
+    .text-format{
+      columns: 2;
+    }
+    
   </style>
 </head>
 <body>
 
   <div class="header">
-    <div class="back-button">←</div>
+    <button class="back-button" onclick="history.back()">←</button>
     <h2>Medical Records</h2>
   </div>
 
   <div class="content">
     <div class="top-section">
       <div class="profile-pic">Patient's Picture</div>
-      <div class="info-box">Personal Information</div>
+      <div class="info-box">
+        <p class="text-format">
+          Full Name: Johnathan Michael Doe<br>
+
+          Date of Birth: January 15, 1985<br>
+
+          Age: 40 years<br>
+
+          Gender: Male<br>
+
+          Address: 123 Maple Street, Springfield, IL 62704<br>
+
+          Phone Number: (555) 123-4567<br>
+
+          Email: johndoe@example.com<br>
+
+          Emergency Contact: Jane Doe (Wife) — (555) 987-6543<br>
+
+          Marital Status: Married<br>
+
+          Occupation: Software Engineer<br>
+
+          Insurance Provider: HealthCare Plus — Policy #HC123456789<br>
+
+          Primary Care Physician: Dr. Jane Smith<br>
+
+          Allergies: Penicillin (rash)<br>
+
+          Medical History: Hypertension, Type 2 Diabetes Mellitus<br>
+
+          Medications: Lisinopril 10 mg daily, Metformin 500 mg twice daily<br>
+
+          Lifestyle: Non-smoker, occasional alcohol use, exercises 3x/week<br>
+        </p>
+      </div>
     </div>
 
     <div class="notes-box">
-      S.O.A.P. NOTES
+      <div class="note">
+        <p> Patient Name: John Doe<br>
+        Date: May 20, 2025<br>
+        Provider: Dr. Jane Smith<br>
+        Visit Type: Follow-up for hypertension<br>
+
+        <br>S – Subjective:<br>
+        Patient reports occasional headaches and dizziness, especially in the morning. He notes that he has been inconsistent with taking his blood pressure medication over the past week due to travel. No chest pain, shortness of breath, or visual disturbances. Denies other symptoms.<br>
+
+        <br>O – Objective:<br>
+
+        Blood pressure: 158/95 mmHg<br>
+
+        Heart rate: 78 bpm<br>
+
+        Respiratory rate: 16/min<br>
+
+        Temperature: 98.6°F<br>
+
+        Weight: 190 lbs (up 3 lbs since last visit)<br>
+
+        Physical exam: Alert and oriented ×3, no edema, lungs clear, heart sounds regular<br>
+
+        <br>A – Assessment:<br>
+
+        Primary: Hypertension, uncontrolled (I10)<br>
+
+        Secondary: Medication noncompliance<br>
+
+        No signs of hypertensive crisis or end-organ damage at this time<br>
+
+        <br>P – Plan:<br>
+
+        Reinforce importance of daily antihypertensive medication<br>
+
+        Restart Lisinopril 10 mg once daily<br>
+
+        Monitor blood pressure at home twice daily and keep a log<br>
+
+        Schedule follow-up visit in 2 weeks<br>
+
+        Educate patient on dietary sodium reduction and importance of adherence<br>
+        </p>
+      </div>
+      <div class="note">
+        <p>
+          Patient Name: John Doe<br>
+          Date: May 21, 2025<br>
+          Provider: Dr. Jane Smith<br>
+          Visit Type: Acute illness<br>
+
+          <br>S – Subjective:<br>
+          Patient complains of nasal congestion, sore throat, and mild cough for the past 3 days. Reports mild fatigue but no fever or shortness of breath. No chest pain or headaches.<br>
+
+          <br>O – Objective:<br>
+
+          Temperature: 99.1°F<br>
+
+          Heart rate: 80 bpm<br>
+
+          Respiratory rate: 18/min<br>
+
+          Oxygen saturation: 98% on room air<br>
+
+          Throat exam: Mild erythema, no exudates<br>
+
+          Lungs: Clear to auscultation bilaterally<br>
+
+          No lymphadenopathy<br>
+
+          <br>A – Assessment:<br>
+
+          Upper respiratory infection, likely viral<br>
+
+          No signs of bacterial infection or pneumonia<br>
+
+          <br>P – Plan:<br>
+
+          Supportive care: rest, hydration, saline nasal spray<br>
+
+          Over-the-counter acetaminophen for sore throat<br>
+
+          Educate on signs of worsening (fever > 101°F, difficulty breathing)<br>
+
+          Follow-up if symptoms worsen or persist beyond 10 days<br>
+        </p>
+      </div>
+      <div class="note">
+        <p>
+        Patient Name: John Doe<br>
+        Date: May 22, 2025<br>
+        Provider: Dr. Jane Smith<br>
+        Visit Type: Diabetes management follow-up<br>
+
+        <br>S – Subjective:<br>
+        Patient reports feeling well overall. Has been monitoring blood glucose regularly with occasional readings above target (mostly fasting levels around 140 mg/dL). No symptoms of hypoglycemia. Diet and exercise reported as “fair.” No recent infections or hospitalizations.<br>
+
+        <br>O – Objective:<br>
+
+        Weight: 185 lbs (down 5 lbs since last visit)<br>
+
+        Blood pressure: 130/80 mmHg<br>
+
+        HbA1c: 7.4% (lab result)<br>
+
+        Foot exam: No ulcers or lesions, good pulses<br>
+
+        No signs of diabetic retinopathy (last eye exam 6 months ago)<br>
+
+        <br>A – Assessment:<br>
+
+        Type 2 diabetes mellitus, suboptimally controlled<br>
+
+        Blood pressure controlled<br>
+
+        <br>P – Plan:<br>
+
+        Adjust metformin dosage to 1000 mg twice daily<br>
+
+        Reinforce diet and exercise counseling<br>
+
+        Refer to diabetes educator for nutrition support<br>
+
+        Schedule HbA1c recheck in 3 months<br>
+
+        Annual eye exam reminder<br>
+
+        Continue blood pressure management<br>
+        </p>
+      </div>
+    </div>
+    <div class=""notes-box>
+
     </div>
   </div>
 
