@@ -5,85 +5,84 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hospital Login</title>
   <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     body {
-      margin: 0;
       font-family: Arial, sans-serif;
       background-color: #a39d9d;
-      display: flex;  
-      flex-direction: row;
-      align-items: center;
+      display: flex;
+      min-height: 100vh;
       overflow-x: hidden;
     }
 
-    .backgroundImage {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-    }
-
-    .backgroundImage img{
-      width: 100%;
-      height: 100%;
-      object-fit: fill;
-      display: block;
-      opacity: 0.8;
-    }
-
-    #loginLogo{
-      border-radius: 60%;
-      height: auto;
-      width: auto;
-      position: absolute;
-    }
-    
-    .firstBox{
-      display: flex;
-      height: 100vh;
-      left: 0;
+    .firstBox {
       width: 40%;
+      background-color: #547792;
+      display: flex;
       align-items: center;
       justify-content: center;
+      position: relative;
     }
 
-    .secondBox{
-      display: flex;
-      height: 100vh;
-      right: 0;
+    .secondBox {
       width: 60%;
-      align-items: center;
-      justify-content: center;
+      position: relative;
+    }
+
+    .backgroundImage img {
+      width: 100%;
+      height: 100vh;
+      object-fit: fill;
+      opacity: 0.85;
     }
 
     .loginContainer {
       background-color: white;
-      padding: 30px 40px;
-      border: 1px solid #ccc;
-      height: 375px;
-      width: 300px;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      width: 320px;
       text-align: center;
+      position: relative;
     }
 
-    .loginContainer h2{
-      padding-top: 20px;
+    .logo {
+      width: 85px;
+      height: 85px;
+      border-radius: 50%;
+      background-image: url("pictures/hospital_logo.jpeg");
+      background-size: cover;
+      background-position: center;
+      position: absolute;
+      top: -55px;
+      left: calc(50% - 42.5px);
+      border: 2px solid white;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     }
 
-    .loginContainer p{
-      text-align: left;
-      font-family: 'Times New Roman', Times, serif;
-    }
-
-    h2 {
+    .loginContainer h2 {
+      margin-top: 60px;
       margin-bottom: 20px;
+    }
+
+    .loginContainer p {
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 16px;
+      color: #333;
+      margin-bottom: 10px;
     }
 
     input[type="text"],
     input[type="password"] {
       width: 100%;
       padding: 10px;
-      margin: 20px 0;
+      margin: 10px 0;
       border: 1px solid #ccc;
-      box-sizing: border-box;
+      border-radius: 5px;
     }
 
     .btn {
@@ -92,9 +91,15 @@
       background-color: #0096ff;
       color: white;
       border: none;
+      border-radius: 5px;
       cursor: pointer;
       font-weight: bold;
       margin-top: 10px;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #007edc;
     }
 
     .links {
@@ -105,21 +110,24 @@
     }
 
     .links a {
-      margin-top: 15px;
       color: #0096ff;
       text-decoration: none;
+    }
+
+    .links a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
   <div class="firstBox">
     <div class="loginContainer">
-      <p>RJ's Hospital Management System</p>
+      <div class="logo"></div>
+      <p>Hospital Management System</p>
       <h2>Log In</h2>
       <input type="text" placeholder="Username" />
       <input type="password" placeholder="Password" />
       <button class="btn">Continue</button>
-
       <div class="links">
         <a href="#">Forgot Password?</a>
         <a href="#">Create new user</a>
@@ -129,7 +137,7 @@
 
   <div class="secondBox">
     <div class="backgroundImage">
-      <img src="pictures/hospitalBackground.jpg">
+      <img src="pictures/Hospital Background Philippine Setting.png" alt="Hospital Background">
     </div>
   </div>
 </body>
