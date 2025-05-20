@@ -126,8 +126,8 @@
 
   <form id="doctorForm">
       <div class="form-group">
-        <label for="staffID">Staff ID:</label>
-        <input type="text" id="staffID" required>
+        <label for="doctorID">Doctor ID:</label>
+        <input type="text" id="doctorID" required>
       </div>
       <div class="form-group">
         <label for="firstName">First Name:</label>
@@ -163,7 +163,7 @@
     <table id="doctorTable">
       <thead>
         <tr>
-          <th>Staff ID</th>
+          <th>Doctor ID</th>
           <th>First Name</th>
           <th>Last Name</th>
           <th>Specialty</th>
@@ -185,7 +185,7 @@
     form.addEventListener('submit', function(e) {
       e.preventDefault();
 
-      const staffID = document.getElementById('staffID').value;
+      const doctorID = document.getElementById('doctorID').value;
       const firstName = document.getElementById('firstName').value;
       const lastName = document.getElementById('lastName').value;
       const specialty = document.getElementById('specialty').value;
@@ -195,7 +195,7 @@
       const row = document.createElement('tr');
 
       row.innerHTML = `
-        <td>${staffID}</td>
+        <td>${doctorID}</td>
         <td>${firstName}</td>
         <td>${lastName}</td>
         <td>${specialty}</td>

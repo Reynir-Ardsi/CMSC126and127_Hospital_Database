@@ -31,9 +31,10 @@
 
     .back-button {
       position: absolute;
-      left: 10px;
-      top: 10px;
+      left: 0;
+      top: 0;
       background: none;
+      color: black;
       border: none;
       font-size: 20px;
       cursor: pointer;
@@ -52,7 +53,7 @@
 
     .nurse-list {
       background-color: white;
-      margin: 0 auto 20px;
+      margin: 25px;
       padding: 20px;
       max-width: 90%;
       height: 500px;
@@ -64,6 +65,56 @@
       font-size: 32px;
       margin: 0;
     }
+
+    .form-group {
+      margin: 10px 0;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .form-group input {
+      width: 40%;
+      padding: 8px;
+    }
+
+    .form-actions {
+      margin-top: 15px;
+      display: flex;
+      justify-content: space-evenly;
+    }
+
+     button {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      background-color: #28a745;
+      color: white;
+      cursor: pointer;
+    }
+
+    button.delete {
+      background-color: #dc3545;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: left;
+    }
+    
+    th {
+      background-color: #007BFF;
+      color: white;
+    }
   </style>
 </head>
 <body>
@@ -73,13 +124,92 @@
     <h1>Nurse List</h1>
   </header>
 
-  <div class="search-container">
-    <input type="text" placeholder="Search Bar">
-  </div>
+  <form id="nurseForm">
+      <div class="form-group">
+        <label for="nurseID">Nurse ID:</label>
+        <input type="text" id="nurseID" required>
+      </div>
+      <div class="form-group">
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" required>
+      </div>
+      <div class="form-group">
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" required>
+      </div>
+      <div class="form-group">
+        <label for="contact">Contact Number:</label>
+        <input type="text" id="contact" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" required>
+      </div>
+      <div class="form-actions">
+        <button type="submit">Add Nurse</button>
+        <button type="reset">Clear</button>
+      </div>
+    </form>
 
   <div class="nurse-list">
     <h2>Nurse List</h2>
-    <!-- Replace this with dynamic doctor entries -->
+     <div class="search-container">
+    <input type="text" placeholder="Search Bar">
+  </div>
+    <table id="nurseTable">
+      <thead>
+        <tr>
+          <th>Nurse ID</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Contact</th>
+          <th>Email</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Nurse rows will appear here -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    const form = document.getElementById('nurseForm');
+    const table = document.getElementById('nurseTable').querySelector('tbody');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const nurseID = document.getElementById('nurseID').value;
+      const firstName = document.getElementById('firstName').value;
+      const lastName = document.getElementById('lastName').value;
+      const contact = document.getElementById('contact').value;
+      const email = document.getElementById('email').value;
+
+      const row = document.createElement('tr');
+
+      row.innerHTML = `
+        <td>${nurseID}</td>
+        <td>${firstName}</td>
+        <td>${lastName}</td>
+        <td>${contact}</td>
+        <td>${email}</td>
+        <td>
+          <button class="delete" onclick="deleteNurse(this)">Delete</button>
+        </td>
+      `;
+
+      table.appendChild(row);
+      form.reset();
+    });
+
+    function deleteNurse(btn) {
+      const row = btn.parentNode.parentNode;
+      row.parentNode.removeChild(row);
+    }
+  </script>
+</body>
+</html>
   </div>
 
 </body>
