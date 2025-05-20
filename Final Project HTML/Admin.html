@@ -93,7 +93,7 @@
 <body>
 
   <div class="header">
-    <div class="left"><a href="#">Logout</a></div>
+    <div class="left"><a href="Login.html">Logout</a></div>
     <h2 class="center-text">Welcome Admin</h2>
     <div class="right"></div>
   </div>
@@ -101,8 +101,16 @@
   <div class="dashboard">
     <div class="row">
       <div class="card">
-        <h3>Manage Doctors</h3>
-        <div class="placeholder"></div>
+        <a href="doctorList.html" style="text-decoration: none; color: inherit;">
+          <div style="
+          box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+          cursor: pointer;
+          transition: transform 0.2s;
+          " onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+            <h3>Manage Doctors</h3>
+          </div>
+        </a>
+            <div class="placeholder"></div>
       </div>
       <div class="card">
         <h3>Manage Patients</h3>
