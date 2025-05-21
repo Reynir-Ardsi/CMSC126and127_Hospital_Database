@@ -14,10 +14,12 @@
             VALUES ($doctorID, '$firstName', '$lastName', '$specialty', '$contact', '$email')";
 
     if ($conn->query($sql) === TRUE) {
-        $last_id = $conn->insert_id;
-
-        $query = "INSERT INTO `login` (`user_id`, `username`, `password`)
+        $loginQuery = "INSERT INTO `login` (`user_id`, `username`, `password`)
                 VALUES ('$doctorID', '$username', '$password')";
+        $conn->query($query);
+
+        $jobQuery = "INSERT INTO `job` (`user_id`, `role`)
+                VALUES ('$doctorID', 'Doctor')";
         $conn->query($query);
 
         header("Location: doctorList.html");
