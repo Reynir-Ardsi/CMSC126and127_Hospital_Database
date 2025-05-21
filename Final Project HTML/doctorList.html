@@ -147,48 +147,49 @@
     <h1>Doctor List</h1>
   </header>
 
-  <form id="doctorForm" action="addDoctor.php" method="get">
-      <div class="form-group">
-        <label for="doctorID">Doctor ID:</label>
-        <input type="text" id="doctorID" name="doctorID" required>
-      </div>
-      <div class="form-group">
-        <label for="firstName">First Name:</label>
-        <input type="text" id="firstName" name="firstName" required>
-      </div>
-      <div class="form-group">
-        <label for="middleInitial">Middle Initial:</label>
-        <input type="text" id="middleInitial" name="middleInitial" required>
-      </div>
-      <div class="form-group">
-        <label for="lastName">Last Name:</label>
-        <input type="text" id="lastName" name="lastName" required>
-      </div>
-      <div class="form-group">
-        <label for="specialty">Specialty:</label>
-        <input type="text" id="specialty" name="specialty" required>
-      </div>
-      <div class="form-group">
-        <label for="contact">Contact Number:</label>
-        <input type="text" id="contact" name="contact" required>
-      </div>
-      <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-      </div>
-      <div class="form-group">
-        <label for="username">Username:</label>
-        <input type="username" id="username" required>
-      </div>
-      <div class="form-group">
-        <label for="password">Password:</label>
-        <input type="password" id="password" required>
-      </div>
-      <div class="form-actions">
-        <button type="submit">Add Doctor</button>
-        <button type="reset">Clear</button>
-      </div>
-    </form>
+  <form id="doctorForm" action="PHP files/addDoctor.php" method="POST">
+    <div class="form-group">
+      <label for="doctorID">Doctor ID:</label>
+      <input type="text" id="doctorID" name="doctorID" required>
+    </div>
+    <div class="form-group">
+      <label for="firstName">First Name:</label>
+      <input type="text" id="firstName" name="firstName" required>
+    </div>
+    <div class="form-group">
+      <label for="middleInitial">Middle Initial:</label>
+      <input type="text" id="middleInitial" name="middleInitial" required>
+    </div>
+    <div class="form-group">
+      <label for="lastName">Last Name:</label>
+      <input type="text" id="lastName" name="lastName" required>
+    </div>
+    <div class="form-group">
+      <label for="specialty">Specialty:</label>
+      <input type="text" id="specialty" name="specialty" required>
+    </div>
+    <div class="form-group">
+      <label for="contact">Contact Number:</label>
+      <input type="text" id="contact" name="contact" required>
+    </div>
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+    </div>
+    <div class="form-group">
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required>
+    </div>
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required>
+    </div>
+    <div class="form-actions">
+      <button type="submit">Add Doctor</button>
+      <button type="reset">Clear</button>
+    </div>
+  </form>
+
 
   <div class="doctor-list">
     <h2>Doctor List</h2>
@@ -215,50 +216,6 @@
       </tbody>
     </table>
   </div>
-
-  <script>
-    const form = document.getElementById('doctorForm');
-    const table = document.getElementById('doctorTable').querySelector('tbody');
-
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      const doctorID = document.getElementById('doctorID').value;
-      const firstName = document.getElementById('firstName').value;
-      const middleInitial = document.getElementById('middleInitial').value;
-      const lastName = document.getElementById('lastName').value;
-      const specialty = document.getElementById('specialty').value;
-      const contact = document.getElementById('contact').value;
-      const email = document.getElementById('email').value;
-      const username = document.getElementById('username').value;
-      const password = document.getElementById('password').value;
-
-      const row = document.createElement('tr');
-
-      row.innerHTML = `
-        <td>${doctorID}</td>
-        <td>${firstName}</td>
-        <td>${middleInitial}</td>
-        <td>${lastName}</td>
-        <td>${specialty}</td>
-        <td>${contact}</td>
-        <td>${email}</td>
-        <td>${username}</td>
-        <td>${password}</td>
-        <td>
-          <button class="delete" onclick="deleteDoctor(this)">Delete</button>
-        </td>
-      `;
-
-      table.appendChild(row);
-      form.reset();
-    });
-
-    function deleteDoctor(btn) {
-      const row = btn.parentNode.parentNode;
-      row.parentNode.removeChild(row);
-    }
-  </script>
 </body>
 </html>
   </div>
