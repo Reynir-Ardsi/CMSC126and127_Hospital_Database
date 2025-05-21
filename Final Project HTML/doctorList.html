@@ -137,7 +137,7 @@
       background-color: white;
       overflow-y: auto;
     }
-    
+
   </style>
 </head>
 <body>
@@ -155,6 +155,10 @@
       <div class="form-group">
         <label for="firstName">First Name:</label>
         <input type="text" id="firstName" name="firstName" required>
+      </div>
+      <div class="form-group">
+        <label for="middleInitial">Middle Initial:</label>
+        <input type="text" id="middleInitial" name="middleInitial" required>
       </div>
       <div class="form-group">
         <label for="lastName">Last Name:</label>
@@ -196,6 +200,7 @@
         <tr>
           <th>Doctor ID</th>
           <th>First Name</th>
+          <th>Middle Initial</th>
           <th>Last Name</th>
           <th>Specialty</th>
           <th>Contact</th>
@@ -220,6 +225,7 @@
 
       const doctorID = document.getElementById('doctorID').value;
       const firstName = document.getElementById('firstName').value;
+      const middleInitial = document.getElementById('middleInitial').value;
       const lastName = document.getElementById('lastName').value;
       const specialty = document.getElementById('specialty').value;
       const contact = document.getElementById('contact').value;
@@ -232,6 +238,7 @@
       row.innerHTML = `
         <td>${doctorID}</td>
         <td>${firstName}</td>
+        <td>${middleInitial}</td>
         <td>${lastName}</td>
         <td>${specialty}</td>
         <td>${contact}</td>
