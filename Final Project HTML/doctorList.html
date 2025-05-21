@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Doctor List</title>
   <style>
     body {
@@ -86,7 +86,7 @@
       justify-content: space-evenly;
     }
 
-    button {
+     button {
       padding: 10px 15px;
       border: none;
       border-radius: 5px;
@@ -97,10 +97,6 @@
 
     button.delete {
       background-color: #dc3545;
-    }
-
-    button.edit {
-      background-color: #8ed816;
     }
 
     table {
@@ -114,11 +110,34 @@
       padding: 12px;
       text-align: left;
     }
-
+    
     th {
       background-color: #007BFF;
       color: white;
     }
+    
+    .popup-overlay {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .popup-content {
+      padding: 20px;
+      border-radius: 10px;
+      width: 600px;
+      height: 400px;
+      position: relative;
+      background-color: white;
+      overflow-y: auto;
+    }
+
   </style>
 </head>
 <body>
@@ -128,7 +147,6 @@
     <h1>Doctor List</h1>
   </header>
 
-  <form id="doctorForm">
   <form id="doctorForm" action="PHP files/addDoctor.php" method="POST">
     <div class="form-group">
       <label for="doctorID">Doctor ID:</label>
@@ -168,15 +186,16 @@
     </div>
     <div class="form-actions">
       <button type="submit">Add Doctor</button>
-      <button type="reset" id="clearBtn">Clear</button>
+      <button type="reset">Clear</button>
     </div>
   </form>
 
+
   <div class="doctor-list">
     <h2>Doctor List</h2>
-    <div class="search-container">
-      <input type="text" id="searchInput" placeholder="Search doctors...">
-    </div>
+     <div class="search-container">
+    <input type="text" placeholder="Search Bar">
+  </div>
     <table id="doctorTable">
       <thead>
         <tr>
@@ -190,11 +209,10 @@
           <th>Username</th>
           <th>Password</th>
           <th></th>
-          <th></th>
         </tr>
       </thead>
       <tbody>
-        <!-- Dynamic doctor rows will go here -->
+        <!-- Doctor rows will appear here -->
       </tbody>
     </table>
   </div>
