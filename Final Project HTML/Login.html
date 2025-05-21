@@ -126,10 +126,10 @@
     }
 
     #map { 
-      height: 300px;
-      width: 300px;
+      height: 100%;
+      width: 100%;
       border: solid;
-      right: 50%;
+      border-radius: 10px;
     }
 
     .popup-overlay {
@@ -145,15 +145,18 @@
     }
 
     .popup-content {
-      padding: 20px;
-      border-radius: 10px;
-      width: 180px;
+    padding: 20px;
+    border-radius: 10px;
+    width: 600px;
+    height: 400px;
+    position: relative;
+    background-color: white;
     }
 
     .close-btn {
       position: absolute;
       top: 0;
-      right: 10px;
+      right: 5px;
       font-size: 30px;
       cursor: pointer;
     }
@@ -170,7 +173,7 @@
       <input type="password" placeholder="Password" />
       <button class="btn">Continue</button>
       <div class="links">
-        <a href="#">Forgot Password?</a>
+        <a href="#" onclick="showForgotPasswordInstructions()">Forgot Password?</a>
         <a onclick="openPopup()">Find Hospital</a>
       </div>
     </div>
@@ -183,39 +186,50 @@
   </div>
 
   <div id="popup" class="popup-overlay">
-    <div class="popup-content">
+    <div class="popup-content" id="popupBox">
       <span class="close-btn" onclick="closePopup()">&times;</span>
       <div id="map"></div>
     </div>
   </div>
+
   <script>
-  let mapInitialized = false;
-  let map;
+    let mapInitialized = false;
+    let map;
 
-  function openPopup() {
-    document.getElementById('popup').style.display = 'flex';
+    function openPopup() {
+      document.getElementById('popup').style.display = 'flex';
 
-    // Initialize the map only once
-    if (!mapInitialized) {
-      map = L.map('map').setView([51.505, -0.09], 13);
-      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-      }).addTo(map);
-      L.marker([51.5, -0.09]).addTo(map);
-      mapInitialized = true;
+      if (!mapInitialized) {
+        map = L.map('map').setView([11.3500, 142.2000], 13);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19,
+          attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+        L.marker([11.3500, 142.2000]).addTo(map);
+        mapInitialized = true;
+      }
+
+      setTimeout(() => {
+        map.invalidateSize();
+      }, 100);
     }
 
-    // Let Leaflet recalculate map size after popup becomes visible
-    setTimeout(() => {
-      map.invalidateSize();
-    }, 100);
-  }
+    function closePopup() {
+      document.getElementById('popup').style.display = 'none';
+    }
 
-  function closePopup() {
-    document.getElementById('popup').style.display = 'none';
-  }
-</script>
+    document.getElementById('popup').addEventListener('click', function (e) {
+      const popupBox = document.getElementById('popupBox');
+      if (!popupBox.contains(e.target)) {
+        closePopup();
+      }
+    });
+
+    function showForgotPasswordInstructions() {
+      alert("To reset your password, please contact the system administrator so that they can confirm your identification as a staff of RJ's Angels Hospital.\n\nYou may reach them via email at admin@RJ'sAngels.org or visit the IT helpdesk.");
+    }
+
+  </script>
 
 </body>
 </html>
