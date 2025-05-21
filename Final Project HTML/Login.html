@@ -71,7 +71,7 @@
     }
 
     .loginContainer h2 {
-      margin-top: 60px;
+      margin-top: 40px;
       margin-bottom: 20px;
     }
 
@@ -156,8 +156,8 @@
 
     .close-btn {
       position: absolute;
-      top: 10px;
-      right: 15px;
+      top: 0px;
+      right: 2px;
       font-size: 30px;
       font-weight: bold;
       color: #333;
@@ -176,7 +176,7 @@
     <div class="loginContainer">
       <div class="logo"></div>
       <p>Hospital Management System</p>
-      <h2>Log In</h2>
+      <h2>LOGIN</h2>
       <form id="loginForm">
         <input type="text" name="userName" placeholder="Username" required />
         <input type="password" name="password" placeholder="Password" required />
@@ -247,10 +247,10 @@
 
     // Forgot Password Popup
     const adminContact = {
-      email: "admin@hospital.org",
+      email: "RJ'sAngels@hospital.org",
       phone: "(123) 456-7890",
-      office: "Room 204, Admin Building",
-      note: "For security reasons, password resets must be handled in person or through authorized channels."
+      office: "Room 2004, Admin Building",
+      note: "For security reasons, password resets must be handled in person or through authorized channels only."
     };
 
     function openForgotPopup() {
@@ -260,11 +260,11 @@
           If you forgot your password, please contact the system administrator:
         </p>
         <ul style="margin-bottom: 20px; padding-left: 20px;">
-          <li style="margin-bottom: 10px;"><strong>Email:</strong> ${adminContact.email}</li>
-          <li style="margin-bottom: 10px;"><strong>Phone:</strong> ${adminContact.phone}</li>
-          <li style="margin-bottom: 10px;"><strong>IT Helpdesk:</strong> ${adminContact.office}</li>
+          <li style="margin-bottom: 20px;"><strong>Email:</strong> ${adminContact.email}</li>
+          <li style="margin-bottom: 20px;"><strong>Phone:</strong> ${adminContact.phone}</li>
+          <li style="margin-bottom: 20px;"><strong>IT Helpdesk:</strong> ${adminContact.office}</li>
         </ul>
-        <p style="margin-top: 15px; font-style: italic;">
+        <p style="margin-top: 30px; font-style: italic;">
           ${adminContact.note}
         </p>
       `;
