@@ -47,4 +47,6 @@ if ($validUsername && $validPassword) {
 } else {
     echo "Invalid Username and Password";
 }
+
+$conn->close();
 ?>
