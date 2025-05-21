@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
      crossorigin=""/>
-   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
      crossorigin=""></script>
   <style>
@@ -42,7 +42,7 @@
     .backgroundImage img {
       width: 100%;
       height: 100vh;
-      object-fit: fill;
+      object-fit: cover;
       opacity: 0.85;
     }
 
@@ -125,39 +125,42 @@
       cursor: pointer;
     }
 
-    #map { 
-      height: 100%;
-      width: 100%;
-      border: solid;
-      border-radius: 10px;
-    }
-
     .popup-overlay {
       position: fixed;
       top: 0;
       width: 100%;
       height: 100%;
       background: rgba(0, 0, 0, 0.6);
-      display: none; /* Hidden by default */
+      display: none;
       justify-content: center;
       align-items: center;
       z-index: 1000;
     }
 
     .popup-content {
-    padding: 20px;
-    border-radius: 10px;
-    width: 600px;
-    height: 400px;
-    position: relative;
-    background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      width: 600px;
+      height: 400px;
+      position: relative;
+      background-color: white;
+      overflow-y: auto;
+    }
+
+    #map {
+      height: 100%;
+      width: 100%;
+      border: solid;
+      border-radius: 10px;
     }
 
     .close-btn {
       position: absolute;
-      top: 0;
-      right: 5px;
+      top: 10px;
+      right: 15px;
       font-size: 30px;
+      font-weight: bold;
+      color: #333;
       cursor: pointer;
     }
 
@@ -166,8 +169,6 @@
       margin-top: 10px;
       font-size: 14px;
     }
-
-
   </style>
 </head>
 <body>
@@ -183,8 +184,8 @@
       </form>
       <div id="errorMessage" class="error-message" style="display:none;"></div>
       <div class="links">
-        <a href="#" onclick="showForgotPasswordInstructions()">Forgot Password?</a>
-        <a onclick="openPopup()">Find Hospital</a>
+        <a href="#" onclick="openForgotPopup()">Forgot Password?</a>
+        <a href="#" onclick="openPopup()">Find Hospital</a>
       </div>
     </div>
   </div>
@@ -195,6 +196,7 @@
     </div>
   </div>
 
+  <!-- Map Popup -->
   <div id="popup" class="popup-overlay">
     <div class="popup-content" id="popupBox">
       <span class="close-btn" onclick="closePopup()">&times;</span>
@@ -202,7 +204,16 @@
     </div>
   </div>
 
+  <!-- Forgot Password Popup -->
+  <div id="forgotPopup" class="popup-overlay">
+    <div class="popup-content" id="forgotPopupBox">
+      <span class="close-btn" onclick="closeForgotPopup()">&times;</span>
+      <div id="forgotContent"></div>
+    </div>
+  </div>
+
   <script>
+    // Map Popup
     let mapInitialized = false;
     let map;
 
@@ -229,64 +240,90 @@
     }
 
     document.getElementById('popup').addEventListener('click', function (e) {
-      const popupBox = document.getElementById('popupBox');
-      if (!popupBox.contains(e.target)) {
+      if (!document.getElementById('popupBox').contains(e.target)) {
         closePopup();
       }
     });
 
-    function showForgotPasswordInstructions() {
-      alert("To reset your password, please contact the system administrator so that they can confirm your identification as a staff of RJ's Angels.\n\nYou may reach them via email at admin@RJ'sAngels.org or visit the IT helpdesk.");
+    // Forgot Password Popup
+    const adminContact = {
+      email: "admin@hospital.org",
+      phone: "(123) 456-7890",
+      office: "Room 204, Admin Building",
+      note: "For security reasons, password resets must be handled in person or through authorized channels."
+    };
+
+    function openForgotPopup() {
+      const content = `
+        <h3 style="margin-bottom: 20px;">Password Assistance</h3>
+        <p style="margin-bottom: 15px;">
+          If you forgot your password, please contact the system administrator:
+        </p>
+        <ul style="margin-bottom: 20px; padding-left: 20px;">
+          <li style="margin-bottom: 10px;"><strong>Email:</strong> ${adminContact.email}</li>
+          <li style="margin-bottom: 10px;"><strong>Phone:</strong> ${adminContact.phone}</li>
+          <li style="margin-bottom: 10px;"><strong>IT Helpdesk:</strong> ${adminContact.office}</li>
+        </ul>
+        <p style="margin-top: 15px; font-style: italic;">
+          ${adminContact.note}
+        </p>
+      `;
+
+      document.getElementById('forgotContent').innerHTML = content;
+      document.getElementById('forgotPopup').style.display = 'flex';
     }
 
-  </script>
-  <script>
-  document.getElementById("loginForm").addEventListener("submit", function(e) {
-    e.preventDefault(); // Prevent default form submission
+    function closeForgotPopup() {
+      document.getElementById('forgotPopup').style.display = 'none';
+    }
 
-    const form = e.target;
-    const formData = new FormData(form);
-
-    fetch("PHP files/loginUser.php", {
-      method: "POST",
-      body: formData
-    })
-    .then(response => response.text())
-    .then(data => {
-      if (data.startsWith("redirect:")) {
-        const role = data.split(":")[1];
-        let redirectURL = "";
-
-        switch (role) {
-          case "Doctor":
-            redirectURL = "/CMSC126and127_Hospital_Database/Final%20Project%20HTML/Doctors.html";
-            break;
-          case "Admin":
-            redirectURL = "/CMSC126and127_Hospital_Database/Final%20Project%20HTML/Admin.html";
-            break;
-          case "Nurse":
-            redirectURL = "/CMSC126and127_Hospital_Database/Final%20Project%20HTML/Nurses.html";
-            break;
-          case "Receptionist":
-            redirectURL = "/CMSC126and127_Hospital_Database/Final%20Project%20HTML/Receptionist.html";
-            break;
-          default:
-            alert("Unknown role. Please contact admin.");
-        }
-
-        window.location.href = redirectURL;
-      } else if (data.match("Invalid")) {
-        const errorDiv = document.getElementById("errorMessage");
-        errorDiv.innerText = data;
-        errorDiv.style.display = "block";
-      } else {
-        console.error("Unexpected response:", data);
+    document.getElementById('forgotPopup').addEventListener('click', function (e) {
+      if (!document.getElementById('forgotPopupBox').contains(e.target)) {
+        closeForgotPopup();
       }
-    })
-    .catch(error => {
-      console.error("Error:", error);
     });
-  });
-</script>
+
+    // Login Submission
+    document.getElementById("loginForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+
+      fetch("PHP files/loginUser.php", {
+        method: "POST",
+        body: formData
+      })
+      .then(response => response.text())
+      .then(data => {
+        if (data.startsWith("redirect:")) {
+          const role = data.split(":")[1];
+          let redirectURL = "";
+
+          switch (role) {
+            case "Doctor":
+              redirectURL = "/CMSC126and127_Hospital_Database/Final%20Project%20HTML/Doctors.html"; break;
+            case "Admin":
+              redirectURL = "/CMSC126and127_Hospital_Database/Final%20Project%20HTML/Admin.html"; break;
+            case "Nurse":
+              redirectURL = "/CMSC126and127_Hospital_Database/Final%20Project%20HTML/Nurses.html"; break;
+            case "Receptionist":
+              redirectURL = "/CMSC126and127_Hospital_Database/Final%20Project%20HTML/Receptionist.html"; break;
+            default:
+              alert("Unknown role. Please contact admin.");
+          }
+
+          window.location.href = redirectURL;
+        } else if (data.match("Invalid")) {
+          const errorDiv = document.getElementById("errorMessage");
+          errorDiv.innerText = data;
+          errorDiv.style.display = "block";
+        } else {
+          console.error("Unexpected response:", data);
+        }
+      })
+      .catch(error => {
+        console.error("Error:", error);
+      });
+    });
+  </script>
 </body>
 </html>
