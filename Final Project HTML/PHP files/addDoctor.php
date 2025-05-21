@@ -7,25 +7,22 @@
     $specialty = $_GET["specialty"];
     $contact = $_GET["contact"];
     $email = $_GET["email"];
+    $username = $_GET["userName"];
+    $password = $_GET["password"];
 
-    $sql = "INSERT INTO `employee` (`EmpID`, `EmpName`, `Age`, `Salary`, `HireDate`)
-            VALUES (NULL, '$name', '$age', '$salary', '$HireDate')";
+    $sql = "INSERT INTO `users` (`user_id`, `first_name`, `middle_initial`, `last_name`, `specialty`, `contact_number`, `email`)
+            VALUES ($doctorID, '$firstName', '$lastName', '$specialty', '$contact', '$email')";
 
     if ($conn->query($sql) === TRUE) {
         $last_id = $conn->insert_id;
 
-        $query = "INSERT INTO `work` (`EmpID`, `DeptID`, `Percent_Time`)
-                VALUES ('$last_id', '$DeptID', '$Percent_Time')";
+        $query = "INSERT INTO `login` (`user_id`, `username`, `password`)
+                VALUES ('$doctorID', '$username', '$password')";
         $conn->query($query);
 
-        if ($designation == "1") {
-            $mgrUpdate = "UPDATE department SET MgrEmpID = '$last_id' WHERE DeptID = '$DeptID'";
-            $conn->query($mgrUpdate);
-        }
-
-        header("Location: employees.php");
+        header("Location: doctorList.html");
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
-    >close();
+    $conn->close();
 ?>
