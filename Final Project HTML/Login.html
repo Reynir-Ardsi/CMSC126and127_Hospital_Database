@@ -161,13 +161,6 @@
       cursor: pointer;
     }
 
-    .error-message {
-      color: red;
-      margin-top: 10px;
-      font-size: 14px;
-    }
-
-
   </style>
 </head>
 <body>
@@ -176,12 +169,9 @@
       <div class="logo"></div>
       <p>Hospital Management System</p>
       <h2>Log In</h2>
-      <form id="loginForm">
-        <input type="text" name="userName" placeholder="Username" required />
-        <input type="password" name="password" placeholder="Password" required />
-        <button class="btn" type="submit">Continue</button>
-      </form>
-      <div id="errorMessage" class="error-message" style="display:none;"></div>
+      <input type="text" placeholder="Username" />
+      <input type="password" placeholder="Password" />
+      <button class="btn">Continue</button>
       <div class="links">
         <a href="#" onclick="showForgotPasswordInstructions()">Forgot Password?</a>
         <a onclick="openPopup()">Find Hospital</a>
@@ -224,10 +214,22 @@
       }, 100);
     }
 
-  function closePopup() {
-    document.getElementById('popup').style.display = 'none';
-  }
-</script>
+    function closePopup() {
+      document.getElementById('popup').style.display = 'none';
+    }
+
+    document.getElementById('popup').addEventListener('click', function (e) {
+      const popupBox = document.getElementById('popupBox');
+      if (!popupBox.contains(e.target)) {
+        closePopup();
+      }
+    });
+
+    function showForgotPasswordInstructions() {
+      alert("To reset your password, please contact the system administrator so that they can confirm your identification as a staff of RJ's Angels.\n\nYou may reach them via email at admin@RJ'sAngels.org or visit the IT helpdesk.");
+    }
+
+  </script>
 
 </body>
 </html>
