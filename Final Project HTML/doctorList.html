@@ -124,30 +124,30 @@
     <h1>Doctor List</h1>
   </header>
 
-  <form id="doctorForm">
+  <form id="doctorForm" action="addDoctor.php" method="post">
       <div class="form-group">
         <label for="doctorID">Doctor ID:</label>
-        <input type="text" id="doctorID" required>
+        <input type="text" id="doctorID" name="doctorID" required>
       </div>
       <div class="form-group">
         <label for="firstName">First Name:</label>
-        <input type="text" id="firstName" required>
+        <input type="text" id="firstName" name="firstName" required>
       </div>
       <div class="form-group">
         <label for="lastName">Last Name:</label>
-        <input type="text" id="lastName" required>
+        <input type="text" id="lastName" name="lastName" required>
       </div>
       <div class="form-group">
         <label for="specialty">Specialty:</label>
-        <input type="text" id="specialty" required>
+        <input type="text" id="specialty" name="specialty" required>
       </div>
       <div class="form-group">
         <label for="contact">Contact Number:</label>
-        <input type="text" id="contact" required>
+        <input type="text" id="contact" name="contact" required>
       </div>
       <div class="form-group">
         <label for="email">Email:</label>
-        <input type="email" id="email" required>
+        <input type="email" id="email" name="email" required>
       </div>
       <div class="form-actions">
         <button type="submit">Add Doctor</button>
