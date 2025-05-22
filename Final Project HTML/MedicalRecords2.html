@@ -8,24 +8,25 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background-color: #eee;
+      background-color: #ECEFCA;
     }
 
     .header {
       display: flex;
       align-items: center;
       justify-content: center;
-      background-color: #ddd;
-      padding: 10px;
+      background-color: #213448;
+      color: white;
+      padding: 20px;
       position: relative;
-      border-bottom: 1px solid #aaa;
-      margin-bottom: 50px;
+      margin-bottom: 20px;
     }
 
     .back-button {
       position: absolute;
       left: 20px;
       font-size: 20px;
+      color: white;
       background: none;
       border: none;
       cursor: pointer;
@@ -50,7 +51,12 @@
     .profile-pic {
       width: 200px;
       height: 200px;
-      background-color: #ccc;
+      background-image: url("pictures/defaultpfp.jpg");
+      background-size: 110%;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-color: white;
+      border: 5px solid #213448;
       text-align: center;
       font-size: 10px;
       padding: 5px;
@@ -65,7 +71,7 @@
       grid-template-columns: 1fr 1fr;
       gap: 10px;
       height: auto;
-      border: 1px solid #999;
+      border: 5px solid #213448;
       padding: 10px;
       background-color: white;
       font-size: 16px;
@@ -77,10 +83,10 @@
     }
 
     .notes-box {
-      border: 1px solid #999;
+      border: 5px solid #213448;
       height: 500px;
       overflow-y: scroll;
-      background-color: white;
+      background-color: #c3c3c3;
       padding: 20px;
       text-align: left;
       font-weight: bold;
