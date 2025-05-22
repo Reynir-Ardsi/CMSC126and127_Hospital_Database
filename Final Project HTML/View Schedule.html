@@ -145,18 +145,38 @@
 
   // Now send this data to PHP via fetch
   fetch("PHP files/getAppointments.php", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ user_id: userId })
-  })
-    .then(response => response.json())
-    .then(data => {
-      console.log("Appointments:", data);
-      // You can now populate the page with appointment data
-    })
-    .catch(error => {
-      console.error("Error fetching appointments:", error);
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ user_id: userId })
+})
+  .then(response => response.json())
+  .then(data => {
+    console.log("Appointments:", data);
+    const tableBody = document.getElementById("schedule-body");
+
+    // Clear any existing rows
+    tableBody.innerHTML = "";
+
+    // Populate table with appointments
+    data.forEach(appointment => {
+      const row = document.createElement("tr");
+
+      const timeCell = document.createElement("td");
+      timeCell.textContent = appointment.time;
+
+      const infoCell = document.createElement("td");
+      infoCell.textContent = `${appointment.first_name} ${appointment.middle_initial || ''} ${appointment.last_name} - Room ${appointment.room_number}`;
+
+      row.appendChild(timeCell);
+      row.appendChild(infoCell);
+
+      tableBody.appendChild(row);
     });
+  })
+  .catch(error => {
+    console.error("Error fetching appointments:", error);
+  });
+
 </script>
 <body>
 
@@ -212,16 +232,8 @@
               <th>Patient Name & Room Number</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>08:00</td>
-              <td>John Doe - Room 101</td>
-            </tr>
-            <tr>
-              <td>09:00</td>
-              <td>Jane Smith - Room 202</td>
-            </tr>
-            <!-- Add more rows as needed -->
+          <tbody id="schedule-body">
+          
           </tbody>
         </table>
       </div>
