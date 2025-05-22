@@ -28,7 +28,7 @@ if (
         middle_initial = '$mi',
         last_name = '$last',
         contact_number = '$contact',
-        email = '$email'
+        email = '$email',
         specialty = '$specialty'
         WHERE user_id = '$id'";
 
