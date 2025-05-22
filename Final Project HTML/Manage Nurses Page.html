@@ -217,7 +217,7 @@
               <td>${nurse.username}</td>
               <td>${nurse.password}</td>
               <td><button class="edit" onclick='editNurse(${JSON.stringify(nurse)})'>Edit</button></td>
-              <td><button class="delete" onclick="deleteNurse('${nurse.nurse_id}')">Delete</button></td>
+              <td><button class="delete" onclick="deleteNurse('${nurse.user_id}')">Delete</button></td>
             `;
             nurseTableBody.appendChild(row);
           });

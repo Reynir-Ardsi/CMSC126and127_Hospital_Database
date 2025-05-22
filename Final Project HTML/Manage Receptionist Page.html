@@ -217,7 +217,7 @@
               <td>${receptionist.username}</td>
               <td>${receptionist.password}</td>
               <td><button class="edit" onclick='editReceptionist(${JSON.stringify(receptionist)})'>Edit</button></td>
-              <td><button class="delete" onclick="deleteReceptionist('${receptionist.receptionist_id}')">Delete</button></td>
+              <td><button class="delete" onclick="deleteReceptionist('${receptionist.user_id}')">Delete</button></td>
             `;
             receptionistTableBody.appendChild(row);
           });
