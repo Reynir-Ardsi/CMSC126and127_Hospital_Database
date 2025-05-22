@@ -54,31 +54,151 @@
     }
 
     .patient-list {
-      height: 500px;
-      overflow-y: scroll;
+      height: 150px;
+      overflow-y: auto;
       border: 1px solid #ccc;
-      padding: 20px;
-      font-size: 32px;
+      padding: 10px;
+      font-size: 20px;
       font-weight: bold;
       text-align: center;
       background-color: white;
+      margin-bottom: 20px;
+    }
+
+    .patient {
+      padding: 8px;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+    }
+
+    .patient:hover {
+      background-color: #f9f9f9;
+    }
+
+    .form-section input, .form-section select {
+      padding: 10px;
+      margin: 5px 0;
+      width: 100%;
+      font-size: 16px;
+    }
+
+    .form-section button {
+      padding: 10px 20px;
+      margin-top: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .billing-records {
+      margin-top: 30px;
+    }
+
+    .billing-records h3 {
+      margin-bottom: 10px;
+    }
+
+    .billing-entry {
+      padding: 10px;
+      border-bottom: 1px solid #ccc;
+      font-size: 16px;
     }
   </style>
 </head>
 <body>
   <div class="container">
+    <!-- Header -->
     <div class="header">
       <button class="back-button" onclick="history.back()">←</button>
       Billing and Payment
     </div>
 
     <div class="search-bar">
-      <input type="text" placeholder="Search Bar" />
+      <input type="text" id="searchInput" placeholder="Search patients..." onkeyup="filterPatients()" />
     </div>
 
-    <div class="patient-list">
-      Patient List
+    <div class="patient-list" id="patientList">
+      <div class="patient" onclick="selectPatient('Maria Cruz')">Maria Cruz</div>
+      <div class="patient" onclick="selectPatient('Liam Santos')">Liam Santos</div>
+      <div class="patient" onclick="selectPatient('Elena Reyes')">Elena Reyes</div>
+      <div class="patient" onclick="selectPatient('John Lim')">John Lim</div>
+    </div>
+
+    <div class="form-section">
+      <input type="text" id="selectedPatient" placeholder="Selected Patient" readonly />
+      <input type="text" id="serviceProvided" placeholder="Service Provided (e.g., X-ray, Consultation)" />
+      <input type="number" id="amountCharged" placeholder="Amount Charged (PHP)" />
+      <button onclick="addBilling()">Add Billing Entry</button>
+    </div>
+
+    <div class="billing-records" id="billingRecords">
+      <h3>Billing Records</h3>
     </div>
   </div>
+
+  <script>
+    const billingData = {};
+
+    function filterPatients() {
+      const input = document.getElementById("searchInput").value.toLowerCase();
+      const patients = document.querySelectorAll(".patient");
+
+      patients.forEach(patient => {
+        const name = patient.textContent.toLowerCase();
+        patient.style.display = name.includes(input) ? "" : "none";
+      });
+    }
+
+    function selectPatient(name) {
+      document.getElementById("selectedPatient").value = name;
+      renderBilling(name);
+    }
+
+    function addBilling() {
+      const patient = document.getElementById("selectedPatient").value;
+      const service = document.getElementById("serviceProvided").value;
+      const amount = document.getElementById("amountCharged").value;
+
+      if (!patient || !service || !amount) {
+        alert("Please fill in all fields.");
+        return;
+      }
+
+      if (!billingData[patient]) {
+        billingData[patient] = [];
+      }
+
+      billingData[patient].push({
+        date: new Date().toLocaleDateString(),
+        service,
+        amount: parseFloat(amount).toFixed(2)
+      });
+
+      // Clear form
+      document.getElementById("serviceProvided").value = "";
+      document.getElementById("amountCharged").value = "";
+
+      renderBilling(patient);
+    }
+
+    function renderBilling(patient) {
+      const recordsContainer = document.getElementById("billingRecords");
+      const entries = billingData[patient] || [];
+
+      let html = `<h3>Billing Records for ${patient}</h3>`;
+      if (entries.length === 0) {
+        html += `<p>No records found.</p>`;
+      } else {
+        entries.forEach(entry => {
+          html += `
+            <div class="billing-entry">
+              ${entry.date} | ${entry.service} - PHP ${entry.amount}
+            </div>
+          `;
+        });
+      }
+
+      recordsContainer.innerHTML = html;
+    }
+  </script>
 </body>
 </html>
