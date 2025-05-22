@@ -144,7 +144,7 @@
   console.log("Logged in as:", userId, "Role:", role);
 
   // Now send this data to PHP via fetch
-  fetch("PHP files/getAppointments.php", {
+  fetch("PHP files/getAppointment.php", {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({ user_id: userId })

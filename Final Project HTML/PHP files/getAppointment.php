@@ -12,9 +12,10 @@ if (!$userId) {
 }
 
 // Now use the userId in the SQL query
-$sql = "SELECT users.first_name, users.middle_initial, users.last_name, appointment.time, appointment.room_number
-        FROM users, appointment
-        WHERE appointment.doctor_id = ? AND appointment.doctor_id = users.user_id";
+$sql = "SELECT patient.first_name, patient.last_name, appointment.time, appointment.room_number
+        FROM appointment
+        JOIN patient ON appointment.patient_id = patient.patient_id
+        WHERE appointment.doctor_id = ?";
 
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $userId);
