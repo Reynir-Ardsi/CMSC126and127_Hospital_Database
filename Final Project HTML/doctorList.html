@@ -9,7 +9,7 @@
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #f2f2f2;
+      background-color: #ECEFCA;
       text-align: center;
     }
 
@@ -22,10 +22,12 @@
       border: none;
       font-size: 20px;
       cursor: pointer;
+      color: white;
     }
 
     header {
-      background-color: white;
+      color: white;
+      background-color: #213448;
       padding: 10px;
       display: flex;
       align-items: center;
@@ -49,6 +51,22 @@
       margin-bottom: 5px;
     }
 
+    .doctor-list {
+      background-color: #547792;
+      color: white;
+      margin: 25px;
+      padding: 20px;
+      max-width: 90%;
+      height: 500px;
+      overflow-y: scroll;
+      border: 1px solid #ccc;
+    }
+
+    .doctor-list h2 {
+      font-size: 32px;
+      margin: 0;
+    }
+
     .form-group input {
       width: 40%;
       padding: 8px;
@@ -60,6 +78,10 @@
       justify-content: space-evenly;
     }
 
+    label {
+      font-size: 20px;
+    }
+
     button {
       padding: 10px 15px;
       border: none;
@@ -68,7 +90,7 @@
       cursor: pointer;
     }
 
-     button {
+    button {
       padding: 10px 15px;
       border: none;
       border-radius: 5px;
@@ -88,6 +110,12 @@
       max-width: 500px;
     }
 
+    .search-container input {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+    }
+
     table {
       width: 90%;
       margin: auto;
@@ -96,13 +124,14 @@
 
     th, td {
       padding: 10px;
-      border: 1px solid #ddd;
+      border: 1px solid black;
     }
 
     th {
-      background-color: #007BFF;
-      color: white;
+      background-color: white;
+      color: black;
     }
+    tr 
   </style>
 </head>
 <body>
@@ -111,7 +140,6 @@
     <button class="back-button" onclick="history.back()">←</button>
     <h1>Doctor List</h1>
   </header>
-
   <form id="doctorForm" action="PHP files/addDoctor.php" method="POST">
       <div class="form-group">
         <label for="doctorID">Doctor ID:</label>
@@ -154,7 +182,8 @@
         <button type="reset">Clear</button>
       </div>
     </form>
-
+  <div class ="doctor-list">
+    <h2>Doctor's List</h2>
   <div class="search-container">
     <input type="text" id="searchInput" placeholder="Search doctors...">
   </div>
@@ -165,10 +194,22 @@
         <th>ID</th><th>First</th><th>M.I.</th><th>Last</th><th>Specialty</th>
         <th>Contact</th><th>Email</th><th>Username</th><th>Password</th><th colspan="2">Actions</th>
       </tr>
+      <tr>
+        <th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th>
+      </tr>
+      <tr>
+        <th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th>
+      </tr>
+      <tr>
+        <th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th>
+      </tr>
+      <tr>
+        <th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th>
+      </tr>
     </thead>
     <tbody id="doctorTable"></tbody>
   </table>
-
+  </div>
   <script>
     const doctorTable = document.getElementById("doctorTable");
 

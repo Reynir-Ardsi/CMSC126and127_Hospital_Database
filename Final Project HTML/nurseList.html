@@ -9,12 +9,13 @@
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #f2f2f2;
+      background-color: #ECEFCA;
       text-align: center;
     }
 
     header {
-      background-color: white;
+      background-color: #213448;
+      color: white;
       padding: 10px;
       display: flex;
       align-items: center;
@@ -38,6 +39,7 @@
       border: none;
       font-size: 20px;
       cursor: pointer;
+      color: white;
     }
 
     .search-container {
@@ -52,7 +54,8 @@
     }
 
     .nurse-list {
-      background-color: white;
+      background-color: #547792;
+      color: white;
       margin: 25px;
       padding: 20px;
       max-width: 90%;
@@ -86,7 +89,7 @@
       justify-content: space-evenly;
     }
 
-     button {
+    button {
       padding: 10px 15px;
       border: none;
       border-radius: 5px;
@@ -106,14 +109,14 @@
     }
 
     th, td {
-      border: 1px solid #ddd;
+      border: 1px solid black;
       padding: 12px;
       text-align: left;
     }
     
     th {
-      background-color: #007BFF;
-      color: white;
+      background-color: white;
+      color: black;
     }
   </style>
 </head>
@@ -165,7 +168,7 @@
 
   <div class="nurse-list">
     <h2>Nurse List</h2>
-     <div class="search-container">
+    <div class="search-container">
     <input type="text" placeholder="Search Bar">
   </div>
     <table id="nurseTable">
@@ -176,8 +179,19 @@
           <th>Last Name</th>
           <th>Contact</th>
           <th>Email</th>
-          <th></th>
+          
         </tr>
+        <tr>
+        <th></th><th></th><th></th><th></th><th></th>
+      </tr>
+      <tr>
+        <th></th><th></th><th></th><th></th><th></th>
+      </tr><tr>
+        <th></th><th></th><th></th><th></th><th></th>
+      </tr>
+      <tr>
+        <th></th><th></th><th></th><th></th><th></th>
+      </tr>
       </thead>
       <tbody>
         <!-- Nurse rows will appear here -->

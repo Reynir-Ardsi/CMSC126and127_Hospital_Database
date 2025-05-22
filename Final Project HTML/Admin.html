@@ -8,7 +8,7 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background-color: white;
+      background-color: #ECEFCA;
       text-align: center;
     }
 
@@ -36,7 +36,7 @@
       background-position: center;
       background-repeat: no-repeat;
       position: absolute;
-      top: 15px;
+      top: 20px;
       right: 40px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
@@ -51,11 +51,11 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 60px;
-      height: 60px;
+      width: 85px;
+      height: 85px;
+      text-decoration: white;
       border-radius: 50%;
-      background-color: #d7d7d7;
-      color: black;
+      background-color: #547792;
       text-decoration: none;
       font-weight: bold;
       transition: transform 0.2s;
@@ -63,7 +63,7 @@
 
     .logoutbtn:hover {
       transform: scale(1.05);
-      background-color: #cccccc;
+      background-color: #709fc3;
     }
 
     .center-text {
@@ -94,7 +94,7 @@
     }
 
     .card {
-      background-color: white;
+      background-color: #547792;
       width: 250px;
       height: 400px;
       border: 1px solid #ccc;
@@ -112,7 +112,8 @@
     }
 
     .card h3 {
-      background-color: #547792;
+      background-color: #213448;
+      color: white;
       margin: 0;
       width: 92%;
       padding: 10px;
@@ -128,7 +129,7 @@
     }
 
     .cardh2 {
-      background-color: white;
+      background-color: #547792;
       width: 1000px;
       height: 200px;
       border: 1px solid #ccc;
@@ -146,7 +147,8 @@
     }
 
     .cardh2 h3 {
-      background-color: #547792;
+      background-color: #213448;
+      color: white;
       margin: 0;
       width: 98%;
       padding: 10px;
@@ -156,21 +158,21 @@
 
     .cardh2 .placeholder {
       flex: 1;
-      width: 90%;
-      background-color: #ddd;
+      width: 96%;
+      background-color: white;
       margin: 10px 0;
     }
 
     .nurses {
       background-image: url("pictures/Nurses ( Welcome Admin ).png");
-      background-size: contain;
+      background-size: 110%;
       background-position: center;
       background-repeat: no-repeat;
     }
 
     .receptionist {
       background-image: url("pictures/Receptionist ( Welcome Admin ).png");
-      background-size: contain;
+      background-size: 195%;
       background-position: center;
       background-repeat: no-repeat;
     }
@@ -184,7 +186,7 @@
 
     .doctor {
       background-image: url("pictures/Doctors ( Welcome Doctors! ).png");
-      background-size: contain;
+      background-size: 160%;
       background-position: center;
       background-repeat: no-repeat;
     }
@@ -201,7 +203,7 @@
 <body>
 
   <div class="header">
-    <div class="left"><a href="Login.html" class="logoutbtn">Logout</a></div>
+    <div class="left"><a href="Login.html" class="logoutbtn" style= color:white>Logout</a></div>
     <h2 class="center-text">Welcome Admin</h2>
     <div class="right logo"></div>
   </div>
