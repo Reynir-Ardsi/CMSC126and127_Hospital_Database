@@ -125,7 +125,7 @@
       const patientId = urlParams.get('id');  // Get the patient ID from the URL
 
       // Fetch the patient's data based on the patient ID
-      fetch(`PHP files/getPatient.php?id=${patientId}`)
+      fetch(`PHP files/getPatientInformation.php?id=${patientId}`)
         .then(response => response.json())
         .then(patient => {
           if (patient) {
