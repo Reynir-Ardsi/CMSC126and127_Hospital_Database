@@ -115,6 +115,26 @@
       font-size: 1.5em;
       color: #ccc;
     }
+
+    .editable-box {
+      width: 100%;
+      height: 250px;
+      background-color: white;
+      border: none;
+      padding: 10px;
+      margin-top: 0;
+    }
+
+    .editable-box textarea {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background-color: transparent;
+      font-family: Arial, sans-serif;
+      font-size: 1em;
+      resize: none;
+    }
+
   </style>
 </head>
 <body>
@@ -130,15 +150,20 @@
         <div class="clock" id="clock">--:--:--</div>
         <div class="date" id="date">Loading date...</div>
       </div>
+
     <script>
       function updateClock() {
         const now = new Date();
-
-        const hours = String(now.getHours()).padStart(2, '0');
+        let hours = now.getHours();
         const minutes = String(now.getMinutes()).padStart(2, '0');
         const seconds = String(now.getSeconds()).padStart(2, '0');
 
-        const clock = `${hours}:${minutes}:${seconds}`;
+        // Convert to 12-hour format and set AM/PM
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? String(hours).padStart(2, '0') : '12'; // The hour '0' should be '12'
+        
+        const clock = `${hours}:${minutes}:${seconds} ${ampm}`;
         document.getElementById('clock').textContent = clock;
 
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -149,7 +174,12 @@
       setInterval(updateClock, 1000);
       updateClock(); // Run immediately on page load
     </script>
-    <div class="box">Doctor Notes</div>
+    
+      <div class="box">
+        <div class="editable-box">Doctor Notes
+          <textarea placeholder="Enter your notes here..."></textarea>
+        </div>
+      </div>
     </div>
     <div class="schedule-box">
       <div class="schedule-header">Today's Schedule</div>

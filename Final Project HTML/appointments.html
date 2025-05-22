@@ -149,7 +149,7 @@
       <!-- Appointment Details Section -->
       <div class="appointmentDetails" id="appointmentDetails">
         <div class="appointmentDetails header">
-          DATE | NAME | TIME
+          ROOM NO. | NAME | TIME
         </div>
       </div>
     </div>
@@ -184,7 +184,7 @@
     function renderAppointments(dateKey) {
       const appointmentsForDay = appointments[dateKey] || [];
       const detailHTML = `
-        <div class="appointmentDetails header">DATE | NAME | TIME</div>
+        <div class="appointmentDetails header">ROOM NO. | NAME | TIME</div>
         ${appointmentsForDay.length === 0 
           ? `<p style="text-align: center; padding: 20px;">No appointments</p>` 
           : appointmentsForDay.map(app => `
