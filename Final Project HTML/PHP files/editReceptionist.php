@@ -9,9 +9,9 @@ error_reporting(E_ALL);
 $data = json_decode(file_get_contents("php://input"), true);
 
 if (
-    isset($data["nurseID"], $data["firstName"], $data["middleInitial"], $data["lastName"], $data["contact"], $data["email"], $data["username"], $data["password"])
+    isset($data["receptionistID"], $data["firstName"], $data["middleInitial"], $data["lastName"], $data["contact"], $data["email"], $data["username"], $data["password"])
 ) {
-    $id = $conn->real_escape_string($data["nurseID"]);
+    $id = $conn->real_escape_string($data["receptionistID"]);
     $first = $conn->real_escape_string($data["firstName"]);
     $mi = $conn->real_escape_string($data["middleInitial"]);
     $last = $conn->real_escape_string($data["lastName"]);
@@ -39,9 +39,9 @@ if (
         $conn->query($sql_users) === TRUE &&
         $conn->query($sql_login) === TRUE
     ) {
-        echo "Nurse updated successfully.";
+        echo "Receptionist updated successfully.";
     } else {
-        echo "Error updating nurse: " . $conn->error;
+        echo "Error updating receptionist: " . $conn->error;
     }
 
 } else {

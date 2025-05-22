@@ -8,16 +8,16 @@ error_reporting(E_ALL);
 // Get the POST JSON input
 $data = json_decode(file_get_contents("php://input"), true);
 
-if (isset($data["nurseID"])) {
-    $nurseID = $conn->real_escape_string($data["nurseID"]);
+if (isset($data["receptionistID"])) {
+    $receptionistID = $conn->real_escape_string($data["receptionistID"]);
 
     // Delete from job table — assuming cascading deletes will handle users and login
-    $sql = "DELETE FROM job WHERE user_id = '$nurseID'";
+    $sql = "DELETE FROM job WHERE user_id = '$receptionistID'";
 
     if ($conn->query($sql) === TRUE) {
-        echo "Nurse deleted successfully.";
+        echo "Receptionist deleted successfully.";
     } else {
-        echo "Error deleting nurse: " . $conn->error;
+        echo "Error deleting receptionist: " . $conn->error;
     }
 
 } else {

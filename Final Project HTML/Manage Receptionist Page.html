@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nurse List</title>
+  <title>Receptionist List</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -53,7 +53,7 @@
       font-size: 16px;
     }
 
-    .nurse-list {
+    .receptionist-list {
       background-color: #547792;
       color: white;
       margin: 25px;
@@ -64,7 +64,7 @@
       border: 1px solid #ccc;
     }
 
-    .nurse-list h2 {
+    .receptionist-list h2 {
       font-size: 32px;
       margin: 0;
     }
@@ -113,7 +113,7 @@
       padding: 12px;
       text-align: left;
     }
-    
+
     th {
       background-color: white;
       color: black;
@@ -124,13 +124,13 @@
 
   <header>
     <button class="back-button" onclick="history.back()">←</button>
-    <h1>Nurse Registration Form</h1>
+    <h1>Receptionist Registration Form</h1>
   </header>
 
-  <form id="nurseForm">
+  <form id="receptionistForm">
       <div class="form-group">
-        <label for="nurseID">Nurse ID:</label>
-        <input type="text" id="nurseID" name="nurseID" required>
+        <label for="receptionistID">Receptionist ID:</label>
+        <input type="text" id="receptionistID" name="receptionistID" required>
       </div>
       <div class="form-group">
         <label for="firstName">First Name:</label>
@@ -161,17 +161,17 @@
         <input type="password" id="password" name="password" required>
       </div>
       <div class="form-actions">
-        <button type="submit">Add Nurse</button>
+        <button type="submit">Add Receptionist</button>
         <button type="reset">Clear</button>
       </div>
   </form>
 
-  <div class="nurse-list">
-    <h2>Nurse List</h2>
+  <div class="receptionist-list">
+    <h2>Receptionist List</h2>
     <div class="search-container">
-      <input type="text" id="searchInput" placeholder="Search Nurses..." />
+      <input type="text" id="searchInput" placeholder="Search Receptionists..." />
     </div>
-    <table id="nurseTable">
+    <table id="receptionistTable">
       <thead>
         <tr>
           <th>ID</th>
@@ -185,61 +185,61 @@
           <th colspan="2"></th>
         </tr>
       </thead>
-      <tbody id="nurseTableBody"></tbody>
+      <tbody id="receptionistTableBody"></tbody>
     </table>
   </div>
 
   <script>
-    const nurseTableBody = document.getElementById("nurseTableBody");
-    const nurseForm = document.getElementById("nurseForm");
+    const receptionistTableBody = document.getElementById("receptionistTableBody");
+    const receptionistForm = document.getElementById("receptionistForm");
     let editMode = false;
 
-    // Load Nurse List
-    function loadNurses() {
-      fetch('PHP files/getNurses.php')
+    // Load Receptionist List
+    function loadReceptionists() {
+      fetch('PHP files/getReceptionists.php')
         .then(res => res.json())
         .then(data => {
-          nurseTableBody.innerHTML = "";
-          data.forEach(nurse => {
+          receptionistTableBody.innerHTML = "";
+          data.forEach(receptionist => {
             const row = document.createElement("tr");
             row.innerHTML = `
-              <td>${nurse.nurse_id}</td>
-              <td>${nurse.first_name}</td>
-              <td>${nurse.middle_initial}</td>
-              <td>${nurse.last_name}</td>
-              <td>${nurse.contact_number}</td>
-              <td>${nurse.email}</td>
-              <td>${nurse.username}</td>
-              <td>${nurse.password}</td>
-              <td><button class="edit" onclick='editNurse(${JSON.stringify(nurse)})'>Edit</button></td>
-              <td><button class="delete" onclick="deleteNurse('${nurse.nurse_id}')">Delete</button></td>
+              <td>${receptionist.receptionist_id}</td>
+              <td>${receptionist.first_name}</td>
+              <td>${receptionist.middle_initial}</td>
+              <td>${receptionist.last_name}</td>
+              <td>${receptionist.contact_number}</td>
+              <td>${receptionist.email}</td>
+              <td>${receptionist.username}</td>
+              <td>${receptionist.password}</td>
+              <td><button class="edit" onclick='editReceptionist(${JSON.stringify(receptionist)})'>Edit</button></td>
+              <td><button class="delete" onclick="deleteReceptionist('${receptionist.receptionist_id}')">Delete</button></td>
             `;
-            nurseTableBody.appendChild(row);
+            receptionistTableBody.appendChild(row);
           });
         });
     }
 
-    // Edit Nurse
-    function editNurse(nurse) {
-      document.getElementById("nurseID").value = nurse.nurse_id;
-      document.getElementById("firstName").value = nurse.first_name;
-      document.getElementById("middleInitial").value = nurse.middle_initial;
-      document.getElementById("lastName").value = nurse.last_name;
-      document.getElementById("contact").value = nurse.contact_number;
-      document.getElementById("email").value = nurse.email;
-      document.getElementById("username").value = nurse.username;
-      document.getElementById("password").value = nurse.password;
+    // Edit Receptionist
+    function editReceptionist(receptionist) {
+      document.getElementById("receptionistID").value = receptionist.receptionist_id;
+      document.getElementById("firstName").value = receptionist.first_name;
+      document.getElementById("middleInitial").value = receptionist.middle_initial;
+      document.getElementById("lastName").value = receptionist.last_name;
+      document.getElementById("contact").value = receptionist.contact_number;
+      document.getElementById("email").value = receptionist.email;
+      document.getElementById("username").value = receptionist.username;
+      document.getElementById("password").value = receptionist.password;
 
       editMode = true;
-      nurseForm.querySelector("button[type='submit']").textContent = "Update Nurse";
+      receptionistForm.querySelector("button[type='submit']").textContent = "Update Receptionist";
     }
 
-    // Handle Form Submission (Add/Update Nurse)
-    nurseForm.addEventListener("submit", function (e) {
+    // Handle Form Submission (Add/Update Receptionist)
+    receptionistForm.addEventListener("submit", function (e) {
       e.preventDefault();
 
-      const nurse = {
-        nurseID: document.getElementById("nurseID").value,
+      const receptionist = {
+        receptionistID: document.getElementById("receptionistID").value,
         firstName: document.getElementById("firstName").value,
         middleInitial: document.getElementById("middleInitial").value,
         lastName: document.getElementById("lastName").value,
@@ -249,56 +249,56 @@
         password: document.getElementById("password").value
       };
 
-      const url = editMode ? "PHP files/editNurse.php" : "PHP files/addNurse.php";
+      const url = editMode ? "PHP files/editReceptionist.php" : "PHP files/addReceptionist.php";
 
       fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(nurse)
+        body: JSON.stringify(receptionist)
       })
         .then(res => res.text())
         .then(response => {
           alert(response);
-          loadNurses();
+          loadReceptionists();
           clearForm();
-          nurseForm.querySelector("button[type='submit']").textContent = "Add Nurse";
+          receptionistForm.querySelector("button[type='submit']").textContent = "Add Receptionist";
           editMode = false;
         });
     });
 
-    // Delete Nurse
-    function deleteNurse(id) {
-      if (!confirm("Are you sure to delete this nurse?")) return;
+    // Delete Receptionist
+    function deleteReceptionist(id) {
+      if (!confirm("Are you sure to delete this receptionist?")) return;
 
-      fetch("PHP files/deleteNurse.php", {
+      fetch("PHP files/deleteReceptionist.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nurseID: id })
+        body: JSON.stringify({ receptionistID: id })
       })
         .then(res => res.text())
         .then(msg => {
           alert(msg);
-          loadNurses();
+          loadReceptionists();
         });
     }
 
     // Clear Form
     function clearForm() {
-      nurseForm.reset();
+      receptionistForm.reset();
       editMode = false;
-      nurseForm.querySelector("button[type='submit']").textContent = "Add Nurse";
+      receptionistForm.querySelector("button[type='submit']").textContent = "Add Receptionist";
     }
 
-    // Search Nurses
+    // Search Receptionists
     document.getElementById("searchInput").addEventListener("input", function () {
       const value = this.value.toLowerCase();
-      Array.from(nurseTableBody.children).forEach(row => {
+      Array.from(receptionistTableBody.children).forEach(row => {
         row.style.display = row.textContent.toLowerCase().includes(value) ? "" : "none";
       });
     });
 
-    // Load Nurses on Page Load
-    window.addEventListener("DOMContentLoaded", loadNurses);
+    // Load Receptionists on Page Load
+    window.addEventListener("DOMContentLoaded", loadReceptionists);
   </script>
 </body>
 </html>
