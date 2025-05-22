@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Doctor List</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #ecefca;
+      text-align: center;
+    }
+
+    .back-button {
+      position: absolute;
+      left: 0;
+      top: 0;
+      background: none;
+      color: black;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: white;
+    }
+
+    header {
+      color: white;
+      background-color: #213448;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      border-bottom: 1px solid #ccc;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .form-group {
+      margin: 10px 0;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .doctor-list {
+      background-color: #547792;
+      color: white;
+      margin: 25px;
+      padding: 20px;
+      max-width: 90%;
+      height: 500px;
+      overflow-y: scroll;
+      border: 1px solid #ccc;
+    }
+
+    .doctor-list h2 {
+      font-size: 32px;
+      margin: 0;
+    }
+
+    .form-group input {
+      width: 40%;
+      padding: 8px;
+    }
+
+    .form-actions {
+      margin-top: 15px;
+      display: flex;
+      justify-content: space-evenly;
+    }
+
+    label {
+      font-size: 20px;
+    }
+
+    button {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+    }
+
+    button {
+      background-color: #28a745;
+    }
+
+    button.delete {
+      background-color: #dc3545;
+    }
+
+    button.edit {
+      background-color: #007bff;
+    }
+
+    .search-container {
+      margin: 20px auto;
+      max-width: 500px;
+    }
+
+    .search-container input {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    table {
+      width: 90%;
+      margin: auto;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 10px;
+      border: 1px solid black;
+    }
+
+    th {
+      background-color: white;
+      color: black;
+    }
+
+    tr {
+      background-color: white;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header Section -->
+  <header>
+    <button class="back-button" onclick="history.back()">←</button>
+    <h1>Doctor List</h1>
+  </header>
+
+  <!-- Form Section -->
+  <form id="doctorForm" action="PHP files/addDoctor.php" method="POST">
+    <div class="form-group">
+      <label for="doctorID">Doctor ID:</label>
+      <input type="text" id="doctorID" name="doctorID" required />
+    </div>
+    <div class="form-group">
+      <label for="firstName">First Name:</label>
+      <input type="text" id="firstName" name="firstName" required />
+    </div>
+    <div class="form-group">
+      <label for="middleInitial">Middle Initial:</label>
+      <input type="text" id="middleInitial" name="middleInitial" required />
+    </div>
+    <div class="form-group">
+      <label for="lastName">Last Name:</label>
+      <input type="text" id="lastName" name="lastName" required />
+    </div>
+    <div class="form-group">
+      <label for="specialty">Specialty:</label>
+      <input type="text" id="specialty" name="specialty" required />
+    </div>
+    <div class="form-group">
+      <label for="contact">Contact Number:</label>
+      <input type="text" id="contact" name="contact" required />
+    </div>
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required />
+    </div>
+    <div class="form-group">
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required />
+    </div>
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required />
+    </div>
+    <div class="form-actions">
+      <button type="submit">Add Doctor</button>
+      <button type="reset">Clear</button>
+    </div>
+  </form>
+
+  <!-- Doctor List Section -->
+  <div class="doctor-list">
+    <h2>Doctor's List</h2>
+
+    <!-- Search Container -->
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="Search doctors..." />
+    </div>
+
+    <!-- Doctor Table -->
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>First</th>
+          <th>M.I.</th>
+          <th>Last</th>
+          <th>Specialty</th>
+          <th>Contact</th>
+          <th>Email</th>
+          <th>Username</th>
+          <th>Password</th>
+          <th colspan="2"></th>
+        </tr>
+      </thead>
+      <tbody id="doctorTable"></tbody>
+    </table>
+  </div>
+
+  <script>
+    const doctorTable = document.getElementById("doctorTable");
+    const doctorForm = document.getElementById("doctorForm");
+    let editMode = false;
+
+    // Load Doctor List
+    function loadDoctors() {
+      fetch('PHP files/getDoctors.php')
+        .then(res => res.json())
+        .then(data => {
+          doctorTable.innerHTML = "";
+          data.forEach(doc => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+              <td>${doc.user_id}</td>
+              <td>${doc.first_name}</td>
+              <td>${doc.middle_initial}</td>
+              <td>${doc.last_name}</td>
+              <td>${doc.specialty}</td>
+              <td>${doc.contact_number}</td>
+              <td>${doc.email}</td>
+              <td>${doc.username}</td>
+              <td>${doc.password}</td>
+              <td><button class="edit" onclick='editDoctor(${JSON.stringify(doc)})'>Edit</button></td>
+              <td><button class="delete" onclick="deleteDoctor('${doc.user_id}')">Delete</button></td>
+            `;
+            doctorTable.appendChild(row);
+          });
+        });
+    }
+
+    // Edit Doctor
+    function editDoctor(doc) {
+      document.getElementById("doctorID").value = doc.user_id;
+      document.getElementById("firstName").value = doc.first_name;
+      document.getElementById("middleInitial").value = doc.middle_initial;
+      document.getElementById("lastName").value = doc.last_name;
+      document.getElementById("specialty").value = doc.specialty;
+      document.getElementById("contact").value = doc.contact_number;
+      document.getElementById("email").value = doc.email;
+      document.getElementById("username").value = doc.username;
+      document.getElementById("password").value = doc.password;
+
+      editMode = true;
+      doctorForm.querySelector("button[type='submit']").textContent = "Update Doctor";
+    }
+
+    // Handle Form Submission (Add/Update Doctor)
+    doctorForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const doctor = {
+        doctorID: document.getElementById("doctorID").value,
+        firstName: document.getElementById("firstName").value,
+        middleInitial: document.getElementById("middleInitial").value,
+        lastName: document.getElementById("lastName").value,
+        specialty: document.getElementById("specialty").value,
+        contact: document.getElementById("contact").value,
+        email: document.getElementById("email").value,
+        username: document.getElementById("username").value,
+        password: document.getElementById("password").value
+      };
+
+      const url = editMode ? "PHP files/editDoctor.php" : "PHP files/addDoctor.php";
+
+      fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(doctor)
+      })
+        .then(res => res.text())
+        .then(response => {
+          alert(response);
+          loadDoctors();
+          clearForm();
+          doctorForm.querySelector("button[type='submit']").textContent = "Add Doctor";
+          editMode = false;
+        });
+    });
+
+    // Delete Doctor
+    function deleteDoctor(id) {
+      if (!confirm("Are you sure to delete this doctor?")) return;
+
+      fetch("PHP files/deleteDoctor.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ doctorID: id })
+      })
+        .then(res => res.text())
+        .then(msg => {
+          alert(msg);
+          loadDoctors();
+        });
+    }
+
+    // Clear Form
+    function clearForm() {
+      doctorForm.reset();
+      editMode = false;
+      doctorForm.querySelector("button[type='submit']").textContent = "Add Doctor";
+    }
+
+    // Search Doctors
+    document.getElementById("searchInput").addEventListener("input", function () {
+      const value = this.value.toLowerCase();
+      Array.from(doctorTable.children).forEach(row => {
+        row.style.display = row.textContent.toLowerCase().includes(value) ? "" : "none";
+      });
+    });
+
+    // Load Doctors on Page Load
+    window.addEventListener("DOMContentLoaded", loadDoctors);
+  </script>
+</body>
+
+</html>
