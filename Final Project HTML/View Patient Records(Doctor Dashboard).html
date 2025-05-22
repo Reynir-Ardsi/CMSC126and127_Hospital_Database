@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Patient Archives</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #ECEFCA;
+    }
+
+    .container {
+      max-width: 90%;
+      margin: auto;
+      padding: 20px;
+      background-color: #517792;
+      border: 1px solid #ccc;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 10px 0;
+      font-size: 24px;
+      font-weight: bold;
+      background-color: #213448;
+      color: white;
+    }
+
+    .back-button {
+      position: absolute;
+      left: 20px;
+      font-size: 20px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color:  white;
+    }
+
+    .search-bar {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+    }
+
+    .search-bar input {
+      width: 60%;
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    .patient-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); /* Two columns */
+      gap: 20px;
+      background: white;
+      padding: 10px;
+      gap: 10px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      font-size: 32px;
+      font-weight: bold;
+      text-align: center;
+      height: auto;
+      max-height: 500px;
+      overflow-y: scroll;
+      overflow-x: hidden;
+      padding-left: 200px;
+    }
+
+    .patient-profile {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      text-decoration: none;
+      width: 300px;
+    }
+
+    .profile-box {
+      margin: 0px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 30px;
+      background-color: #f0f0f0;
+      padding: 10px 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 20px;
+      font-weight: normal;
+      width: 100%;
+      cursor: pointer;
+      transform: transform 0.2s;
+    }
+
+    .profile-box:hover {
+      transform: scale(1.05);
+    }
+
+    .profile-name {
+      flex: 1;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <button class="back-button" onclick="history.back()">←</button>
+      Patient List
+    </div>
+
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search Bar" oninput="searchPatients()" />
+    </div>
+
+    <div class="patient-list" id="patientList">
+      <!-- Patient profiles will be dynamically inserted here -->
+    </div>
+  </div>
+
+  <script>
+
+    function searchPatients() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const profiles = document.querySelectorAll('.patient-profile');
+
+      profiles.forEach(profile => {
+        const name = profile.innerText.toLowerCase();
+        profile.style.display = name.includes(input) ? '' : 'none';
+      });
+    }
+
+    // Function to fetch and display patient data
+    function loadPatients() {
+      fetch('PHP files/getPatients.php')
+        .then(response => response.json())
+        .then(data => {
+          const patientList = document.getElementById('patientList');
+          patientList.innerHTML = ''; // Clear any existing patient profiles
+
+          data.forEach(patient => {
+            const fullName = `${patient.first_name} ${patient.middle_initial} ${patient.last_name}`;
+            const profileLink = document.createElement('a');
+            profileLink.href = 'MedicalRecords.html'; // Adjust the link if necessary
+            profileLink.classList.add('patient-profile');
+
+            const profileBox = document.createElement('div');
+            profileBox.classList.add('profile-box');
+
+            const profileName = document.createElement('span');
+            profileName.classList.add('profile-name');
+            profileName.textContent = fullName;
+
+            profileBox.appendChild(profileName);
+            profileLink.appendChild(profileBox);
+            patientList.appendChild(profileLink);
+          });
+        })
+        .catch(error => {
+          console.error('Error fetching patient data:', error);
+        });
+    }
+
+    // Call the function when the page loads
+    window.onload = loadPatients;
+  </script>
+</body>
+</html>
