@@ -5,7 +5,7 @@ include 'DBConnector.php';
 $patientID = $_GET['id'];  // This retrieves the 'id' from the URL
 
 // SQL query to fetch details of the patient
-$sql = "SELECT * FROM patients WHERE id = ?";
+$sql = "SELECT first_name, middle_initial, last_name, _date_of_birth, age, sex, address, contact_number, email_address, emergency_contact, marital_status, occupation, insurance_provider, primary_care_physician, allergies FROM patients WHERE id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $patientID);
 $stmt->execute();

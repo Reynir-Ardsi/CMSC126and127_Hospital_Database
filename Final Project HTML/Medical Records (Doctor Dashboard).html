@@ -132,85 +132,85 @@
       }
 
       // Fetch patient data from backend PHP file
-      fetch(`PHP files/getPatientInformation.php?id=${patientId}`)
-        .then(response => response.json())
-        .then(data => {
-          if (!data) {
-            alert('Patient data not found');
-            return;
-          }
+    fetch(`PHP files/getPatientInformation.php?id=${patientId}`)
+  .then(response => response.json())
+  .then(data => {
+    if (!data || data.error) {
+      alert('Patient data not found');
+      return;
+    }
 
-          const patientDetails = document.getElementById('patientDetails');
+    const patient = data;  // Store the fetched data as 'patient'
 
-          // Dynamically populate patient information
-          patientDetails.innerHTML = `
-            <h3>${patient.first_name} ${patient.middle_initial} ${patient.last_name}</h3>
-            
-            <div>
-              <span class="title">Date of Birth:</span>
-              <p>${patient._date_of_birth}</p>
-            </div>
-            <div>
-              <span class="title">Age:</span>
-              <p>${patient.age} years</p>
-            </div>
-            <div>
-              <span class="title">Sex:</span>
-              <p>${patient.sex}</p>
-            </div>
-            <div>
-              <span class="title">Address:</span>
-              <p>${patient.address}</p>
-            </div>
-            <div>
-              <span class="title">Phone Number:</span>
-              <p>${patient.contact_number}</p>
-            </div>
-            <div>
-              <span class="title">Email:</span>
-              <p>${patient.email_address}</p>
-            </div>
-            <div>
-              <span class="title">Emergency Contact:</span>
-              <p>${patient.emergency_contact}</p>
-            </div>
-            <div>
-              <span class="title">Marital Status:</span>
-              <p>${patient.marital_status}</p>
-            </div>
-            <div>
-              <span class="title">Occupation:</span>
-              <p>${patient.occupation}</p>
-            </div>
-            <div>
-              <span class="title">Insurance Provider:</span>
-              <p>${patient.insurance_provider}</p>
-            </div>
-            <div>
-              <span class="title">Primary Care Physician:</span>
-              <p>${patient.primary_care_physician}</p>
-            </div>
-            <div>
-              <span class="title">Allergies:</span>
-              <p>${patient.allergies}</p>
-            </div>
-          `;
+    // Dynamically populate patient information
+    patientDetails.innerHTML = `
+      <h3>${patient.first_name} ${patient.middle_initial} ${patient.last_name}</h3>
+      <div>
+        <span class="title">Date of Birth:</span>
+        <p>${patient._date_of_birth}</p>
+      </div>
+      <div>
+        <span class="title">Age:</span>
+        <p>${patient.age} years</p>
+      </div>
+      <div>
+        <span class="title">Sex:</span>
+        <p>${patient.sex}</p>
+      </div>
+      <div>
+        <span class="title">Address:</span>
+        <p>${patient.address}</p>
+      </div>
+      <div>
+        <span class="title">Phone Number:</span>
+        <p>${patient.contact_number}</p>
+      </div>
+      <div>
+        <span class="title">Email:</span>
+        <p>${patient.email_address}</p>
+      </div>
+      <div>
+        <span class="title">Emergency Contact:</span>
+        <p>${patient.emergency_contact}</p>
+      </div>
+      <div>
+        <span class="title">Marital Status:</span>
+        <p>${patient.marital_status}</p>
+      </div>
+      <div>
+        <span class="title">Occupation:</span>
+        <p>${patient.occupation}</p>
+      </div>
+      <div>
+        <span class="title">Insurance Provider:</span>
+        <p>${patient.insurance_provider}</p>
+      </div>
+      <div>
+        <span class="title">Primary Care Physician:</span>
+        <p>${patient.primary_care_physician}</p>
+      </div>
+      <div>
+        <span class="title">Allergies:</span>
+        <p>${patient.allergies}</p>
+      </div>
+    `;
 
-          // Medical History Section
-          const medicalHistory = document.getElementById('medicalHistory');
-          medicalHistory.innerHTML = data.medical_history.map(record => `<p>${record}</p>`).join('') || '<p>No medical history available.</p>';
+    // Medical History Section
+    const medicalHistory = document.getElementById('medicalHistory');
+    medicalHistory.innerHTML = data.medical_history.map(record => `<p>${record}</p>`).join('') || '<p>No medical history available.</p>';
 
-          // Medications Section
-          const prescriptions = document.getElementById('prescriptions');
-          prescriptions.innerHTML = data.medications.map(med => `<p>${med}</p>`).join('') || '<p>No medications available.</p>';
+    // Medications Section
+    const prescriptions = document.getElementById('prescriptions');
+    prescriptions.innerHTML = data.medications.map(med => `<p>${med}</p>`).join('') || '<p>No medications available.</p>';
 
-          // Lifestyle Section
-          const notes = document.getElementById('notes');
-          notes.innerHTML = `<p>${data.lifestyle}</p>` || '<p>No lifestyle information available.</p>';
-        })
-        .catch(error => {
-          console.error('Error fetching medical records:', error);
-        });
+    // Lifestyle Section
+    const notes = document.getElementById('notes');
+    notes.innerHTML = `<p>${data.lifestyle}</p>` || '<p>No lifestyle information available.</p>';
+  })
+  .catch(error => {
+    console.error('Error fetching medical records:', error);
+  });
+
     }
 
     // Call the function when the page loads
