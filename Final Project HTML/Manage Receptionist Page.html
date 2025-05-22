@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Receptionist List</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #ECEFCA;
+      text-align: center;
+    }
+
+    header {
+      background-color: #213448;
+      color: white;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      border-bottom: 1px solid #ccc;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .back-button {
+      position: absolute;
+      left: 0;
+      top: 0;
+      background: none;
+      color: black;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: white;
+    }
+
+    .search-container {
+      margin: 20px auto;
+      max-width: 500px;
+    }
+
+    .search-container input {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    .receptionist-list {
+      background-color: #547792;
+      color: white;
+      margin: 25px;
+      padding: 20px;
+      max-width: 90%;
+      height: 500px;
+      overflow-y: scroll;
+      border: 1px solid #ccc;
+    }
+
+    .receptionist-list h2 {
+      font-size: 32px;
+      margin: 0;
+    }
+
+    .form-group {
+      margin: 10px 0;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .form-group input {
+      width: 40%;
+      padding: 8px;
+    }
+
+    .form-actions {
+      margin-top: 15px;
+      display: flex;
+      justify-content: space-evenly;
+    }
+
+    button {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      background-color: #28a745;
+      color: white;
+      cursor: pointer;
+    }
+
+    button.delete {
+      background-color: #dc3545;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      border: 1px solid black;
+      padding: 12px;
+      text-align: left;
+    }
+
+    th {
+      background-color: white;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <button class="back-button" onclick="history.back()">←</button>
+    <h1>Receptionist Registration Form</h1>
+  </header>
+
+  <form id="receptionistForm">
+      <div class="form-group">
+        <label for="receptionistID">Receptionist ID:</label>
+        <input type="text" id="receptionistID" name="receptionistID" required>
+      </div>
+      <div class="form-group">
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName" required>
+      </div>
+      <div class="form-group">
+        <label for="middleInitial">Middle Initial:</label>
+        <input type="text" id="middleInitial" name="middleInitial" required>
+      </div>
+      <div class="form-group">
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" required>
+      </div>
+      <div class="form-group">
+        <label for="contact">Contact Number:</label>
+        <input type="text" id="contact" name="contact" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <div class="form-actions">
+        <button type="submit">Add Receptionist</button>
+        <button type="reset">Clear</button>
+      </div>
+  </form>
+
+  <div class="receptionist-list">
+    <h2>Receptionist List</h2>
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="Search Receptionists..." />
+    </div>
+    <table id="receptionistTable">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>First Name</th>
+          <th>M.I.</th>
+          <th>Last Name</th>
+          <th>Contact</th>
+          <th>Email</th>
+          <th>Username</th>
+          <th>Password</th>
+          <th colspan="2"></th>
+        </tr>
+      </thead>
+      <tbody id="receptionistTableBody"></tbody>
+    </table>
+  </div>
+
+  <script>
+    const receptionistTableBody = document.getElementById("receptionistTableBody");
+    const receptionistForm = document.getElementById("receptionistForm");
+    let editMode = false;
+
+    // Load Receptionist List
+    function loadReceptionists() {
+      fetch('PHP files/getReceptionists.php')
+        .then(res => res.json())
+        .then(data => {
+          receptionistTableBody.innerHTML = "";
+          data.forEach(receptionist => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+              <td>${receptionist.receptionist_id}</td>
+              <td>${receptionist.first_name}</td>
+              <td>${receptionist.middle_initial}</td>
+              <td>${receptionist.last_name}</td>
+              <td>${receptionist.contact_number}</td>
+              <td>${receptionist.email}</td>
+              <td>${receptionist.username}</td>
+              <td>${receptionist.password}</td>
+              <td><button class="edit" onclick='editReceptionist(${JSON.stringify(receptionist)})'>Edit</button></td>
+              <td><button class="delete" onclick="deleteReceptionist('${receptionist.receptionist_id}')">Delete</button></td>
+            `;
+            receptionistTableBody.appendChild(row);
+          });
+        });
+    }
+
+    // Edit Receptionist
+    function editReceptionist(receptionist) {
+      document.getElementById("receptionistID").value = receptionist.receptionist_id;
+      document.getElementById("firstName").value = receptionist.first_name;
+      document.getElementById("middleInitial").value = receptionist.middle_initial;
+      document.getElementById("lastName").value = receptionist.last_name;
+      document.getElementById("contact").value = receptionist.contact_number;
+      document.getElementById("email").value = receptionist.email;
+      document.getElementById("username").value = receptionist.username;
+      document.getElementById("password").value = receptionist.password;
+
+      editMode = true;
+      receptionistForm.querySelector("button[type='submit']").textContent = "Update Receptionist";
+    }
+
+    // Handle Form Submission (Add/Update Receptionist)
+    receptionistForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const receptionist = {
+        receptionistID: document.getElementById("receptionistID").value,
+        firstName: document.getElementById("firstName").value,
+        middleInitial: document.getElementById("middleInitial").value,
+        lastName: document.getElementById("lastName").value,
+        contact: document.getElementById("contact").value,
+        email: document.getElementById("email").value,
+        username: document.getElementById("username").value,
+        password: document.getElementById("password").value
+      };
+
+      const url = editMode ? "PHP files/editReceptionist.php" : "PHP files/addReceptionist.php";
+
+      fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(receptionist)
+      })
+        .then(res => res.text())
+        .then(response => {
+          alert(response);
+          loadReceptionists();
+          clearForm();
+          receptionistForm.querySelector("button[type='submit']").textContent = "Add Receptionist";
+          editMode = false;
+        });
+    });
+
+    // Delete Receptionist
+    function deleteReceptionist(id) {
+      if (!confirm("Are you sure to delete this receptionist?")) return;
+
+      fetch("PHP files/deleteReceptionist.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ receptionistID: id })
+      })
+        .then(res => res.text())
+        .then(msg => {
+          alert(msg);
+          loadReceptionists();
+        });
+    }
+
+    // Clear Form
+    function clearForm() {
+      receptionistForm.reset();
+      editMode = false;
+      receptionistForm.querySelector("button[type='submit']").textContent = "Add Receptionist";
+    }
+
+    // Search Receptionists
+    document.getElementById("searchInput").addEventListener("input", function () {
+      const value = this.value.toLowerCase();
+      Array.from(receptionistTableBody.children).forEach(row => {
+        row.style.display = row.textContent.toLowerCase().includes(value) ? "" : "none";
+      });
+    });
+
+    // Load Receptionists on Page Load
+    window.addEventListener("DOMContentLoaded", loadReceptionists);
+  </script>
+</body>
+</html>

@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Dashboard</title>
   <style>
     body {
@@ -23,10 +24,10 @@
       margin-bottom: 40px;
     }
 
-    .right{
+    .right {
       background-image: url("pictures/hospital_logo.jpeg");
     }
-  
+
     .logo {
       width: 85px;
       height: 85px;
@@ -38,7 +39,7 @@
       position: absolute;
       top: 20px;
       right: 40px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
 
     .left {
@@ -70,10 +71,10 @@
       text-align: center;
       font-size: 45px;
       margin: 0;
-      color:#ffffff;
+      color: #ffffff;
     }
 
-    .header a{
+    .header a {
       margin-top: 15px;
       color: #000000;
       text-decoration: none;
@@ -105,7 +106,7 @@
       transform: transform 0.2s;
     }
 
-    .card:hover{
+    .card:hover {
       transform: scale(1.05);
     }
 
@@ -162,23 +163,27 @@
     }
   </style>
 </head>
+
 <body>
 
   <div class="header">
-    <div class="left"><a href="Login.html" class="logoutbtn" style= color:white>Logout</a></div>
+    <div class="left">
+      <a href="Login Dashboard.html" class="logoutbtn" style="color:white">Logout</a>
+    </div>
     <h2 class="center-text">Welcome Admin</h2>
     <div class="right logo"></div>
   </div>
 
   <div class="dashboard">
     <div class="row">
-      <a href ="doctorList.html" style="text-decoration: none; color: inherit;">
+      <a href="Manage Doctors Page.html" style="text-decoration: none; color: inherit;">
         <div class="card">
           <h3>Manage Doctors</h3>
           <div class="placeholder doctor"></div>
         </div>
       </a>
-      <a href ="nurseList.html" style="text-decoration: none; color: inherit;">
+
+      <a href="Manage Nurses Page.html" style="text-decoration: none; color: inherit;">
         <div class="card">
           <h3>Manage Nurses</h3>
           <div class="placeholder nurses"></div>
@@ -202,4 +207,5 @@
   </div>
 
 </body>
+
 </html>

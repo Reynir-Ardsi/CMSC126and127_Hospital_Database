@@ -4,12 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hospital Login</title>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-    crossorigin=""/>
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    crossorigin=""
+  />
+  
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-    crossorigin=""></script>
+    crossorigin=""
+  ></script>
+
   <style>
     * {
       box-sizing: border-box;
@@ -170,6 +178,7 @@
     }
   </style>
 </head>
+
 <body>
   <div class="firstBox">
     <div class="loginContainer">
@@ -267,7 +276,6 @@
           ${adminContact.note}
         </p>
       `;
-
       document.getElementById('forgotContent').innerHTML = content;
       document.getElementById('forgotPopup').style.display = 'flex';
     }
@@ -301,7 +309,7 @@
             case "Doctor":
               redirectURL = "/CMSC126and127_Hospital_Database/Final%20Project%20HTML/Doctors.html"; break;
             case "Admin":
-              redirectURL = "/CMSC126and127_Hospital_Database/Final%20Project%20HTML/Admin.html"; break;
+              redirectURL = "/CMSC126and127_Hospital_Database/Final%20Project%20HTML/Admin Dashboard.html"; break;
             case "Nurse":
               redirectURL = "/CMSC126and127_Hospital_Database/Final%20Project%20HTML/Nurses.html"; break;
             case "Receptionist":
