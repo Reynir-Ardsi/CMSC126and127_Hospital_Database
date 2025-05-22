@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Patient Archives</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f0f0f0;
+    }
+
+    .container {
+      max-width: 90%;
+      margin: auto;
+      padding: 20px;
+      background-color: white;
+      border: 1px solid #ccc;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 10px 0;
+      font-size: 24px;
+      font-weight: bold;
+      background-color: #f5f5f5;
+    }
+
+    .back-button {
+      position: absolute;
+      left: 20px;
+      font-size: 20px;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .search-bar {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+    }
+
+    .search-bar input {
+      width: 60%;
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    .patient-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); /* Two columns */
+      gap: 20px;
+      border: 1px solid #ccc;
+      padding: 20px;
+      font-size: 32px;
+      font-weight: bold;
+      text-align: center;
+      height: auto;
+      max-height: 500px;
+      overflow-y: scroll;
+    }
+
+    .patient-profile {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      text-decoration: none;
+    }
+
+    .profile-box {
+      margin: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      background-color: #f0f0f0;
+      padding: 10px 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 20px;
+      font-weight: normal;
+      width: 100%;
+      cursor: pointer;
+      transform: transform 0.2s;
+    }
+
+    .profile-box:hover {
+      transform: scale(1.05);
+    }
+
+    .profile-name {
+      flex: 1;
+    }
+
+    .profile-image {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .room-number {
+      font-size: 16px;
+      color: #555;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <button class="back-button" onclick="history.back()">←</button>
+      Patient List
+    </div>
+
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search Bar" oninput="searchPatients()" />
+    </div>
+
+    <div class="patient-list">
+      <div class="patient-profile">
+        <div class="profile-box">
+          <img src="https://via.placeholder.com/50" alt="Profile Picture" class="profile-image" />
+          <div>
+            <span class="profile-name">John Doe</span><br />
+            <span class="room-number">Room 101</span>
+          </div>
+        </div>
+      </div>
+      <div class="patient-profile">
+        <div class="profile-box">
+          <img src="https://via.placeholder.com/50" alt="Profile Picture" class="profile-image" />
+          <div>
+            <span class="profile-name">Jane Smith</span><br />
+            <span class="room-number">Room 102</span>
+          </div>
+        </div>
+      </div>
+      <div class="patient-profile">
+        <div class="profile-box">
+          <img src="https://via.placeholder.com/50" alt="Profile Picture" class="profile-image" />
+          <div>
+            <span class="profile-name">James Bond</span><br />
+            <span class="room-number">Room 103</span>
+          </div>
+        </div>
+      </div>
+      <div class="patient-profile">
+        <div class="profile-box">
+          <img src="https://via.placeholder.com/50" alt="Profile Picture" class="profile-image" />
+          <div>
+            <span class="profile-name">Rick Sanchez</span><br />
+            <span class="room-number">Room 104</span>
+          </div>
+        </div>
+      </div>
+      <div class="patient-profile">
+        <div class="profile-box">
+          <img src="https://via.placeholder.com/50" alt="Profile Picture" class="profile-image" />
+          <div>
+            <span class="profile-name">Doom Guy</span><br />
+            <span class="room-number">Room 105</span>
+          </div>
+        </div>
+      </div>
+      <div class="patient-profile">
+        <div class="profile-box">
+          <img src="https://via.placeholder.com/50" alt="Profile Picture" class="profile-image" />
+          <div>
+            <span class="profile-name">Darth Vader</span><br />
+            <span class="room-number">Room 106</span>
+          </div>
+        </div>
+      </div>
+      <div class="patient-profile">
+        <div class="profile-box">
+          <img src="https://via.placeholder.com/50" alt="Profile Picture" class="profile-image" />
+          <div>
+            <span class="profile-name">Super Mario</span><br />
+            <span class="room-number">Room 107</span>
+          </div>
+        </div>
+      </div>
+      <div class="patient-profile">
+        <div class="profile-box">
+          <img src="https://via.placeholder.com/50" alt="Profile Picture" class="profile-image" />
+          <div>
+            <span class="profile-name">Ash Ketchum</span><br />
+            <span class="room-number">Room 108</span>
+          </div>
+        </div>
+      </div>
+      <div class="patient-profile">
+        <div class="profile-box">
+          <img src="https://via.placeholder.com/50" alt="Profile Picture" class="profile-image" />
+          <div>
+            <span class="profile-name">Walter White</span><br />
+            <span class="room-number">Room 109</span>
+          </div>
+        </div>
+      </div>
+      <div class="patient-profile">
+        <div class="profile-box">
+          <img src="https://via.placeholder.com/50" alt="Profile Picture" class="profile-image" />
+          <div>
+            <span class="profile-name">Buzz Lightyear</span><br />
+            <span class="room-number">Room 110</span>
+          </div>
+        </div>
+      </div>
+      <div class="patient-profile">
+        <div class="profile-box">
+          <img src="https://via.placeholder.com/50" alt="Profile Picture" class="profile-image" />
+          <div>
+            <span class="profile-name">Deez Nuts</span><br />
+            <span class="room-number">Room 111</span>
+          </div>
+        </div>
+      </div>
+      <div class="patient-profile">
+        <div class="profile-box">
+          <img src="https://via.placeholder.com/50" alt="Profile Picture" class="profile-image" />
+          <div>
+            <span class="profile-name">Ma. Cathy Fukiko</span><br />
+            <span class="room-number">Room 112</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function searchPatients() {
+      const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+      const patientProfiles = document.querySelectorAll('.patient-profile');
+
+      patientProfiles.forEach(profile => {
+        const profileName = profile.querySelector('.profile-name').textContent.toLowerCase();
+        if (profileName.includes(searchQuery)) {
+          profile.style.display = 'flex'; // Show the profile
+        } else {
+          profile.style.display = 'none'; // Hide the profile
+        }
+      });
+    }
+  </script>
+</body>
+</html>
