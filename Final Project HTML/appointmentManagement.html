@@ -52,13 +52,50 @@
     }
 
     .doctor-list {
-      height: 500px;
-      overflow-y: scroll;
+      height: 200px;
+      overflow-y: auto;
       border: 1px solid #ccc;
-      padding: 20px;
-      font-size: 28px;
-      font-weight: bold;
-      text-align: center;
+      padding: 10px;
+      margin-bottom: 30px;
+    }
+
+    .doctor {
+      padding: 10px;
+      cursor: pointer;
+      border-bottom: 1px solid #eee;
+    }
+
+    .doctor:hover {
+      background-color: #f0f0f0;
+    }
+
+    .form-section {
+      margin-bottom: 30px;
+    }
+
+    .form-section h3 {
+      margin-bottom: 10px;
+    }
+
+    .form-section input,
+    .form-section select {
+      padding: 10px;
+      margin: 5px 0;
+      width: 100%;
+      font-size: 16px;
+    }
+
+    .appointments {
+      margin-top: 30px;
+    }
+
+    .appointments h3 {
+      margin-bottom: 10px;
+    }
+
+    .appointment-item {
+      padding: 10px;
+      border-bottom: 1px solid #ccc;
     }
   </style>
 </head>
@@ -70,12 +107,69 @@
     </div>
 
     <div class="search-bar">
-      <input type="text" placeholder="Search Bar" />
+      <input type="text" id="searchInput" placeholder="Search doctors..." onkeyup="filterDoctors()" />
     </div>
 
-    <div class="doctor-list">
-      Doctor List
+    <div class="doctor-list" id="doctorList">
+      <div class="doctor" onclick="selectDoctor('Dr. Alice Smith')">Dr. Alice Smith</div>
+      <div class="doctor" onclick="selectDoctor('Dr. John Doe')">Dr. John Doe</div>
+      <div class="doctor" onclick="selectDoctor('Dr. Emma Wilson')">Dr. Emma Wilson</div>
+      <div class="doctor" onclick="selectDoctor('Dr. Raj Patel')">Dr. Raj Patel</div>
+    </div>
+
+    <div class="form-section">
+      <h3>Book an Appointment</h3>
+      <input type="text" id="selectedDoctor" placeholder="Doctor" readonly />
+      <input type="text" id="patientName" placeholder="Patient Name" />
+      <input type="date" id="appointmentDate" />
+      <input type="time" id="appointmentTime" />
+      <button onclick="bookAppointment()">Book Appointment</button>
+    </div>
+
+    <div class="appointments" id="appointments">
+      <h3>Scheduled Appointments</h3>
+      <!-- Appointments will appear here -->
     </div>
   </div>
+
+  <script>
+    function filterDoctors() {
+      const filter = document.getElementById("searchInput").value.toLowerCase();
+      const doctors = document.querySelectorAll(".doctor");
+
+      doctors.forEach(doctor => {
+        const name = doctor.textContent.toLowerCase();
+        doctor.style.display = name.includes(filter) ? "" : "none";
+      });
+    }
+
+    function selectDoctor(name) {
+      document.getElementById("selectedDoctor").value = name;
+    }
+
+    function bookAppointment() {
+      const doctor = document.getElementById("selectedDoctor").value;
+      const patient = document.getElementById("patientName").value;
+      const date = document.getElementById("appointmentDate").value;
+      const time = document.getElementById("appointmentTime").value;
+
+      if (!doctor || !patient || !date || !time) {
+        alert("Please fill in all fields.");
+        return;
+      }
+
+      const appointmentList = document.getElementById("appointments");
+      const entry = document.createElement("div");
+      entry.className = "appointment-item";
+      entry.textContent = `${date} ${time} | ${doctor} with ${patient}`;
+      appointmentList.appendChild(entry);
+
+      // Clear form
+      document.getElementById("selectedDoctor").value = "";
+      document.getElementById("patientName").value = "";
+      document.getElementById("appointmentDate").value = "";
+      document.getElementById("appointmentTime").value = "";
+    }
+  </script>
 </body>
 </html>
