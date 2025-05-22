@@ -1,36 +1,36 @@
 <?php
 include 'DBConnector.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $receptionistID = $_POST["receptionistID"];
-    $firstName = $_POST["firstName"];
-    $middleInitial = $_POST["middleInitial"];
-    $lastName = $_POST["lastName"];
-    $contact = $_POST["contact"];
-    $email = $_POST["email"];
-    $username = $_POST["username"];
-    $password = $_POST["password"];
+$data = json_decode(file_get_contents("php://input"), true);
 
-    // Insert into users
-    $sql1 = "INSERT INTO users (user_id, first_name, middle_initial, last_name, contact_number, email)
-             VALUES ('$receptionistID', '$firstName', '$middleInitial', '$lastName', '$contact', '$email')";
-
-    // Insert into login
-    $sql2 = "INSERT INTO login (user_id, username, password)
-             VALUES ('$receptionistID', '$username', '$password')";
-
-    // Insert into job
-    $sql3 = "INSERT INTO job (user_id, role)
-             VALUES ('$receptionistID', 'Receptionist')";
-
-    // Correct order: users → login → job
-    if ($conn->query($sql1) === TRUE && $conn->query($sql2) === TRUE && $conn->query($sql3) === TRUE) {
-        header("Location: /CMSC126and127_Hospital_Database/Final%20Project%20HTML/receptionistList.html");
-        exit();
-    } else {
-        echo "Error: " . $conn->error;
-    }
-
-    $conn->close();
+if (!$data) {
+    echo "Invalid input";
+    exit;
 }
+
+$receptionistID = $data['receptionistID'];
+$firstName = $data['firstName'];
+$middleInitial = $data['middleInitial'];
+$lastName = $data['lastName'];
+$contact = $data['contact'];
+$email = $data['email'];
+$username = $data['username'];
+$password = $data['password'];
+
+$sql1 = "INSERT INTO users (user_id, first_name, middle_initial, last_name, contact_number, email)
+         VALUES ('$receptionistID', '$firstName', '$middleInitial', '$lastName', '$contact', '$email')";
+
+$sql2 = "INSERT INTO login (user_id, username, password)
+         VALUES ('$receptionistID', '$username', '$password')";
+
+$sql3 = "INSERT INTO job (user_id, role)
+         VALUES ('$receptionistID', 'Receptionist')";
+
+if ($conn->query($sql1) && $conn->query($sql2) && $conn->query($sql3)) {
+    echo "Receptionist added successfully!";
+} else {
+    echo "Error: " . $conn->error;
+}
+
+$conn->close();
 ?>

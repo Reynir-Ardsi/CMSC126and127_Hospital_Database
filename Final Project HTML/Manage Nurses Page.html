@@ -207,7 +207,7 @@
           data.forEach(nurse => {
             const row = document.createElement("tr");
             row.innerHTML = `
-              <td>${nurse.nurse_id}</td>
+              <td>${nurse.user_id}</td>
               <td>${nurse.first_name}</td>
               <td>${nurse.middle_initial}</td>
               <td>${nurse.last_name}</td>
@@ -225,7 +225,7 @@
 
     // Edit Nurse
     function editNurse(nurse) {
-      document.getElementById("nurseID").value = nurse.nurse_id;
+      document.getElementById("nurseID").value = nurse.user_id;
       document.getElementById("firstName").value = nurse.first_name;
       document.getElementById("middleInitial").value = nurse.middle_initial;
       document.getElementById("lastName").value = nurse.last_name;

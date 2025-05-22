@@ -8,7 +8,7 @@ if (!$data) {
     exit;
 }
 
-$doctorID = $data['doctorID'];
+$nurseID = $data['nurseID'];
 $firstName = $data['firstName'];
 $middleInitial = $data['middleInitial'];
 $lastName = $data['lastName'];
@@ -24,10 +24,10 @@ $sql2 = "INSERT INTO login (user_id, username, password)
          VALUES ('$nurseID', '$username', '$password')";
 
 $sql3 = "INSERT INTO job (user_id, role)
-         VALUES ('$nurseID', 'Doctor')";
+         VALUES ('$nurseID', 'Nurse')";
 
 if ($conn->query($sql1) && $conn->query($sql2) && $conn->query($sql3)) {
-    echo "Doctor added successfully!";
+    echo "Nurse added successfully!";
 } else {
     echo "Error: " . $conn->error;
 }
