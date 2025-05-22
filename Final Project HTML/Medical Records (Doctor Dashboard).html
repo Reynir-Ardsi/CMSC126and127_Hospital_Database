@@ -119,6 +119,8 @@
   </div>
 
   <script>
+      const userId = sessionStorage.getItem("user_id");
+      const role = sessionStorage.getItem("role");
     // Function to fetch and display the patient's medical records
     function loadMedicalRecords() {
       const urlParams = new URLSearchParams(window.location.search);
