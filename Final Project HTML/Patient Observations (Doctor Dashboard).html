@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Patient Observations</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #ECEFCA;
+    }
+
+    .container {
+      max-width: 90%;
+      margin: auto;
+      padding: 20px;
+      background-color: #517792;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 10px 0;
+      font-size: 24px;
+      font-weight: bold;
+      background-color: #213448;
+      color: white;
+    }
+
+    .back-button {
+      position: absolute;
+      left: 20px;
+      font-size: 20px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color:  white;
+    }
+
+    .info-section {
+      display: flex;
+      align-items: center;
+      margin: 20px 0;
+      gap: 20px;
+    }
+
+    .patient-picture {
+      width: 180px;
+      height: 180px;
+      background-image: url("pictures/defaultpfp.jpg");
+      background-size: 110%;
+      background-position: center;
+      border: 5px solid #213448;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      font-size: 14px;
+      border-radius: 50%;
+    }
+
+    .personal-info {
+      flex: 1;
+      border: 5px solid #213448;
+      padding: 5px;
+      text-align: left;
+      background-color: white;
+      align-items: right;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .observations {
+      height: 500px;
+      overflow-y: scroll;
+      overflow-x: hidden;
+      border: 1px solid #ccc;
+      padding: 20px;
+      font-size: 28px;
+      font-weight: bold;
+      text-align: center;
+      margin: auto;
+      padding: 20px;
+      background-color: white;
+      border: 5px solid #213448;
+    }
+
+    .editable-box {
+      width: 100%;
+      height: 100%;
+      background-color: white;
+      border: none;
+      padding: 10px;
+      margin-top: 0;
+    }
+
+    .editable-box textarea {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background-color: transparent;
+      font-family: Arial, sans-serif;
+      font-size: 1em;
+      resize: none;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <button class="back-button" onclick="history.back()">←</button>
+      Patient Observations
+    </div>
+
+    <div class="info-section">
+      <div class="patient-picture"></div>
+      </div>
+      <div class="personal-info">
+        Personal Information
+      </div>
+    </div>
+
+    <div class="observations">
+        <div class="editable-box">Vitals and Observations
+        <textarea placeholder="Enter your notes here..."></textarea>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
