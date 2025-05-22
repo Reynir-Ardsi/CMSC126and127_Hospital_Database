@@ -125,9 +125,20 @@
   </div>
 
   <script>
+
+    function searchPatients() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const profiles = document.querySelectorAll('.patient-profile');
+
+      profiles.forEach(profile => {
+        const name = profile.innerText.toLowerCase();
+        profile.style.display = name.includes(input) ? '' : 'none';
+      });
+    }
+
     // Function to fetch and display patient data
     function loadPatients() {
-      fetch('getPatients.php')
+      fetch('PHP files/getPatients.php')
         .then(response => response.json())
         .then(data => {
           const patientList = document.getElementById('patientList');

@@ -1,8 +1,8 @@
 <?php
 include 'DBConnector.php';
 
-$sql = "SELECT p.first_name, p.middle_initial, p.last_name
-        FROM patients p";
+$sql = "SELECT first_name, middle_initial, last_name
+        FROM patient";
 
 $result = $conn->query($sql);
 
