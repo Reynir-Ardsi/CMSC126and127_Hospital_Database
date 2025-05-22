@@ -29,6 +29,7 @@ if (
         last_name = '$last',
         contact_number = '$contact',
         email = '$email'
+        specialty = '$specialty'
         WHERE user_id = '$id'";
 
     // Update login
@@ -37,15 +38,9 @@ if (
         password = '$password'
         WHERE user_id = '$id'";
 
-    // Update job (specialty)
-    $sql_job = "UPDATE job SET
-        specialty = '$specialty'
-        WHERE user_id = '$id'";
-
     if (
         $conn->query($sql_users) === TRUE &&
-        $conn->query($sql_login) === TRUE &&
-        $conn->query($sql_job) === TRUE
+        $conn->query($sql_login) === TRUE
     ) {
         echo "Doctor updated successfully.";
     } else {
