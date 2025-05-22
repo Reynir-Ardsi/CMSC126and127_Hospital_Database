@@ -55,7 +55,7 @@
 
     .receptionist-list {
       background-color: #547792;
-      color: white;
+      color: black;
       margin: 25px;
       padding: 20px;
       max-width: 90%;
@@ -110,14 +110,18 @@
 
     th, td {
       border: 1px solid black;
-      padding: 12px;
-      text-align: left;
+      padding: 10px;
     }
 
     th {
       background-color: white;
       color: black;
     }
+
+    tr {
+      background-color: white;
+    }
+
   </style>
 </head>
 <body>
@@ -196,14 +200,14 @@
 
     // Load Receptionist List
     function loadReceptionists() {
-      fetch('PHP files/getReceptionists.php')
+      fetch('PHP files/getReceptionist.php')
         .then(res => res.json())
         .then(data => {
           receptionistTableBody.innerHTML = "";
           data.forEach(receptionist => {
             const row = document.createElement("tr");
             row.innerHTML = `
-              <td>${receptionist.receptionist_id}</td>
+              <td>${receptionist.user_id}</td>
               <td>${receptionist.first_name}</td>
               <td>${receptionist.middle_initial}</td>
               <td>${receptionist.last_name}</td>
@@ -221,7 +225,7 @@
 
     // Edit Receptionist
     function editReceptionist(receptionist) {
-      document.getElementById("receptionistID").value = receptionist.receptionist_id;
+      document.getElementById("receptionistID").value = receptionist.user_id;
       document.getElementById("firstName").value = receptionist.first_name;
       document.getElementById("middleInitial").value = receptionist.middle_initial;
       document.getElementById("lastName").value = receptionist.last_name;

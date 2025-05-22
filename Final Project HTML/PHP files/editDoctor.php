@@ -38,7 +38,7 @@ if (
         WHERE user_id = '$id'";
 
     // Update job (specialty)
-    $sql_job = "UPDATE users SET
+    $sql_job = "UPDATE job SET
         specialty = '$specialty'
         WHERE user_id = '$id'";
 

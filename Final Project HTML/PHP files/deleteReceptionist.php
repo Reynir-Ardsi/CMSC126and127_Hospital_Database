@@ -12,7 +12,7 @@ if (isset($data["receptionistID"])) {
     $receptionistID = $conn->real_escape_string($data["receptionistID"]);
 
     // Delete from job table — assuming cascading deletes will handle users and login
-    $sql = "DELETE FROM job WHERE user_id = '$receptionistID'";
+    $sql = "DELETE FROM users WHERE user_id = '$receptionistID'";
 
     if ($conn->query($sql) === TRUE) {
         echo "Receptionist deleted successfully.";

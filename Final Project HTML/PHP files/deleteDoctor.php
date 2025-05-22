@@ -12,7 +12,7 @@ if (isset($data["doctorID"])) {
     $doctorID = $conn->real_escape_string($data["doctorID"]);
 
     // Delete from job table — assuming cascading deletes will handle users and login
-    $sql = "DELETE FROM job WHERE user_id = '$doctorID'";
+    $sql = "DELETE FROM users WHERE user_id = '$doctorID'";
 
     if ($conn->query($sql) === TRUE) {
         echo "Doctor deleted successfully.";
