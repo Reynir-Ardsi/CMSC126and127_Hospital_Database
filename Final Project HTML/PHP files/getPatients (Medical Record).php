@@ -1,8 +1,7 @@
 <?php
 include 'DBConnector.php';
 
-$sql = "SELECT *
-        FROM patient";
+$sql = "SELECT * FROM patient";
 
 $result = $conn->query($sql);
 
@@ -12,6 +11,7 @@ if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $patients[] = $row;
     }
+    var_dump($patients);
 }
 
 header('Content-Type: application/json');
