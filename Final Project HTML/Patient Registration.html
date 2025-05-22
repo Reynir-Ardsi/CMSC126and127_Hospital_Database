@@ -91,98 +91,98 @@
   <div class="container">
     <back-button class="back-button" onclick="history.back()">←</back-button>
     <h2>New Patient Registration</h2>
-    <form id="registration-form">
+    <form id="registration-form" method="POST" action="PHP files/addPatient.php">
       <!-- Personal Info -->
     <div class="form-group">
-  <label for="fullName">Full Name</label>
-  <input type="text" id="fullName" name="fullName" required />
-</div>
+      <label for="fullName">Full Name</label>
+      <input type="text" id="fullName" name="fullName" required />
+    </div>
 
-<div class="form-group">
-  <label for="dob">Date of Birth</label>
-  <input type="date" id="dob" name="dob" required />
-</div>
+    <div class="form-group">
+      <label for="dob">Date of Birth</label>
+      <input type="date" id="dob" name="dob" required />
+    </div>
 
-<div class="form-group">
-  <label for="age">Age</label>
-  <input type="number" id="age" name="age" required readonly />
-</div>
+    <div class="form-group">
+      <label for="age">Age</label>
+      <input type="number" id="age" name="age" required readonly />
+    </div>
 
-<div class="form-group">
-  <label for="sex">Sex</label>
-  <select id="sex" name="sex" required>
-    <option value="">-- Select Sex --</option>
-    <option value="Male">Male</option>
-    <option value="Female">Female</option>
-  </select>
-</div>
+    <div class="form-group">
+      <label for="sex">Sex</label>
+      <select id="sex" name="sex" required>
+        <option value="">-- Select Sex --</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+      </select>
+    </div>
 
-<div class="form-group">
-  <label for="address">Address</label>
-  <textarea id="address" name="address" rows="3" required></textarea>
-</div>
+    <div class="form-group">
+      <label for="address">Address</label>
+      <textarea id="address" name="address" rows="3" required></textarea>
+    </div>
 
-<div class="form-group">
-  <label for="phone">Phone Number</label>
-  <input type="tel" id="phone" name="phone" required />
-</div>
+    <div class="form-group">
+      <label for="phone">Phone Number</label>
+      <input type="tel" id="phone" name="phone" required />
+    </div>
 
-<div class="form-group">
-  <label for="email">Email Address</label>
-  <input type="email" id="email" name="email" />
-</div>
+    <div class="form-group">
+      <label for="email">Email Address</label>
+      <input type="email" id="email" name="email" />
+    </div>
 
-<div class="form-group">
-  <label for="emergencyContact">Emergency Contact</label>
-  <input type="tel" id="emergencyContact" name="emergencyContact" required />
-</div>
+    <div class="form-group">
+      <label for="emergencyContact">Emergency Contact</label>
+      <input type="tel" id="emergencyContact" name="emergencyContact" required />
+    </div>
 
-<div class="form-group">
-  <label for="maritalStatus">Marital Status</label>
-  <select id="maritalStatus" name="maritalStatus" required>
-    <option value="">-- Select Status --</option>
-    <option value="Single">Single</option>
-    <option value="Married">Married</option>
-    <option value="Divorced">Divorced</option>
-    <option value="Widowed">Widowed</option>
-  </select>
-</div>
+    <div class="form-group">
+      <label for="maritalStatus">Marital Status</label>
+      <select id="maritalStatus" name="maritalStatus" required>
+        <option value="">-- Select Status --</option>
+        <option value="Single">Single</option>
+        <option value="Married">Married</option>
+        <option value="Divorced">Divorced</option>
+        <option value="Widowed">Widowed</option>
+      </select>
+    </div>
 
-<div class="form-group">
-  <label for="occupation">Occupation</label>
-  <input type="text" id="occupation" name="occupation" />
-</div>
+    <div class="form-group">
+      <label for="occupation">Occupation</label>
+      <input type="text" id="occupation" name="occupation" />
+    </div>
 
-<!-- Medical Info -->
-<div class="form-group">
-  <label for="insurance">Insurance Provider (if any)</label>
-  <input type="text" id="insurance" name="insurance" />
-</div>
+    <!-- Medical Info -->
+    <div class="form-group">
+      <label for="insurance">Insurance Provider (if any)</label>
+      <input type="text" id="insurance" name="insurance" />
+    </div>
 
-<div class="form-group">
-  <label for="allergies">Known Allergies</label>
-  <textarea id="allergies" name="allergies" rows="3"></textarea>
-</div>
+    <div class="form-group">
+      <label for="allergies">Known Allergies</label>
+      <textarea id="allergies" name="allergies" rows="3"></textarea>
+    </div>
 
-<div class="form-group">
-  <label for="history">Previous Medical History</label>
-  <textarea id="history" name="history" rows="3"></textarea>
-</div>
+    <div class="form-group">
+      <label for="history">Previous Medical History</label>
+      <textarea id="history" name="history" rows="3"></textarea>
+    </div>
 
-<div class="form-group">
-  <label for="medication">Current Medications</label>
-  <textarea id="medication" name="medication" rows="3"></textarea>
-</div>
+    <div class="form-group">
+      <label for="medication">Current Medications</label>
+      <textarea id="medication" name="medication" rows="3"></textarea>
+    </div>
 
-<div class="form-group">
-  <label for="lifestyle">Lifestyle / Habits</label>
-  <textarea id="lifestyle" name="lifestyle" rows="3"></textarea>
-</div>
+    <div class="form-group">
+      <label for="lifestyle">Lifestyle / Habits</label>
+      <textarea id="lifestyle" name="lifestyle" rows="3"></textarea>
+    </div>
 
-<!-- Submit -->
-<div class="form-actions">
-  <button type="submit">Register Patient</button>
-</div>
+    <!-- Submit -->
+    <div class="form-actions">
+      <button type="submit">Register Patient</button>
+    </div>
 
     </form>
   </div>
