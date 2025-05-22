@@ -119,84 +119,45 @@
       <input type="text" id="searchInput" placeholder="Search Bar" oninput="searchPatients()" />
     </div>
 
-    <div class="patient-list">
-      <a href="MedicalRecords.html" class="patient-profile">
-        <div class="profile-box">
-          <span class="profile-name">John Doe</span>
-        </div>
-      </a>
-      <a href="MedicalRecords.html" class="patient-profile">
-        <div class="profile-box">
-          <span class="profile-name">Jane Smith</span>
-        </div>
-      </a>
-      <a href="MedicalRecords.html" class="patient-profile">
-        <div class="profile-box">
-          <span class="profile-name">James Bond</span>
-        </div>
-      </a>
-      <a href="MedicalRecords.html" class="patient-profile">
-        <div class="profile-box">
-          <span class="profile-name">Rick Sanchez</span>
-        </div>
-      </a>
-      <a href="MedicalRecords.html" class="patient-profile">
-        <div class="profile-box">
-          <span class="profile-name">Doom Guy</span>
-        </div>
-      </a>
-      <a href="MedicalRecords.html" class="patient-profile">
-        <div class="profile-box">
-          <span class="profile-name">Darth Vader</span>
-        </div>
-      </a>
-      <a href="MedicalRecords.html" class="patient-profile">
-        <div class="profile-box">
-          <span class="profile-name">Super Mario</span>
-        </div>
-      </a>
-      <a href="MedicalRecords.html" class="patient-profile">
-        <div class="profile-box">
-          <span class="profile-name">Ash Ketchum</span>
-        </div>
-      </a>
-      <a href="MedicalRecords.html" class="patient-profile">
-        <div class="profile-box">
-          <span class="profile-name">Walter White</span>
-        </div>
-      </a>
-      <a href="MedicalRecords.html" class="patient-profile">
-        <div class="profile-box">
-          <span class="profile-name">Buzz Lightyear</span>
-        </div>
-      </a>
-      <a href="MedicalRecords.html" class="patient-profile">
-        <div class="profile-box">
-          <span class="profile-name">Deez Nuts</span>
-        </div>
-      </a>
-      <a href="MedicalRecords.html" class="patient-profile">
-        <div class="profile-box">
-          <span class="profile-name">Ma. Cathy Fukiko</span>
-        </div>
-      </a>
+    <div class="patient-list" id="patientList">
+      <!-- Patient profiles will be dynamically inserted here -->
     </div>
   </div>
 
   <script>
-    function searchPatients() {
-      const searchQuery = document.getElementById('searchInput').value.toLowerCase();
-      const patientProfiles = document.querySelectorAll('.patient-profile');
+    // Function to fetch and display patient data
+    function loadPatients() {
+      fetch('getPatients.php')
+        .then(response => response.json())
+        .then(data => {
+          const patientList = document.getElementById('patientList');
+          patientList.innerHTML = ''; // Clear any existing patient profiles
 
-      patientProfiles.forEach(profile => {
-        const profileName = profile.querySelector('.profile-name').textContent.toLowerCase();
-        if (profileName.includes(searchQuery)) {
-          profile.style.display = 'flex'; // Show the profile
-        } else {
-          profile.style.display = 'none'; // Hide the profile
-        }
-      });
+          data.forEach(patient => {
+            const fullName = `${patient.first_name} ${patient.middle_initial} ${patient.last_name}`;
+            const profileLink = document.createElement('a');
+            profileLink.href = 'MedicalRecords.html'; // Adjust the link if necessary
+            profileLink.classList.add('patient-profile');
+
+            const profileBox = document.createElement('div');
+            profileBox.classList.add('profile-box');
+
+            const profileName = document.createElement('span');
+            profileName.classList.add('profile-name');
+            profileName.textContent = fullName;
+
+            profileBox.appendChild(profileName);
+            profileLink.appendChild(profileBox);
+            patientList.appendChild(profileLink);
+          });
+        })
+        .catch(error => {
+          console.error('Error fetching patient data:', error);
+        });
     }
+
+    // Call the function when the page loads
+    window.onload = loadPatients;
   </script>
 </body>
 </html>
