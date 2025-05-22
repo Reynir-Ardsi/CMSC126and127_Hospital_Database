@@ -163,19 +163,41 @@
 
     let currentDate = new Date();
 
-    const appointments = {
-      "2025-05-21": [
-        { name: "John Doe", time: "10:00 AM" },
-        { name: "Jane Smith", time: "2:00 PM" }
-      ],
-      "2025-05-23": [
-        { name: "Alice Johnson", time: "1:00 PM" }
-      ],
-      "2025-05-28": [
-        { name: "Bob Lee", time: "3:30 PM" },
-        { name: "Carol White", time: "4:00 PM" }
-      ]
-    };
+    let appointments = {}; // Will be filled from the PHP response
+
+    async function fetchAppointments(userId) {
+      try {
+        const response = await fetch('PHP files/getAppointment.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ user_id: userId })
+        });
+
+        if (!response.ok) throw new Error('Network response was not ok');
+
+        const data = await response.json();
+
+        // Convert fetched appointments into { "YYYY-MM-DD": [ { name, time, room_number }, ... ] }
+        appointments = {};
+        data.forEach(item => {
+          const dateKey = item.appointment_date;
+          if (!appointments[dateKey]) {
+            appointments[dateKey] = [];
+          }
+
+          appointments[dateKey].push({
+            name: `${item.first_name} ${item.middle_initial}. ${item.last_name}`,
+            time: item.time,
+            room: item.room_number
+          });
+        });
+
+        renderCalendar(currentDate);
+      } catch (error) {
+        console.error("Failed to fetch appointments:", error);
+      }
+    }
+
 
     function formatDateKey(year, month, day) {
       return `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
@@ -189,7 +211,7 @@
           ? `<p style="text-align: center; padding: 20px;">No appointments</p>` 
           : appointmentsForDay.map(app => `
             <div style="text-align: center; padding: 10px 20px; border-top: 1px solid #ccc;">
-              ${dateKey} | ${app.name} | ${app.time}
+              ROOM ${app.room} | ${app.name} | ${app.time}
             </div>
           `).join('')
         }
@@ -275,6 +297,14 @@
     };
 
     renderCalendar(currentDate);
+        // Get user_id from sessionStorage and fetch appointments
+    const userId = sessionStorage.getItem('user_id');
+    if (userId) {
+      fetchAppointments(userId);
+    } else {
+      console.error("No user_id found in sessionStorage");
+    }
+
   </script>
 </body>
 </html>

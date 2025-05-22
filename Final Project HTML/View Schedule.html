@@ -91,7 +91,7 @@
 
     .box.clock-box {
       width: 580px;
-      height: auto;
+      height: 500px;
       background-color: #1f1f1f;
       border: 1px solid #555;
       display: flex;
@@ -137,7 +137,61 @@
 
   </style>
 </head>
+<body>
+
+   <div class="header">
+    <div class="back-button" onclick="history.back()">←</div>
+    <h2>Schedule For The Day</h2>
+  </div>
+
+  <div class="main-content">
+    <div class="left-column">
+      <div class="box clock-box">
+        <div class="clock" id="clock">--:--:--</div>
+        <div class="date" id="date">Loading date...</div>
+      </div>
+
+    </div>
+    <div class="schedule-box">
+      <div class="schedule-header">Today's Schedule</div>
+      <div class="schedule-body">
+        <table class="schedule-table">
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Patient Name & Room Number</th>
+            </tr>
+          </thead>
+          <tbody id="schedule-body">
+          
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 <script>
+  function updateClock() {
+        const now = new Date();
+        let hours = now.getHours();
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+
+        // Convert to 12-hour format and set AM/PM
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? String(hours).padStart(2, '0') : '12'; // The hour '0' should be '12'
+        
+        const clock = `${hours}:${minutes}:${seconds} ${ampm}`;
+        document.getElementById('clock').textContent = clock;
+
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const date = now.toLocaleDateString(undefined, options);
+        document.getElementById('date').textContent = date;
+      }
+
+      setInterval(updateClock, 1000);
+      updateClock(); // Run immediately on page load
+
   const userId = sessionStorage.getItem("user_id");
   const role = sessionStorage.getItem("role");
 
@@ -184,67 +238,5 @@
       console.error("Error fetching appointments:", error);
     });
 </script>
-<body>
-
-   <div class="header">
-    <div class="back-button" onclick="history.back()">←</div>
-    <h2>Schedule For The Day</h2>
-  </div>
-
-  <div class="main-content">
-    <div class="left-column">
-      <div class="box clock-box">
-        <div class="clock" id="clock">--:--:--</div>
-        <div class="date" id="date">Loading date...</div>
-      </div>
-
-    <script>
-      function updateClock() {
-        const now = new Date();
-        let hours = now.getHours();
-        const minutes = String(now.getMinutes()).padStart(2, '0');
-        const seconds = String(now.getSeconds()).padStart(2, '0');
-
-        // Convert to 12-hour format and set AM/PM
-        const ampm = hours >= 12 ? 'PM' : 'AM';
-        hours = hours % 12;
-        hours = hours ? String(hours).padStart(2, '0') : '12'; // The hour '0' should be '12'
-        
-        const clock = `${hours}:${minutes}:${seconds} ${ampm}`;
-        document.getElementById('clock').textContent = clock;
-
-        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        const date = now.toLocaleDateString(undefined, options);
-        document.getElementById('date').textContent = date;
-      }
-
-      setInterval(updateClock, 1000);
-      updateClock(); // Run immediately on page load
-    </script>
-    
-      <div class="box">
-        <div class="editable-box">Doctor Notes
-          <textarea placeholder="Enter your notes here..."></textarea>
-        </div>
-      </div>
-    </div>
-    <div class="schedule-box">
-      <div class="schedule-header">Today's Schedule</div>
-      <div class="schedule-body">
-        <table class="schedule-table">
-          <thead>
-            <tr>
-              <th>Time</th>
-              <th>Patient Name & Room Number</th>
-            </tr>
-          </thead>
-          <tbody id="schedule-body">
-          
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
 </body>
 </html>
