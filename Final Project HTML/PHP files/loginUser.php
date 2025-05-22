@@ -6,7 +6,7 @@ $password = $_POST["password"];
 $validUsername = false;
 $validPassword = false;
 $user_id = null;
-
+$response = [];
 
 $authenticateUsername = "SELECT user_id FROM login WHERE username = ?";
 $stmt = $conn->prepare($authenticateUsername);
@@ -38,15 +38,19 @@ if ($validUsername && $validPassword) {
     $job = $stmt->get_result();
     $jobRow = $job->fetch_assoc();
 
-    echo "redirect:" . $jobRow['role'];
-    exit;
-} elseif (!$validUsername && $validPassword) {
-    echo "Invalid Username";
-} elseif ($validUsername && !$validPassword) {
-    echo "Invalid Password";
+    $response = [
+        "status" => "success",
+        "user_id" => $user_id,
+        "role" => $jobRow['role']
+    ];
 } else {
-    echo "Invalid Username and Password";
+    $response = [
+        "status" => "error",
+        "message" => !$validUsername ? (!$validPassword ? "Invalid Username and Password" : "Invalid Username") : "Invalid Password"
+    ];
 }
 
+header('Content-Type: application/json');
+echo json_encode($response);
 $conn->close();
 ?>

@@ -137,6 +137,27 @@
 
   </style>
 </head>
+<script>
+  const userId = sessionStorage.getItem("user_id");
+  const role = sessionStorage.getItem("role");
+
+  console.log("Logged in as:", userId, "Role:", role);
+
+  // Now send this data to PHP via fetch
+  fetch("PHP files/getAppointments.php", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ user_id: userId })
+  })
+    .then(response => response.json())
+    .then(data => {
+      console.log("Appointments:", data);
+      // You can now populate the page with appointment data
+    })
+    .catch(error => {
+      console.error("Error fetching appointments:", error);
+    });
+</script>
 <body>
 
    <div class="header">
