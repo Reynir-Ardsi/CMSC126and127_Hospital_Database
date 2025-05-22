@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Medical Records</title>
+  <title>Patient Medical Records</title>
   <style>
     body {
       margin: 0;
@@ -52,18 +52,16 @@
       width: 200px;
       height: 200px;
       background-image: url("pictures/defaultpfp.jpg");
-      background-size: 110%;
+      background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
       background-color: white;
       border: 5px solid #213448;
-      text-align: center;
-      font-size: 10px;
-      padding: 5px;
       display: flex;
       justify-content: center;
       align-items: center;
       font-weight: bold;
+      color: #213448;
     }
 
     .info-box {
@@ -110,8 +108,8 @@
 
     <div class="content">
       <div class="top-section">
-        <div class="profile-pic"></div>
-        <div class="info-box">
+        <div class="profile-pic" id="profilePic"></div>
+        <div class="info-box" id="infoBox">
           <!-- Patient info will be dynamically inserted here -->
         </div>
       </div>
@@ -129,27 +127,29 @@
         .then(response => response.json())
         .then(patient => {
           if (patient) {
-            document.querySelector('.profile-pic').style.backgroundImage = `url('pictures/${patient.profile_pic || "defaultpfp.jpg"}')`;
+            // Update the profile picture
+            const profilePic = document.getElementById('profilePic');
+            profilePic.style.backgroundImage = `url('pictures/${patient.profile_pic || "defaultpfp.jpg"}')`;
 
             // Populate the info-box with patient details
-            const infoBox = document.querySelector('.info-box');
+            const infoBox = document.getElementById('infoBox');
             infoBox.innerHTML = `
-              <p>Full Name: ${patient.first_name} ${patient.middle_initial} ${patient.last_name}</p>
-              <p>Date of Birth: ${patient.dob}</p>
-              <p>Age: ${patient.age} years</p>
-              <p>Gender: ${patient.sex}</p>
-              <p>Address: ${patient.address}</p>
-              <p>Phone Number: ${patient.phone}</p>
-              <p>Email: ${patient.email}</p>
-              <p>Emergency Contact: ${patient.emergency_contact}</p>
-              <p>Marital Status: ${patient.marital_status}</p>
-              <p>Occupation: ${patient.occupation}</p>
-              <p>Insurance Provider: ${patient.insurance_provider}</p>
-              <p>Primary Care Physician: ${patient.primary_care_physician}</p>
-              <p>Allergies: ${patient.allergies}</p>
-              <p>Medical History: ${patient.medical_history}</p>
-              <p>Medications: ${patient.medications}</p>
-              <p>Lifestyle: ${patient.lifestyle}</p>
+              <p><strong>Full Name:</strong> ${patient.first_name} ${patient.middle_initial} ${patient.last_name}</p>
+              <p><strong>Date of Birth:</strong> ${patient.date_of_birth}</p>
+              <p><strong>Age:</strong> ${patient.age} years</p>
+              <p><strong>Gender:</strong> ${patient.sex}</p>
+              <p><strong>Address:</strong> ${patient.address}</p>
+              <p><strong>Phone Number:</strong> ${patient.contact_number}</p>
+              <p><strong>Email:</strong> ${patient.email_address}</p>
+              <p><strong>Emergency Contact:</strong> ${patient.emergency_contact}</p>
+              <p><strong>Marital Status:</strong> ${patient.marital_status}</p>
+              <p><strong>Occupation:</strong> ${patient.occupation}</p>
+              <p><strong>Insurance Provider:</strong> ${patient.insurance_provider}</p>
+              <p><strong>Primary Care Physician:</strong> ${patient.primary_care_physician}</p>
+              <p><strong>Allergies:</strong> ${patient.allergies}</p>
+              <p><strong>Medical History:</strong> ${patient.medical_history}</p>
+              <p><strong>Medications:</strong> ${patient.medications}</p>
+              <p><strong>Lifestyle:</strong> ${patient.lifestyle}</p>
             `;
           }
         })
@@ -159,5 +159,6 @@
     // Call the function when the page is loaded
     window.onload = loadPatient;
   </script>
+
 </body>
 </html>
