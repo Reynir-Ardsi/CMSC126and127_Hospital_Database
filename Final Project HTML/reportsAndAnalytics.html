@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Reports and Analytics</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -12,7 +13,7 @@
     }
 
     .container {
-      max-width: 90%;
+      max-width: 95%;
       margin: auto;
       padding: 20px;
       background-color: white;
@@ -67,8 +68,21 @@
     .report-item {
       background-color: #ddd;
       margin: 10px 0;
-      height: 30px;
+      padding: 8px;
       border-radius: 4px;
+    }
+
+    .summary {
+      text-align: center;
+      background-color: #dbeafe;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      margin: 20px 0;
+    }
+
+    canvas {
+      max-width: 100%;
     }
   </style>
 </head>
@@ -79,31 +93,139 @@
       Reports and Analytics
     </div>
 
+    <div class="summary" id="summary-box">
+      <h3>📊 Today's Summary</h3>
+      <p>Hospital Utilization Rate: <strong id="utilization"></strong></p>
+      <p>Total Revenue: <strong id="revenue"></strong></p>
+      <p>Staff on Duty: <strong id="staff"></strong></p>
+      <p>Avg. Cost per Patient: <strong id="avgCost"></strong></p>
+    </div>
+
     <div class="report-columns">
       <div class="column">
         <div class="column-title">Hospital Statistics</div>
-        <div class="scroll-box">
-          <div class="report-item"></div>
-          <div class="report-item"></div>
-          <div class="report-item"></div>
-          <div class="report-item"></div>
-          <div class="report-item"></div>
-          <div class="report-item"></div>
-        </div>
+        <div class="scroll-box" id="hospital-box"></div>
       </div>
 
       <div class="column">
         <div class="column-title">Financial Reports</div>
-        <div class="scroll-box">
-          <div class="report-item"></div>
-          <div class="report-item"></div>
-          <div class="report-item"></div>
-          <div class="report-item"></div>
-          <div class="report-item"></div>
-          <div class="report-item"></div>
-        </div>
+        <div class="scroll-box" id="financial-box"></div>
       </div>
     </div>
+
+    <div style="margin-top: 40px;">
+      <canvas id="chart1"></canvas>
+    </div>
   </div>
+
+  <script>
+    function randomInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function randomFromArray(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    // Summary values
+    document.getElementById('utilization').innerText = randomInt(70, 95) + "%";
+    document.getElementById('revenue').innerText = "$" + randomInt(200000, 300000).toLocaleString();
+    document.getElementById('staff').innerText = randomInt(70, 100);
+    document.getElementById('avgCost').innerText = "$" + randomInt(1500, 2500).toLocaleString();
+
+    // Hospital Stats
+    const hospitalStats = [
+      `Total Patients Today: ${randomInt(100, 150)}`,
+      `ER Visits: ${randomInt(30, 60)}`,
+      `Admitted Patients: ${randomInt(40, 60)}`,
+      `Discharged Today: ${randomInt(20, 50)}`,
+      `ICU Capacity: ${randomInt(60, 90)}%`,
+      `Avg. Wait Time: ${randomInt(30, 60)} mins`
+    ];
+
+    const hospitalContextMessages = [
+      "ICU nearing full capacity. Consider redistributing cases.",
+      "Emergency Room visits are slightly above average today.",
+      "Discharge rate is healthy — aligns with average recovery timeline.",
+      "Surgery wing reports 12 successful operations today.",
+      "3 cases referred to regional hospital due to equipment limits."
+    ];
+
+    const hospitalBox = document.getElementById('hospital-box');
+    hospitalStats.forEach(stat => {
+      const item = document.createElement('div');
+      item.className = 'report-item';
+      item.innerText = stat;
+      hospitalBox.appendChild(item);
+    });
+
+    const hospitalContext = document.createElement('div');
+    hospitalContext.style.marginTop = "10px";
+    hospitalContext.style.fontSize = "13px";
+    hospitalContext.innerHTML = "<strong>Note:</strong> " + randomFromArray(hospitalContextMessages);
+    hospitalBox.appendChild(hospitalContext);
+
+    // Financial Stats
+    const financialStats = [
+      `Revenue Today: $${randomInt(200000, 300000).toLocaleString()}`,
+      `Expenses Today: $${randomInt(150000, 250000).toLocaleString()}`,
+      `Net Profit: $${randomInt(30000, 70000).toLocaleString()}`,
+      `Billing Errors: ${randomInt(0, 10)} cases`,
+      `Insurance Claims Processed: ${randomInt(70, 100)}`,
+      `Pending Invoices: $${randomInt(10000, 25000).toLocaleString()}`
+    ];
+
+    const financialContextMessages = [
+      "Revenue slightly exceeded forecast by 4.2%.",
+      "Insurance claims processing is on track.",
+      "Pending invoices flagged for audit due to aging over 30 days.",
+      "No major anomalies detected in today's expense breakdown.",
+      "Billing errors mostly tied to new patients with incomplete profiles."
+    ];
+
+    const financialBox = document.getElementById('financial-box');
+    financialStats.forEach(stat => {
+      const item = document.createElement('div');
+      item.className = 'report-item';
+      item.innerText = stat;
+      financialBox.appendChild(item);
+    });
+
+    const financialContext = document.createElement('div');
+    financialContext.style.marginTop = "10px";
+    financialContext.style.fontSize = "13px";
+    financialContext.innerHTML = "<strong>Insight:</strong> " + randomFromArray(financialContextMessages);
+    financialBox.appendChild(financialContext);
+
+    // Chart.js Line Chart
+    const ctx = document.getElementById('chart1').getContext('2d');
+    const chart1 = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        datasets: [
+          {
+            label: 'Patients per Day',
+            data: Array.from({ length: 7 }, () => randomInt(80, 160)),
+            borderColor: 'rgba(54, 162, 235, 1)',
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            borderWidth: 2,
+            fill: true,
+            tension: 0.4
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: true },
+          title: {
+            display: true,
+            text: 'Weekly Patient Volume'
+          }
+        }
+      }
+    });
+  </script>
 </body>
 </html>
