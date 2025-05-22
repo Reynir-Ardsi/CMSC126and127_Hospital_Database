@@ -54,7 +54,6 @@
       justify-content: center;
       width: 85px;
       height: 85px;
-      text-decoration: white;
       border-radius: 50%;
       background-color: #547792;
       text-decoration: none;
@@ -96,14 +95,13 @@
 
     .card {
       background-color: #547792;
-      width: 250px;
-      height: 400px;
+      width: 400px;
+      height: 200px;
       border: 1px solid #ccc;
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-left: 50px;
-      margin-right: 50px;
+      margin: 5px;
       cursor: pointer;
       transform: transform 0.2s;
     }
@@ -116,10 +114,9 @@
       background-color: #213448;
       color: white;
       margin: 0;
-      width: 92%;
+      width: 95%;
       padding: 10px;
       font-size: 16px;
-      border-bottom: 1px solid #ccc;
     }
 
     .card .placeholder {
@@ -129,51 +126,16 @@
       margin: 10px 0;
     }
 
-    .cardh2 {
-      background-color: #547792;
-      width: 1000px;
-      height: 200px;
-      border: 1px solid #ccc;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-left: 50px;
-      margin-right: 50px;
-      cursor: pointer;
-      transform: transform 0.2s;
-    }
-
-    .cardh2:hover {
-      transform: scale(1.05);
-    }
-
-    .cardh2 h3 {
-      background-color: #213448;
-      color: white;
-      margin: 0;
-      width: 98%;
-      padding: 10px;
-      font-size: 16px;
-      border-bottom: 1px solid #ccc;
-    }
-
-    .cardh2 .placeholder {
-      flex: 1;
-      width: 96%;
-      background-color: white;
-      margin: 10px 0;
-    }
-
     .nurses {
       background-image: url("pictures/Nurses ( Welcome Admin ).png");
-      background-size: 110%;
+      background-size: contain;
       background-position: center;
       background-repeat: no-repeat;
     }
 
     .receptionist {
       background-image: url("pictures/Receptionist ( Welcome Admin ).png");
-      background-size: 195%;
+      background-size: contain;
       background-position: center;
       background-repeat: no-repeat;
     }
@@ -187,7 +149,7 @@
 
     .doctor {
       background-image: url("pictures/Doctors ( Welcome Doctors! ).png");
-      background-size: 160%;
+      background-size: contain;
       background-position: center;
       background-repeat: no-repeat;
     }
@@ -227,22 +189,20 @@
           <div class="placeholder nurses"></div>
         </div>
       </a>
-
-      <a href="Manage Receptionist Page.html" style="text-decoration: none; color: inherit;">
-        <div class="card">
-          <h3>Manage Receptionist</h3>
-          <div class="placeholder receptionist"></div>
-        </div>
-      </a>
-    </div>
-
-    <div class="row">
-      <a href="reportsAndAnalytics.html" style="text-decoration: none; color: inherit;">
-        <div class="cardh2">
-          <h3>Reports and Analytics</h3>
-          <div class="placeholder reports"></div>
-        </div>
-      </a>
+      </div>
+      <div class="row">
+        <a href ="receptionistList.html" style="text-decoration: none; color: inherit;">
+      <div class="card">
+        <h3>Manage Receptionist</h3>
+        <div class="placeholder receptionist"></div>
+      </div>
+    </a>
+    <a href="reportsAndAnalytics.html" style="text-decoration: none; color: inherit;">
+      <div class="card">
+        <h3>Reports and Analytics</h3>
+        <div class="placeholder reports"></div>
+      </div>
+    </a>
     </div>
   </div>
 

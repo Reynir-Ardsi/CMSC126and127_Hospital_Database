@@ -8,11 +8,12 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background-color: #f2f2f2;
+      background-color: #ECEFCA;
       text-align: center;
     }
 
     .header {
+      height: 40px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -50,11 +51,11 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 60px;
-      height: 60px;
+      width: 85px;
+      height: 85px;
+      text-decoration: white;
       border-radius: 50%;
-      background-color: #d7d7d7;
-      color: black;
+      background-color: #547792;
       text-decoration: none;
       font-weight: bold;
       transition: transform 0.2s;
@@ -62,7 +63,7 @@
 
     .logoutbtn:hover {
       transform: scale(1.05);
-      background-color: #cccccc;
+      background-color: #709fc3;
     }
 
     .center-text {
@@ -93,15 +94,14 @@
     }
 
     .card {
-      background-color: white;
-      width: 300px;
+      background-color: #547792;
+      width: 400px;
       height: 200px;
       border: 1px solid #ccc;
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-left: 50px;
-      margin-right: 50px;
+      margin: 5px;
       cursor: pointer;
       transform: transform 0.2s;
     }
@@ -111,44 +111,37 @@
     }
 
     .card h3 {
-      background-color: #547792;
+      background-color: #213448;
+      color: white;
       margin: 0;
-      width: 100%;
+      width: 95%;
       padding: 10px;
       font-size: 16px;
-      border-bottom: 1px solid #ccc;
     }
 
     .card .placeholder {
       flex: 1;
       width: 90%;
-      background-color: #ddd;
+      background-color: white;
       margin: 10px 0;
     }
 
-    .patient {
-      background-image: url("pictures/patient_icon.png");
-      background-size: 250px;
-      background-position: center;
-      background-repeat: no-repeat;
-    }
-
-    .appointment {
-      background-image: url("pictures/receptionist_icon.png");
+    .patients {
+      background-image: url("pictures/Patient Registration ( Receptionist Field ).png");
       background-size: contain;
       background-position: center;
       background-repeat: no-repeat;
     }
 
-    .management {
-      background-image: url("pictures/analytics_icon.png");
+    .appointments {
+      background-image: url("pictures/Appointment Management ( Receptionist Field ).png");
       background-size: contain;
       background-position: center;
       background-repeat: no-repeat;
     }
 
     .billing {
-      background-image: url("pictures/doctor_icon.png");
+      background-image: url("pictures/Billings and Payment ( Receptionist Field ).png");
       background-size: contain;
       background-position: center;
       background-repeat: no-repeat;
@@ -166,7 +159,7 @@
 <body>
 
   <div class="header">
-    <div class="left"><a href="Login.html" class="logoutbtn">Logout</a></div>
+    <div class="left"><a href="Login.html" class="logoutbtn" style="color:white">Logout</a></div>
     <h2 class="center-text">Welcome Receptionist</h2>
     <div class="right logo"></div>
   </div>

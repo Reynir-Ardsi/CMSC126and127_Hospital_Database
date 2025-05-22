@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nurse List</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #ECEFCA;
+      text-align: center;
+    }
+
+    header {
+      background-color: #213448;
+      color: white;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .back-button {
+      position: absolute;
+      left: 0;
+      top: 0;
+      background: none;
+      color: black;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: white;
+    }
+
+    .search-container {
+      margin: 20px auto;
+      max-width: 500px;
+    }
+
+    .search-container input {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    .nurse-list {
+      background-color: #547792;
+      color: white;
+      margin: 25px;
+      padding: 20px;
+      max-width: 90%;
+      height: 500px;
+      overflow-y: scroll;
+      border: 1px solid #ccc;
+    }
+
+    .nurse-list h2 {
+      font-size: 32px;
+      margin: 0;
+    }
+
+    .form-group {
+      margin: 10px 0;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .form-group input {
+      width: 40%;
+      padding: 8px;
+    }
+
+    .form-actions {
+      margin-top: 15px;
+      display: flex;
+      justify-content: space-evenly;
+    }
+
+    button {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      background-color: #28a745;
+      color: white;
+      cursor: pointer;
+    }
+
+    button.delete {
+      background-color: #dc3545;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      border: 1px solid black;
+      padding: 12px;
+      text-align: left;
+    }
+    
+    th {
+      background-color: white;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <button class="back-button" onclick="history.back()">←</button>
+    <h1>Nurse List</h1>
+  </header>
+
+  <form id="nurseForm" action="PHP files/addNurse.php" method="POST">
+      <div class="form-group">
+        <label for="nurseID">Nurse ID:</label>
+        <input type="text" id="nurseID" name="nurseID" required>
+      </div>
+      <div class="form-group">
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName" required>
+      </div>
+      <div class="form-group">
+        <label for="middleInitial">Middle Initial:</label>
+        <input type="text" id="middleInitial" name="middleInitial" required>
+      </div>
+      <div class="form-group">
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" required>
+      </div>
+      <div class="form-group">
+        <label for="contact">Contact Number:</label>
+        <input type="text" id="contact" name="contact" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <div class="form-actions">
+        <button type="submit">Add Nurse</button>
+        <button type="reset">Clear</button>
+      </div>
+    </form>
+
+  <div class="nurse-list">
+    <h2>Nurse List</h2>
+    <div class="search-container">
+    <input type="text" placeholder="Search Bar">
+  </div>
+    <table id="nurseTable">
+      <thead>
+        <tr>
+          <th>Nurse ID</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Contact</th>
+          <th>Email</th>
+          
+        </tr>
+        <tr>
+        <th></th><th></th><th></th><th></th><th></th>
+      </tr>
+      <tr>
+        <th></th><th></th><th></th><th></th><th></th>
+      </tr><tr>
+        <th></th><th></th><th></th><th></th><th></th>
+      </tr>
+      <tr>
+        <th></th><th></th><th></th><th></th><th></th>
+      </tr>
+      </thead>
+      <tbody>
+        <!-- Nurse rows will appear here -->
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>
+  </div>
+
+</body>
+</html>
