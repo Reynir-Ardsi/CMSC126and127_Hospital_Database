@@ -130,7 +130,7 @@
       }
 
       // Fetch patient data from backend PHP file
-      fetch(`PHP files/getMedicalRecords.php?id=${patientId}`)
+      fetch(`PHP files/getPatientInformation.php?id=${patientId}`)
         .then(response => response.json())
         .then(data => {
           if (!data) {
@@ -142,11 +142,11 @@
 
           // Dynamically populate patient information
           patientDetails.innerHTML = `
-            <h3>${data.first_name} ${data.middle_initial} ${data.last_name}</h3>
+            <h3>${patients.first_name} ${patients.middle_initial} ${patients.last_name}</h3>
             
             <div>
               <span class="title">Date of Birth:</span>
-              <p>${data.birth_date}</p>
+              <p>${patients._date_of_birth}</p>
             </div>
             <div>
               <span class="title">Age:</span>
