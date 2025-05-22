@@ -138,36 +138,34 @@
 
     // Function to fetch and display patient data
     function loadPatients() {
-  fetch('PHP files/getPatients.php')
-    .then(response => response.json())
-    .then(data => {
-      const patientList = document.getElementById('patientList');
-      patientList.innerHTML = ''; // Clear any existing patient profiles
+      fetch('PHP files/getPatients.php')
+        .then(response => response.json())
+        .then(data => {
+          const patientList = document.getElementById('patientList');
+          patientList.innerHTML = ''; // Clear any existing patient profiles
 
-      data.forEach(patient => {
-        const fullName = `${patient.first_name} ${patient.middle_initial} ${patient.last_name}`;
-        const profileLink = document.createElement('a');
-        
-        profileLink.href = `Medical Records (Doctor Dashboard).html?id=${patient.id}`;
-        profileLink.classList.add('patient-profile');
+          data.forEach(patient => {
+            const fullName = `${patient.first_name} ${patient.middle_initial} ${patient.last_name}`;
+            const profileLink = document.createElement('a');
+            profileLink.href = 'patientObservations.html';
+            profileLink.classList.add('patient-profile');
 
-        const profileBox = document.createElement('div');
-        profileBox.classList.add('profile-box');
+            const profileBox = document.createElement('div');
+            profileBox.classList.add('profile-box');
 
-        const profileName = document.createElement('span');
-        profileName.classList.add('profile-name');
-        profileName.textContent = fullName;
+            const profileName = document.createElement('span');
+            profileName.classList.add('profile-name');
+            profileName.textContent = fullName;
 
-        profileBox.appendChild(profileName);
-        profileLink.appendChild(profileBox);
-        patientList.appendChild(profileLink);
-      });
-    })
-    .catch(error => {
-      console.error('Error fetching patient data:', error);
-    });
-}
-
+            profileBox.appendChild(profileName);
+            profileLink.appendChild(profileBox);
+            patientList.appendChild(profileLink);
+          });
+        })
+        .catch(error => {
+          console.error('Error fetching patient data:', error);
+        });
+    }
 
     // Call the function when the page loads
     window.onload = loadPatients;

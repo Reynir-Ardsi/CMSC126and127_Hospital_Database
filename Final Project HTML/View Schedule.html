@@ -91,7 +91,7 @@
 
     .box.clock-box {
       width: 580px;
-      height: auto;
+      height: 500px;
       background-color: #1f1f1f;
       border: 1px solid #555;
       display: flex;
@@ -151,8 +151,26 @@
         <div class="date" id="date">Loading date...</div>
       </div>
 
-    <script>
-      function updateClock() {
+    </div>
+    <div class="schedule-box">
+      <div class="schedule-header">Today's Schedule</div>
+      <div class="schedule-body">
+        <table class="schedule-table">
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Patient Name & Room Number</th>
+            </tr>
+          </thead>
+          <tbody id="schedule-body">
+          
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+<script>
+  function updateClock() {
         const now = new Date();
         let hours = now.getHours();
         const minutes = String(now.getMinutes()).padStart(2, '0');
@@ -173,39 +191,52 @@
 
       setInterval(updateClock, 1000);
       updateClock(); // Run immediately on page load
-    </script>
-    
-      <div class="box">
-        <div class="editable-box">Doctor Notes
-          <textarea placeholder="Enter your notes here..."></textarea>
-        </div>
-      </div>
-    </div>
-    <div class="schedule-box">
-      <div class="schedule-header">Today's Schedule</div>
-      <div class="schedule-body">
-        <table class="schedule-table">
-          <thead>
-            <tr>
-              <th>Time</th>
-              <th>Patient Name & Room Number</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>08:00</td>
-              <td>John Doe - Room 101</td>
-            </tr>
-            <tr>
-              <td>09:00</td>
-              <td>Jane Smith - Room 202</td>
-            </tr>
-            <!-- Add more rows as needed -->
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
 
+  const userId = sessionStorage.getItem("user_id");
+  const role = sessionStorage.getItem("role");
+
+  console.log("Logged in as:", userId, "Role:", role);
+
+  // Get today's date in YYYY-MM-DD format
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  const formattedToday = `${year}-${month}-${day}`;
+
+  // Fetch appointments
+  fetch("PHP files/getAppointment.php", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ user_id: userId })
+  })
+    .then(response => response.json())
+    .then(data => {
+      console.log("Appointments:", data);
+      const tableBody = document.getElementById("schedule-body");
+      tableBody.innerHTML = "";
+
+      data.forEach(appointment => {
+        // Make sure appointment.date exists and compare with today
+        if (appointment.appointment_date === formattedToday) {
+          const row = document.createElement("tr");
+
+          const timeCell = document.createElement("td");
+          timeCell.textContent = appointment.time;
+
+          const infoCell = document.createElement("td");
+          infoCell.textContent = `${appointment.first_name} ${appointment.middle_initial || ''} ${appointment.last_name} - Room ${appointment.room_number}`;
+
+          row.appendChild(timeCell);
+          row.appendChild(infoCell);
+
+          tableBody.appendChild(row);
+        }
+      });
+    })
+    .catch(error => {
+      console.error("Error fetching appointments:", error);
+    });
+</script>
 </body>
 </html>

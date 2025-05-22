@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Patient Medical Records</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #ECEFCA;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #213448;
+      color: white;
+      padding: 20px;
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .back-button {
+      position: absolute;
+      left: 20px;
+      font-size: 20px;
+      color: white;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .header h2 {
+      margin: 0;
+      font-weight: bold;
+    }
+
+    .content {
+      padding: 10px;
+    }
+
+    .top-section {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .profile-pic {
+      width: 200px;
+      height: 200px;
+      background-image: url("pictures/defaultpfp.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-color: white;
+      border: 5px solid #213448;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      color: #213448;
+    }
+
+    .info-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      height: auto;
+      border: 5px solid #213448;
+      padding: 10px;
+      background-color: white;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .info-box p {
+      margin: 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #213448;
+      color: white;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <button class="back-button" onclick="history.back()">←</button>
+      Patient Medical Records
+    </div>
+
+    <div class="content">
+      <div class="top-section">
+        <div class="profile-pic" id="profilePic"></div>
+        <div class="info-box" id="infoBox">
+          <!-- Patient info will be dynamically inserted here -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Function to fetch and display patient data based on the ID from the URL
+    function loadPatient() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const patientId = urlParams.get('id');  // Get the patient ID from the URL
+
+      // Fetch the patient's data based on the patient ID
+      fetch(`PHP files/getPatientInformation.php?id=${patientId}`)
+        .then(response => response.json())
+        .then(patient => {
+          if (patient) {
+            // Update the profile picture
+            const profilePic = document.getElementById('profilePic');
+            profilePic.style.backgroundImage = `url('pictures/${patient.profile_pic || "defaultpfp.jpg"}')`;
+
+            // Populate the info-box with patient details
+            const infoBox = document.getElementById('infoBox');
+            infoBox.innerHTML = `
+              <p><strong>Full Name:</strong> ${patient.first_name} ${patient.middle_initial} ${patient.last_name}</p>
+              <p><strong>Date of Birth:</strong> ${patient.date_of_birth}</p>
+              <p><strong>Age:</strong> ${patient.age} years</p>
+              <p><strong>Gender:</strong> ${patient.sex}</p>
+              <p><strong>Address:</strong> ${patient.address}</p>
+              <p><strong>Phone Number:</strong> ${patient.contact_number}</p>
+              <p><strong>Email:</strong> ${patient.email_address}</p>
+              <p><strong>Emergency Contact:</strong> ${patient.emergency_contact}</p>
+              <p><strong>Marital Status:</strong> ${patient.marital_status}</p>
+              <p><strong>Occupation:</strong> ${patient.occupation}</p>
+              <p><strong>Insurance Provider:</strong> ${patient.insurance_provider}</p>
+              <p><strong>Primary Care Physician:</strong> ${patient.primary_care_physician}</p>
+              <p><strong>Allergies:</strong> ${patient.allergies}</p>
+              <p><strong>Medical History:</strong> ${patient.medical_history}</p>
+              <p><strong>Medications:</strong> ${patient.medications}</p>
+              <p><strong>Lifestyle:</strong> ${patient.lifestyle}</p>
+            `;
+          }
+        })
+        .catch(error => console.error('Error fetching patient data:', error));
+    }
+
+    // Call the function when the page is loaded
+    window.onload = loadPatient;
+  </script>
+
+</body>
+</html>
