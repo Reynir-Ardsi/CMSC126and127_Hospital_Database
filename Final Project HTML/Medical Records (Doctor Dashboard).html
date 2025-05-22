@@ -142,55 +142,55 @@
 
           // Dynamically populate patient information
           patientDetails.innerHTML = `
-            <h3>${patients.first_name} ${patients.middle_initial} ${patients.last_name}</h3>
+            <h3>${patient.first_name} ${patient.middle_initial} ${patient.last_name}</h3>
             
             <div>
               <span class="title">Date of Birth:</span>
-              <p>${patients._date_of_birth}</p>
+              <p>${patient._date_of_birth}</p>
             </div>
             <div>
               <span class="title">Age:</span>
-              <p>${data.age} years</p>
+              <p>${patient.age} years</p>
             </div>
             <div>
-              <span class="title">Gender:</span>
-              <p>${data.gender}</p>
+              <span class="title">Sex:</span>
+              <p>${patient.sex}</p>
             </div>
             <div>
               <span class="title">Address:</span>
-              <p>${data.address}</p>
+              <p>${patient.address}</p>
             </div>
             <div>
               <span class="title">Phone Number:</span>
-              <p>${data.contact}</p>
+              <p>${patient.contact_number}</p>
             </div>
             <div>
               <span class="title">Email:</span>
-              <p>${data.email}</p>
+              <p>${patient.email_address}</p>
             </div>
             <div>
               <span class="title">Emergency Contact:</span>
-              <p>${data.emergency_contact}</p>
+              <p>${patient.emergency_contact}</p>
             </div>
             <div>
               <span class="title">Marital Status:</span>
-              <p>${data.marital_status}</p>
+              <p>${patient.marital_status}</p>
             </div>
             <div>
               <span class="title">Occupation:</span>
-              <p>${data.occupation}</p>
+              <p>${patient.occupation}</p>
             </div>
             <div>
               <span class="title">Insurance Provider:</span>
-              <p>${data.insurance_provider}</p>
+              <p>${patient.insurance_provider}</p>
             </div>
             <div>
               <span class="title">Primary Care Physician:</span>
-              <p>${data.primary_care_physician}</p>
+              <p>${patient.primary_care_physician}</p>
             </div>
             <div>
               <span class="title">Allergies:</span>
-              <p>${data.allergies}</p>
+              <p>${patient.allergies}</p>
             </div>
           `;
 
