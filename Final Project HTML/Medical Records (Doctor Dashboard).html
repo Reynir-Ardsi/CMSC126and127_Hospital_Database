@@ -107,20 +107,36 @@
       font-weight: normal;
       width: 95%;
     }
-    
+
     .text-format {
       columns: 2;
     }
 
     /* Style for textarea */
     textarea {
-      width: 100%;      /* Make the textarea take up full width of the container */
-      height: 300px;    /* Set a specific height (adjust as needed) */
-      padding: 10px;    /* Add some padding inside the textarea */
-      font-size: 16px;  /* Set a more readable font size */
-      border: 1px solid #ccc; /* Style the border */
-      border-radius: 5px; /* Add rounded corners to the textarea */
+      width: 100%;
+      height: 300px;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
       resize: none;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #213448;
+      color: white;
     }
 
   </style>
@@ -155,9 +171,24 @@
       </div>
     </div>
 
+    <table id="patient-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Age</th>
+          <th>Gender</th>
+          <th>Diagnosis</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Patient data will be dynamically inserted here -->
+      </tbody>
+    </table>
+
     <div class="notes-box">
       <div class="note">
-        <textarea>
+        <textarea readonly>
 Patient Name: John Doe
 Date: May 20, 2025
 Provider: Dr. Jane Smith
@@ -249,6 +280,73 @@ Continue blood pressure management
       </div>
     </div>
   </div>
+
+  <script>
+    // Fetch patient data from the PHP file and populate the patient table
+    function loadPatients() {
+      fetch('getPatients.php') // Adjust path if needed
+        .then(response => response.json())
+        .then(data => {
+          const tableBody = document.querySelector('#patient-table tbody');
+          tableBody.innerHTML = '';  // Clear any existing rows
+
+          data.forEach(patient => {
+            const row = document.createElement('tr');
+            row.addEventListener('click', () => showPatientProfile(patient));
+
+            const idCell = document.createElement('td');
+            idCell.textContent = patient.id;
+            row.appendChild(idCell);
+
+            const nameCell = document.createElement('td');
+            nameCell.textContent = patient.name;
+            row.appendChild(nameCell);
+
+            const ageCell = document.createElement('td');
+            ageCell.textContent = patient.age;
+            row.appendChild(ageCell);
+
+            const genderCell = document.createElement('td');
+            genderCell.textContent = patient.gender;
+            row.appendChild(genderCell);
+
+            const diagnosisCell = document.createElement('td');
+            diagnosisCell.textContent = patient.diagnosis;
+            row.appendChild(diagnosisCell);
+
+            tableBody.appendChild(row);
+          });
+        })
+        .catch(error => console.error('Error fetching patient data:', error));
+    }
+
+    // Display the patient's profile info when clicked on a patient row
+    function showPatientProfile(patient) {
+      document.querySelector('.profile-pic').style.backgroundImage = `url('pictures/${patient.profile_pic || "defaultpfp.jpg"}')`;  // Assuming you have a profile picture field in DB
+      const infoBox = document.querySelector('.info-box');
+      infoBox.innerHTML = `
+        <p>Full Name: ${patient.name}</p>
+        <p>Date of Birth: ${patient.dob}</p>
+        <p>Age: ${patient.age} years</p>
+        <p>Gender: ${patient.gender}</p>
+        <p>Address: ${patient.address}</p>
+        <p>Phone Number: ${patient.phone}</p>
+        <p>Email: ${patient.email}</p>
+        <p>Emergency Contact: ${patient.emergency_contact}</p>
+        <p>Marital Status: ${patient.marital_status}</p>
+        <p>Occupation: ${patient.occupation}</p>
+        <p>Insurance Provider: ${patient.insurance_provider}</p>
+        <p>Primary Care Physician: ${patient.primary_care_physician}</p>
+        <p>Allergies: ${patient.allergies}</p>
+        <p>Medical History: ${patient.medical_history}</p>
+        <p>Medications: ${patient.medications}</p>
+        <p>Lifestyle: ${patient.lifestyle}</p>
+      `;
+    }
+
+    // Fetch patients when the page is loaded
+    window.onload = loadPatients;
+  </script>
 
 </body>
 </html>
