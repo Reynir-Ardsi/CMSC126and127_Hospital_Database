@@ -165,11 +165,25 @@
       <button onclick="bookAppointment()">Book Appointment</button>
     </div>
 
-    <div class="appointments" id="appointments">
+    <div class="appointments">
       <h3>Scheduled Appointments</h3>
-      <!-- Appointments appear here -->
+      <table id="appointment_list" style="width:100%; border-collapse: collapse;">
+        <thead>
+          <tr style="background-color: #213448; color: white;">
+            <th>Appointment ID</th>
+            <th>Doctor Name</th>
+            <th>Patient Name</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Room</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Appointments will be inserted here -->
+        </tbody>
+      </table>
     </div>
-  </div>
 
   <script>
     let selectedDoctorId = null;
@@ -206,6 +220,28 @@
           });
         });
     };
+      fetch('PHP%20files/getAllAppointments.php')
+      .then(res => res.json())
+      .then(list => {
+        const tbody = document.getElementById('appointment_list').querySelector('tbody');
+        tbody.innerHTML = ''; // Clear previous entries
+
+        list.forEach(d => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${d.appointment_id}</td>
+            <td>${d.doctor_first_name} ${d.doctor_last_name}</td>
+            <td>${d.patient_first_name} ${d.middle_initial ?? ''} ${d.patient_last_name}</td>
+            <td>${d.appointment_date}</td>
+            <td>${d.time}</td>
+            <td>${d.room_number}</td>
+            <td>${d.status}</td>
+          `;
+          tbody.appendChild(row);
+        });
+      })
+      .catch(err => console.error('Error fetching appointments:', err));
+
 
     function selectDoctor(el) {
       document.querySelectorAll('.doctor-item.selected').forEach(e => e.classList.remove('selected'));
