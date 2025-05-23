@@ -12,7 +12,7 @@ if (!$userId) {
 }
 
 // Now use the userId in the SQL query
-$sql = "SELECT patient.first_name, patient.middle_initial, patient.last_name, appointment.time, appointment.room_number, appointment.appointment_date
+$sql = "SELECT patient.first_name, patient.middle_initial, patient.last_name, appointment.time, appointment.room_number, appointment.appointment_date, appointment.status, appointment.appointment_id
         FROM appointment
         JOIN patient ON appointment.patient_id = patient.patient_id
         WHERE appointment.doctor_id = ?";

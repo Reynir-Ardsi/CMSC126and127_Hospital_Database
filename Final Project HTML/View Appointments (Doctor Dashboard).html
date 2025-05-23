@@ -19,6 +19,11 @@
       border: 1px solid #ccc;
     }
 
+    .leftColumn{
+      display: flex;
+      flex-direction: column;
+    }
+
     .header {
       display: flex;
       align-items: center;
@@ -55,7 +60,7 @@
     }
 
     .appointmentDetails {
-      width: 40%;
+      width: 100%;
       border: 1px solid #ccc;
       margin-left: 20px;
       bottom: 30px;
@@ -95,6 +100,9 @@
       font-weight: bold;
       width: 90%;
       background-color: #213448;
+    }
+    .appointments {
+      margin-left: 20px;
     }
 
     .calendar .calendar-content {
@@ -146,17 +154,39 @@
         <div class="calendar-content" id="calendar"></div>
       </div>
 
+      <div class="leftColumn">
       <!-- Appointment Details Section -->
       <div class="appointmentDetails" id="appointmentDetails">
         <div class="appointmentDetails header">
           ROOM NO. | NAME | TIME
         </div>
       </div>
-    </div>
-  </div>
+
+      <!-- Separate Appointments Box BELOW -->
+      <div class="appointments" style="margin-top: 20px; background-color: white; padding: 20px; border: 1px solid #ccc;">
+        <h3 style="margin-top: 0;">Scheduled Appointments</h3>
+        <table id="appointment_list" style="width:100%; border-collapse: collapse;">
+          <thead>
+            <tr style="background-color: #213448; color: white;">
+              <th>Appointment ID</th>
+              <th>Patient Name</th>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Room</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Appointments will be inserted here -->
+          </tbody>
+        </table>
+      </div>
+      </div>
+
 
   <!-- Calendar & Appointment Script -->
   <script>
+    const userId = sessionStorage.getItem('user_id');
     const calendarEl = document.getElementById('calendar');
     const titleEl = document.querySelector('.calendar .title');
     const appointmentDetailsEl = document.getElementById('appointmentDetails');
@@ -197,6 +227,31 @@
         console.error("Failed to fetch appointments:", error);
       }
     }
+
+    fetch('PHP%20files/getAppointment.php', {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ user_id: userId })
+  })
+      .then(res => res.json())
+      .then(list => {
+        const tbody = document.getElementById('appointment_list').querySelector('tbody');
+        tbody.innerHTML = ''; // Clear previous entries
+
+        list.forEach(d => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${d.appointment_id}</td>
+            <td>${d.first_name} ${d.middle_initial ?? ''} ${d.last_name}</td>
+            <td>${d.appointment_date}</td>
+            <td>${d.time}</td>
+            <td>${d.room_number}</td>
+            <td>${d.status}</td>
+          `;
+          tbody.appendChild(row);
+        });
+      })
+      .catch(err => console.error('Error fetching appointments:', err));
 
 
     function formatDateKey(year, month, day) {
@@ -298,7 +353,6 @@
 
     renderCalendar(currentDate);
         // Get user_id from sessionStorage and fetch appointments
-    const userId = sessionStorage.getItem('user_id');
     if (userId) {
       fetchAppointments(userId);
     } else {
