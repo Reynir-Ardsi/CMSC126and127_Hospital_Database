@@ -8,7 +8,7 @@
     body {
       font-family: Arial, sans-serif;
       background-color: #213448;
-      margin: 0;
+      margin-bottom: 30px;
       padding: 0;
     }
 
@@ -47,17 +47,7 @@
       flex-direction: row;
     }
 
-    .info_firstColumn {
-      width: 50%;
-      margin: 30px 20px;
-      background-color: #517792;
-      padding: 0px 30px 10px 30px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      color: white;
-    }
-
-    .info_secondColumn {
+    .container > div{
       width: 50%;
       margin: 30px 20px;
       background-color: #517792;
@@ -120,7 +110,7 @@
 
     .form-actions {
       text-align: center;
-      margin-top: 30px;
+      margin-top: 10px;
     }
 
     button {
@@ -151,7 +141,6 @@
 
   <div class="container">
     <div class="info_firstColumn">
-      <h2>Register New Patient</h2>
         <form id="registration-form" method="POST" action="PHP files/addPatient.php">
           <!-- Personal Info -->
         <div class="form-group">
@@ -250,14 +239,15 @@
           <label for="lifestyle">Lifestyle / Habits</label>
           <textarea id="lifestyle" name="lifestyle" rows="3"></textarea>
         </div>
-        
+      </div>
+  </div>
         <!-- Submit -->
         <div class="form-actions">
           <button type="submit">Register Patient</button>
         </div>
       </form>
-      </div>
-  </div>
+      
+  
   <script>
   // Function to calculate the age based on the date of birth
   function calculateAge() {
