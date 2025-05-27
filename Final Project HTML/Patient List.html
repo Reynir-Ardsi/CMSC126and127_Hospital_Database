@@ -67,6 +67,11 @@
       overflow-y: scroll;
     }
 
+    .patient-list a{
+      text-decoration: none;
+      color: #213448;
+    }
+
     .patient-profile {
       display: flex;
       align-items: center;
@@ -124,132 +129,54 @@
       <input type="text" id="searchInput" placeholder="Search Bar" oninput="searchPatients()" />
     </div>
 
-    <div class="patient-list">
-      <div class="patient-profile">
-        <div class="profile-box">
-          <img src="pictures/defaultpfp.jpg" alt="Profile Picture" class="profile-image" />
-          <div>
-            <span class="profile-name">John Doe</span><br />
-            <span class="room-number">Room 101</span>
-          </div>
-        </div>
-      </div>
-      <div class="patient-profile">
-        <div class="profile-box">
-          <img src="pictures/defaultpfp.jpg" alt="Profile Picture" class="profile-image" />
-          <div>
-            <span class="profile-name">Jane Smith</span><br />
-            <span class="room-number">Room 102</span>
-          </div>
-        </div>
-      </div>
-      <div class="patient-profile">
-        <div class="profile-box">
-          <img src="pictures/defaultpfp.jpg" alt="Profile Picture" class="profile-image" />
-          <div>
-            <span class="profile-name">James Bond</span><br />
-            <span class="room-number">Room 103</span>
-          </div>
-        </div>
-      </div>
-      <div class="patient-profile">
-        <div class="profile-box">
-          <img src="pictures/defaultpfp.jpg" alt="Profile Picture" class="profile-image" />
-          <div>
-            <span class="profile-name">Rick Sanchez</span><br />
-            <span class="room-number">Room 104</span>
-          </div>
-        </div>
-      </div>
-      <div class="patient-profile">
-        <div class="profile-box">
-          <img src="pictures/defaultpfp.jpg" alt="Profile Picture" class="profile-image" />
-          <div>
-            <span class="profile-name">Doom Guy</span><br />
-            <span class="room-number">Room 105</span>
-          </div>
-        </div>
-      </div>
-      <div class="patient-profile">
-        <div class="profile-box">
-          <img src="pictures/defaultpfp.jpg" alt="Profile Picture" class="profile-image" />
-          <div>
-            <span class="profile-name">Darth Vader</span><br />
-            <span class="room-number">Room 106</span>
-          </div>
-        </div>
-      </div>
-      <div class="patient-profile">
-        <div class="profile-box">
-          <img src="pictures/defaultpfp.jpg" alt="Profile Picture" class="profile-image" />
-          <div>
-            <span class="profile-name">Super Mario</span><br />
-            <span class="room-number">Room 107</span>
-          </div>
-        </div>
-      </div>
-      <div class="patient-profile">
-        <div class="profile-box">
-          <img src="pictures/defaultpfp.jpg" alt="Profile Picture" class="profile-image" />
-          <div>
-            <span class="profile-name">Ash Ketchum</span><br />
-            <span class="room-number">Room 108</span>
-          </div>
-        </div>
-      </div>
-      <div class="patient-profile">
-        <div class="profile-box">
-          <img src="pictures/defaultpfp.jpg" alt="Profile Picture" class="profile-image" />
-          <div>
-            <span class="profile-name">Walter White</span><br />
-            <span class="room-number">Room 109</span>
-          </div>
-        </div>
-      </div>
-      <div class="patient-profile">
-        <div class="profile-box">
-          <img src="pictures/defaultpfp.jpg" alt="Profile Picture" class="profile-image" />
-          <div>
-            <span class="profile-name">Buzz Lightyear</span><br />
-            <span class="room-number">Room 110</span>
-          </div>
-        </div>
-      </div>
-      <div class="patient-profile">
-        <div class="profile-box">
-          <img src="pictures/defaultpfp.jpg" alt="Profile Picture" class="profile-image" />
-          <div>
-            <span class="profile-name">Deez Nuts</span><br />
-            <span class="room-number">Room 111</span>
-          </div>
-        </div>
-      </div>
-      <div class="patient-profile">
-        <div class="profile-box">
-          <img src="pictures/defaultpfp.jpg" alt="Profile Picture" class="profile-image" />
-          <div>
-            <span class="profile-name">Ma. Cathy Fukiko</span><br />
-            <span class="room-number">Room 112</span>
-          </div>
-        </div>
-      </div>
+    <div class="patient-list" id="patientList">
+      <!-- Patient profiles will be inserted here -->
     </div>
   </div>
 
   <script>
-    function searchPatients() {
-      const searchQuery = document.getElementById('searchInput').value.toLowerCase();
-      const patientProfiles = document.querySelectorAll('.patient-profile');
+      async function fetchPatients() {
+        try {
+          const response = await fetch('PHP files/getAllPatientsWithRooms.php');
+          const data = await response.json();
+          const container = document.getElementById('patientList');
 
-      patientProfiles.forEach(profile => {
-        const profileName = profile.querySelector('.profile-name').textContent.toLowerCase();
-        if (profileName.includes(searchQuery)) {
-          profile.style.display = 'flex'; // Show the profile
-        } else {
-          profile.style.display = 'none'; // Hide the profile
+          container.innerHTML = ''; // Clear existing content
+
+          data.forEach(patient => {
+            const profile = document.createElement('div');
+            profile.className = 'patient-profile';
+
+            profile.innerHTML = `
+              <a class="profile-box" href="Medical Records (Doctor Dashboard).html?id=${patient.patient_id}">
+                <img src="pictures/defaultpfp.jpg" alt="Profile Picture" class="profile-image" />
+                <div>
+                  <span class="profile-name">${patient.full_name}</span><br />
+                  <span class="room-number">Room ${patient.room_number ?? 'N/A'}</span>
+                </div>
+              </a>
+            `;
+
+            container.appendChild(profile);
+          });
+        } catch (error) {
+          console.error("Failed to fetch patient data:", error);
         }
-      });
-    }
-  </script>
+      }
+
+      function searchPatients() {
+        const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+        const patientProfiles = document.querySelectorAll('.patient-profile');
+
+        patientProfiles.forEach(profile => {
+          const profileName = profile.querySelector('.profile-name').textContent.toLowerCase();
+          profile.style.display = profileName.includes(searchQuery) ? 'flex' : 'none';
+        });
+      }
+
+      // Call the function on load
+      fetchPatients();
+    </script>
+
 </body>
 </html>
