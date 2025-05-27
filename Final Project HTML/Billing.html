@@ -75,18 +75,17 @@
       background-color: #f9f9f9;
     }
 
-    .form-section input, .form-section select {
+    .form-section input,
+    .form-section button {
+      width: 100%;
       padding: 10px;
       margin: 5px 0;
-      width: 100%;
       font-size: 16px;
     }
 
     .form-section button {
-      padding: 10px 20px;
-      margin-top: 10px;
-      font-size: 16px;
       cursor: pointer;
+      margin-top: 10px;
     }
 
     .billing-records {
@@ -106,7 +105,6 @@
 </head>
 <body>
   <div class="container">
-    <!-- Header -->
     <div class="header">
       <button class="back-button" onclick="history.back()">←</button>
       Billing and Payment
@@ -173,7 +171,6 @@
         amount: parseFloat(amount).toFixed(2)
       });
 
-      // Clear form
       document.getElementById("serviceProvided").value = "";
       document.getElementById("amountCharged").value = "";
 
@@ -189,7 +186,7 @@
 
       let html = `<h3>Billing Records for ${patient}</h3>`;
 
-        fetch(`PHP files/getBilling.php?id=${patientId}`)
+      fetch(`PHP files/getBilling.php?id=${patientId}`)
         .then(response => response.json())
         .then(data => {
           if (!data || data.error) {
@@ -197,7 +194,7 @@
             return;
           }
         }).catch(error => {
-        console.error('Error fetching billing records:', error);
+          console.error('Error fetching billing records:', error);
         });
     }
   </script>
