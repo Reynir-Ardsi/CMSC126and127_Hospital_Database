@@ -104,8 +104,14 @@
         <input type="text" name="emergency_contact" id="emergency_contact" />
       </div>
       <div>
-        <label>Marital Status</label>
-        <input type="text" name="marital_status" id="marital_status" />
+        <label for="maritalStatus">Marital Status</label>
+        <select id="maritalStatus" name="maritalStatus" required>
+          <option value="">-- Select Status --</option>
+          <option value="Single">Single</option>
+          <option value="Married">Married</option>
+          <option value="Divorced">Divorced</option>
+          <option value="Widowed">Widowed</option>
+        </select>
       </div>
       <div>
         <label>Occupation</label>
@@ -170,7 +176,7 @@
           document.getElementById('email_address').value = patient.email_address;
           document.getElementById('address').value = patient.address;
           document.getElementById('emergency_contact').value = patient.emergency_contact;
-          document.getElementById('marital_status').value = patient.marital_status;
+          document.getElementById('marital_status').value = patient.marital_status || ''; 
           document.getElementById('occupation').value = patient.occupation;
           document.getElementById('insurance_provider').value = patient.insurance_provider;
           document.getElementById('allergies').value = patient.allergies;
