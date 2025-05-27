@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Edit Patient Info</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #ECEFCA;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      background-color: #517792;
+      padding: 30px;
+      border-radius: 10px;
+      max-width: 800px;
+      margin: auto;
+    }
+    h2 {
+      text-align: center;
+      color: white;
+    }
+    form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      font-size: 16px;
+    }
+    .full-width {
+      grid-column: span 2;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #213448;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #1a2d3b;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Edit Patient Information</h2>
+    <form id="editForm" method="POST" action="PHP files/editPatient.php">
+      <input type="hidden" name="patient_id" id="patient_id" />
+      
+      <div>
+        <label>First Name</label>
+        <input type="text" name="first_name" id="first_name" required />
+      </div>
+      <div>
+        <label>Middle Initial</label>
+        <input type="text" name="middle_initial" id="middle_initial" />
+      </div>
+      <div>
+        <label>Last Name</label>
+        <input type="text" name="last_name" id="last_name" required />
+      </div>
+      <div>
+        <label>Date of Birth</label>
+        <input type="date" name="date_of_birth" id="date_of_birth" required />
+      </div>
+      <div>
+        <label>Sex</label>
+        <select name="sex" id="sex" required>
+          <option value="">Select</option>
+          <option value="M">Male</option>
+          <option value="F">Female</option>
+        </select>
+      </div>
+      <div>
+        <label>Contact Number</label>
+        <input type="text" name="contact_number" id="contact_number" />
+      </div>
+      <div>
+        <label>Email</label>
+        <input type="email" name="email_address" id="email_address" />
+      </div>
+      <div>
+        <label>Address</label>
+        <input type="text" name="address" id="address" />
+      </div>
+      <div>
+        <label>Emergency Contact</label>
+        <input type="text" name="emergency_contact" id="emergency_contact" />
+      </div>
+      <div>
+        <label>Marital Status</label>
+        <input type="text" name="marital_status" id="marital_status" />
+      </div>
+      <div>
+        <label>Occupation</label>
+        <input type="text" name="occupation" id="occupation" />
+      </div>
+      <div>
+        <label>Insurance Provider</label>
+        <input type="text" name="insurance_provider" id="insurance_provider" />
+      </div>
+      <div>
+        <label>Allergies</label>
+        <input type="text" name="allergies" id="allergies" />
+      </div>
+      <div>
+        <label>Date Admitted</label>
+        <input type="date" name="date_admitted" id="date_admitted" />
+      </div>
+
+      <div class="full-width" style="text-align: center;">
+        <button type="submit">Save Changes</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    window.onload = function () {
+      const params = new URLSearchParams(window.location.search);
+      const patientId = params.get('id');
+
+      if (!patientId) {
+        alert('Patient ID not found');
+        return;
+      }
+
+      fetch(`PHP files/getPatientInformation.php?id=${patientId}`)
+        .then(res => res.json())
+        .then(patient => {
+          if (!patient || patient.error) {
+            alert('Patient not found');
+            return;
+          }
+
+          document.getElementById('patient_id').value = patient.patient_id;
+          document.getElementById('first_name').value = patient.first_name;
+          document.getElementById('middle_initial').value = patient.middle_initial;
+          document.getElementById('last_name').value = patient.last_name;
+          document.getElementById('date_of_birth').value = patient.date_of_birth;
+          document.getElementById('sex').value = patient.sex;
+          document.getElementById('contact_number').value = patient.contact_number;
+          document.getElementById('email_address').value = patient.email_address;
+          document.getElementById('address').value = patient.address;
+          document.getElementById('emergency_contact').value = patient.emergency_contact;
+          document.getElementById('marital_status').value = patient.marital_status;
+          document.getElementById('occupation').value = patient.occupation;
+          document.getElementById('insurance_provider').value = patient.insurance_provider;
+          document.getElementById('allergies').value = patient.allergies;
+          document.getElementById('date_admitted').value = patient.date_admitted;
+        })
+        .catch(err => console.error('Failed to load patient data:', err));
+    };
+  </script>
+</body>
+</html>
