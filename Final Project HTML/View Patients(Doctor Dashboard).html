@@ -40,14 +40,17 @@
       color: white;
     }
 
-    .search-bar {
+    .search-bar-container {
       display: flex;
-      justify-content: center;
-      margin: 20px 0;
+      justify-content: center;  /* Already present */
+      align-items: center;      /* Add this line */
+      gap: 20px;
+      margin: 20px auto;        /* Center the whole container horizontally */
     }
 
-    .search-bar input {
-      width: 60%;
+
+    .search-bar-container input {
+      width: 280px;
       padding: 10px;
       font-size: 16px;
     }
@@ -64,7 +67,7 @@
       text-align: center;
       height: auto;
       max-height: 500px;
-      overflow-y: scroll;
+      overflow-y: auto;
     }
 
     .patient-list a {
@@ -124,8 +127,9 @@
       Patient List
     </div>
 
-    <div class="search-bar">
-      <input type="text" id="searchInput" placeholder="Search Bar" oninput="searchPatients()" />
+    <div class="search-bar-container">
+      <input type="text" id="searchName" placeholder="Search by Patient Name" oninput="searchPatients()" />
+      <input type="text" id="searchRoom" placeholder="Search by Room Number" oninput="searchPatients()" />
     </div>
 
     <div class="patient-list" id="patientList">
@@ -134,43 +138,56 @@
   </div>
 
   <script>
+    let patientsData = [];
+
     async function fetchPatients() {
       try {
         const response = await fetch('PHP files/getAllPatientsWithRooms.php');
-        const data = await response.json();
-        const container = document.getElementById('patientList');
-
-        container.innerHTML = ''; // Clear existing content
-
-        data.forEach(patient => {
-          const profile = document.createElement('div');
-          profile.className = 'patient-profile';
-
-          profile.innerHTML = `
-            <a class="profile-box" href="Medical Records (Doctor Dashboard).html?id=${patient.patient_id}">
-              <img src="pictures/defaultpfp.jpg" alt="Profile Picture" class="profile-image" />
-              <div>
-                <span class="profile-name">${patient.full_name}</span><br />
-                <span class="room-number">Room ${patient.room_number ?? 'N/A'}</span>
-              </div>
-            </a>
-          `;
-
-          container.appendChild(profile);
-        });
+        patientsData = await response.json();
+        renderPatients(patientsData);
       } catch (error) {
         console.error("Failed to fetch patient data:", error);
       }
     }
 
-    function searchPatients() {
-      const searchQuery = document.getElementById('searchInput').value.toLowerCase();
-      const patientProfiles = document.querySelectorAll('.patient-profile');
+    function renderPatients(data) {
+      const container = document.getElementById('patientList');
+      container.innerHTML = ''; // Clear existing content
 
-      patientProfiles.forEach(profile => {
-        const profileName = profile.querySelector('.profile-name').textContent.toLowerCase();
-        profile.style.display = profileName.includes(searchQuery) ? 'flex' : 'none';
+      data.forEach(patient => {
+        const profile = document.createElement('div');
+        profile.className = 'patient-profile';
+
+        profile.innerHTML = `
+          <a class="profile-box" href="Medical Records (Doctor Dashboard).html?id=${patient.patient_id}">
+            <img src="pictures/defaultpfp.jpg" alt="Profile Picture" class="profile-image" />
+            <div>
+              <span class="profile-name">${patient.full_name}</span><br />
+              <span class="room-number">Room ${patient.room_number ?? 'N/A'}</span>
+            </div>
+          </a>
+        `;
+
+        container.appendChild(profile);
       });
+    }
+
+    function searchPatients() {
+      const nameQuery = document.getElementById('searchName').value.toLowerCase();
+      const roomQuery = document.getElementById('searchRoom').value.toLowerCase();
+
+      const filtered = patientsData.filter(patient => {
+        const nameMatch = patient.full_name.toLowerCase().includes(nameQuery);
+        const roomMatch = patient.room_number ? patient.room_number.toString().toLowerCase().includes(roomQuery) : false;
+        // If both search bars are empty, show all
+        if (!nameQuery && !roomQuery) return true;
+        // Show if both match their queries (or if one is empty, just match the other)
+        if (nameQuery && roomQuery) return nameMatch && roomMatch;
+        if (nameQuery) return nameMatch;
+        if (roomQuery) return roomMatch;
+      });
+
+      renderPatients(filtered);
     }
 
     // Call the function on load
