@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Patient Records</title>
+  <style>
+    body {
+      background: linear-gradient(120deg, #ecefca 0%, #517792 100%);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+    }
+    header {
+      background: #2d4059;
+      color: #fff;
+      padding: 30px 0 20px 0;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      letter-spacing: 2px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 40px auto 0 auto;
+      padding: 30px 40px 40px 40px;
+      background: rgba(255,255,255,0.95);
+      border-radius: 18px;
+      box-shadow: 0 6px 32px rgba(81,119,146,0.13);
+      min-height: 600px;
+    }
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    .search-bar input {
+      padding: 12px;
+      width: 320px;
+      border-radius: 6px;
+      border: 1px solid #bbb;
+      font-size: 16px;
+      background: #f7f7f7;
+      transition: border 0.2s;
+    }
+    .search-bar input:focus {
+      border: 1.5px solid #30aadd;
+      outline: none;
+    }
+    #openEditModalBtn {
+      background: linear-gradient(90deg, #30aadd 60%, #517792 100%);
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      padding: 12px 26px;
+      font-size: 17px;
+      cursor: pointer;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(48,170,221,0.13);
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+    #openEditModalBtn:hover {
+      background: linear-gradient(90deg, #517792 0%, #30aadd 100%);
+      box-shadow: 0 4px 16px rgba(48,170,221,0.18);
+    }
+    .patient-cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 28px;
+      justify-content: flex-start;
+      margin-top: 18px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 2px 12px rgba(81,119,146,0.10);
+      padding: 26px 22px 18px 22px;
+      width: 340px;
+      min-height: 320px;
+      position: relative;
+      transition: box-shadow 0.2s, transform 0.2s;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 1.5px solid #ecefca;
+    }
+    .card:hover {
+      box-shadow: 0 8px 32px rgba(48,170,221,0.13);
+      transform: translateY(-4px) scale(1.02);
+      border: 1.5px solid #30aadd;
+    }
+    .card h3 {
+      margin: 0 0 8px 0;
+      color: #2d4059;
+      font-size: 1.35em;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+    .card .info {
+      font-size: 15px;
+      margin-bottom: 7px;
+      color: #444;
+    }
+    .card .actions {
+      margin-top: 10px;
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+    .card button {
+      border: none;
+      border-radius: 5px;
+      padding: 7px 16px;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 15px;
+      transition: background 0.2s;
+    }
+    .card .edit-btn {
+      background: #30aadd;
+      color: #fff;
+    }
+    .card .edit-btn:hover {
+      background: #517792;
+    }
+    .card .delete-btn {
+      background: #ea5455;
+      color: #fff;
+    }
+    .card .delete-btn:hover {
+      background: #b92d2f;
+    }
+    /* Modal styles */
+    .modal-bg {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.25);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal {
+      background: #fff;
+      border-radius: 14px;
+      padding: 36px 44px 28px 44px;
+      min-width: 370px;
+      box-shadow: 0 2px 24px rgba(48,170,221,0.18);
+      max-height: 85vh;
+      overflow-y: auto;
+      border: 2px solid #30aadd;
+    }
+    .modal h2 {
+      margin-top: 0;
+      color: #2d4059;
+      font-size: 1.5em;
+      margin-bottom: 18px;
+      letter-spacing: 1px;
+    }
+    .modal .form-group {
+      margin-bottom: 15px;
+      text-align: left;
+    }
+    .modal label {
+      display: block;
+      margin-bottom: 4px;
+      font-weight: 500;
+      color: #213448;
+    }
+    .modal input, .modal select, .modal textarea {
+      width: 100%;
+      padding: 9px;
+      border-radius: 5px;
+      border: 1.5px solid #bbb;
+      font-size: 15px;
+      background: #f7f7f7;
+      transition: border 0.2s;
+    }
+    .modal input:focus, .modal select:focus, .modal textarea:focus {
+      border: 1.5px solid #30aadd;
+      outline: none;
+    }
+    .modal textarea { resize: vertical; }
+    .modal .modal-actions {
+      text-align: right;
+      margin-top: 22px;
+    }
+    .modal .modal-actions button {
+      margin-left: 10px;
+      padding: 9px 22px;
+      font-size: 15px;
+      border-radius: 5px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .modal .modal-actions button[type="submit"] {
+      background: #30aadd;
+      color: #fff;
+    }
+    .modal .modal-actions button[type="submit"]:hover {
+      background: #517792;
+    }
+    .modal .modal-actions button[type="button"] {
+      background: #ecefca;
+      color: #2d4059;
+    }
+    .modal .modal-actions button[type="button"]:hover {
+      background: #d1e2b6;
+    }
+    @media (max-width: 900px) {
+      .container { padding: 10px 2vw; }
+      .patient-cards { flex-direction: column; align-items: center; }
+      .card { width: 98%; }
+      .modal { min-width: 90vw; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Edit Patient Records</h1>
+  </header>
+  <div class="container">
+    <div class="top-bar">
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search by name, ID, or email...">
+      </div>
+      <button id="openEditModalBtn">
+        + New/Edit Patient
+      </button>
+    </div>
+    <div class="patient-cards" id="patientCards"></div>
+    <!-- If no patients, show a friendly message -->
+    <div id="noPatientsMsg" style="display:none;text-align:center;color:#517792;font-size:1.2em;margin-top:40px;">
+      No patients found. Click "New/Edit Patient" to add a new record.
+    </div>
+  </div>
+
+  <!-- Modal for editing/adding patient -->
+  <div class="modal-bg" id="modalBg">
+    <div class="modal">
+      <h2>Edit Patient</h2>
+      <form id="editPatientForm">
+        <div class="form-group">
+          <label for="editPatientID">Patient ID</label>
+          <input type="text" id="editPatientID" name="patientID" readonly>
+        </div>
+        <div class="form-group">
+          <label for="editFirstName">First Name</label>
+          <input type="text" id="editFirstName" name="firstName" required placeholder="Enter First Name">
+        </div>
+        <div class="form-group">
+          <label for="editMiddleInitial">Middle Initial</label>
+          <input type="text" id="editMiddleInitial" name="middleInitial" required placeholder="Enter Middle Initial">
+        </div>
+        <div class="form-group">
+          <label for="editLastName">Last Name</label>
+          <input type="text" id="editLastName" name="lastName" required placeholder="Enter Last Name">
+        </div>
+        <div class="form-group">
+          <label for="editDateOfBirth">Date of Birth</label>
+          <input type="date" id="editDateOfBirth" name="dateOfBirth" required>
+        </div>
+        <div class="form-group">
+          <label for="editAge">Age</label>
+          <input type="number" id="editAge" name="age" required readonly>
+        </div>
+        <div class="form-group">
+          <label for="editSex">Sex</label>
+          <select id="editSex" name="sex" required>
+            <option value="">-- Select Sex --</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="editAddress">Address</label>
+          <textarea id="editAddress" name="address" rows="3" required placeholder="Enter Address"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="editContact">Phone Number</label>
+          <input type="tel" id="editContact" name="contact" required placeholder="Enter Phone Number">
+        </div>
+        <div class="form-group">
+          <label for="editEmail">Email Address</label>
+          <input type="email" id="editEmail" name="email" placeholder="Enter Email">
+        </div>
+        <div class="form-group">
+          <label for="editEmergencyContact">Emergency Contact</label>
+          <input type="tel" id="editEmergencyContact" name="emergencyContact" required placeholder="Enter Emergency Contact">
+        </div>
+        <div class="form-group">
+          <label for="editMaritalStatus">Marital Status</label>
+          <select id="editMaritalStatus" name="maritalStatus" required>
+            <option value="">-- Select Status --</option>
+            <option value="Single">Single</option>
+            <option value="Married">Married</option>
+            <option value="Divorced">Divorced</option>
+            <option value="Widowed">Widowed</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="editOccupation">Occupation</label>
+          <input type="text" id="editOccupation" name="occupation" placeholder="Enter Occupation">
+        </div>
+        <div class="form-group">
+          <label for="editInsurance">Insurance Provider (if any)</label>
+          <input type="text" id="editInsurance" name="insurance" placeholder="Enter Insurance Provider">
+        </div>
+        <div class="form-group">
+          <label for="editAllergies">Known Allergies</label>
+          <textarea id="editAllergies" name="allergies" rows="3" placeholder="Enter Allergies"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="editMedicalHistory">Previous Medical History</label>
+          <textarea id="editMedicalHistory" name="medicalHistory" rows="3" placeholder="Enter Medical History"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="editMedications">Current Medications</label>
+          <textarea id="editMedications" name="medications" rows="3" placeholder="Enter Medications"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="editLifestyle">Lifestyle / Habits</label>
+          <textarea id="editLifestyle" name="lifestyle" rows="3" placeholder="Enter Lifestyle/Habits"></textarea>
+        </div>
+        <div class="modal-actions">
+          <button type="button" onclick="closeModal()">Cancel</button>
+          <button type="submit">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const patientCards = document.getElementById('patientCards');
+    const modalBg = document.getElementById('modalBg');
+    const editPatientForm = document.getElementById('editPatientForm');
+    const openEditModalBtn = document.getElementById('openEditModalBtn');
+    const noPatientsMsg = document.getElementById('noPatientsMsg');
+    let patients = [];
+    let currentEditId = null;
+
+    // Always allow opening the modal with empty fields
+    openEditModalBtn.addEventListener('click', function() {
+      currentEditId = null;
+      document.getElementById('editPatientID').value = '';
+      document.getElementById('editFirstName').value = '';
+      document.getElementById('editMiddleInitial').value = '';
+      document.getElementById('editLastName').value = '';
+      document.getElementById('editDateOfBirth').value = '';
+      document.getElementById('editAge').value = '';
+      document.getElementById('editSex').value = '';
+      document.getElementById('editContact').value = '';
+      document.getElementById('editEmail').value = '';
+      document.getElementById('editAddress').value = '';
+      document.getElementById('editMedicalHistory').value = '';
+      document.getElementById('editEmergencyContact').value = '';
+      document.getElementById('editMaritalStatus').value = '';
+      document.getElementById('editOccupation').value = '';
+      document.getElementById('editInsurance').value = '';
+      document.getElementById('editAllergies').value = '';
+      document.getElementById('editMedications').value = '';
+      document.getElementById('editLifestyle').value = '';
+      modalBg.style.display = 'flex';
+    });
+
+    // Auto-calculate age from date of birth
+    function calculateEditAge() {
+      const dob = document.getElementById('editDateOfBirth').value;
+      const ageField = document.getElementById('editAge');
+      if (dob) {
+        const birthDate = new Date(dob);
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+          age--;
+        }
+        ageField.value = age;
+      } else {
+        ageField.value = '';
+      }
+    }
+    document.getElementById('editDateOfBirth').addEventListener('change', calculateEditAge);
+
+    // Load patients and render cards
+    function loadPatients() {
+      fetch('PHP files/getPatients.php')
+        .then(res => res.json())
+        .then(data => {
+          patients = data;
+          renderPatients(data);
+        });
+    }
+
+    function renderPatients(list) {
+      patientCards.innerHTML = '';
+      if (!list.length) {
+        noPatientsMsg.style.display = 'block';
+        return;
+      } else {
+        noPatientsMsg.style.display = 'none';
+      }
+      list.forEach(patient => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <h3>${patient.first_name} ${patient.last_name}</h3>
+          <div class="info"><b>ID:</b> ${patient.patient_id}</div>
+          <div class="info"><b>Email:</b> ${patient.email_address || '-'}</div>
+          <div class="info"><b>Contact:</b> ${patient.contact_number || '-'}</div>
+          <div class="info"><b>Address:</b> ${patient.address || '-'}</div>
+          <div class="info"><b>Birthdate:</b> ${patient.date_of_birth || '-'}</div>
+          <div class="info"><b>Sex:</b> ${patient.sex || '-'}</div>
+          <div class="info"><b>Age:</b> ${patient.age || '-'}</div>
+          <div class="info"><b>Emergency Contact:</b> ${patient.emergency_contact || '-'}</div>
+          <div class="info"><b>Marital Status:</b> ${patient.marital_status || '-'}</div>
+          <div class="info"><b>Occupation:</b> ${patient.occupation || '-'}</div>
+          <div class="info"><b>Insurance:</b> ${patient.insurance_provider || '-'}</div>
+          <div class="info"><b>Allergies:</b> ${patient.allergies || '-'}</div>
+          <div class="info"><b>Medications:</b> ${patient.medications || '-'}</div>
+          <div class="info"><b>Lifestyle:</b> ${patient.lifestyle || '-'}</div>
+          <div class="info"><b>Medical History:</b> ${patient.medical_history || '-'}</div>
+          <div class="actions">
+            <button class="edit-btn" onclick='openEditModal(${JSON.stringify(patient)})'>Edit</button>
+            <button class="delete-btn" onclick="deletePatient('${patient.patient_id}')">Delete</button>
+          </div>
+        `;
+        patientCards.appendChild(card);
+      });
+    }
+
+    // Search functionality
+    document.getElementById('searchInput').addEventListener('input', function() {
+      const value = this.value.toLowerCase();
+      renderPatients(
+        patients.filter(p =>
+          (p.first_name + ' ' + p.last_name).toLowerCase().includes(value) ||
+          (p.patient_id && p.patient_id.toString().toLowerCase().includes(value)) ||
+          (p.email_address && p.email_address.toLowerCase().includes(value))
+        )
+      );
+    });
+
+    // Open modal and fill form for editing
+    function openEditModal(patient) {
+      currentEditId = patient.patient_id;
+      document.getElementById('editPatientID').value = patient.patient_id || '';
+      document.getElementById('editFirstName').value = patient.first_name || '';
+      document.getElementById('editMiddleInitial').value = patient.middle_initial || '';
+      document.getElementById('editLastName').value = patient.last_name || '';
+      document.getElementById('editDateOfBirth').value = patient.date_of_birth || '';
+      document.getElementById('editSex').value = patient.sex || '';
+      document.getElementById('editContact').value = patient.contact_number || '';
+      document.getElementById('editEmail').value = patient.email_address || '';
+      document.getElementById('editAddress').value = patient.address || '';
+      document.getElementById('editMedicalHistory').value = patient.medical_history || '';
+      document.getElementById('editEmergencyContact').value = patient.emergency_contact || '';
+      document.getElementById('editMaritalStatus').value = patient.marital_status || '';
+      document.getElementById('editOccupation').value = patient.occupation || '';
+      document.getElementById('editInsurance').value = patient.insurance_provider || '';
+      document.getElementById('editAllergies').value = patient.allergies || '';
+      document.getElementById('editMedications').value = patient.medications || '';
+      document.getElementById('editLifestyle').value = patient.lifestyle || '';
+      // Calculate age if DOB is present
+      calculateEditAge();
+      modalBg.style.display = 'flex';
+    }
+
+    function closeModal() {
+      modalBg.style.display = 'none';
+      editPatientForm.reset();
+      currentEditId = null;
+    }
+
+    // Save changes (add or edit)
+    editPatientForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const updatedPatient = {
+        patientID: document.getElementById('editPatientID').value,
+        firstName: document.getElementById('editFirstName').value,
+        middleInitial: document.getElementById('editMiddleInitial').value,
+        lastName: document.getElementById('editLastName').value,
+        dateOfBirth: document.getElementById('editDateOfBirth').value,
+        age: document.getElementById('editAge').value,
+        sex: document.getElementById('editSex').value,
+        contact: document.getElementById('editContact').value,
+        email: document.getElementById('editEmail').value,
+        address: document.getElementById('editAddress').value,
+        medicalHistory: document.getElementById('editMedicalHistory').value,
+        emergencyContact: document.getElementById('editEmergencyContact').value,
+        maritalStatus: document.getElementById('editMaritalStatus').value,
+        occupation: document.getElementById('editOccupation').value,
+        insurance: document.getElementById('editInsurance').value,
+        allergies: document.getElementById('editAllergies').value,
+        medications: document.getElementById('editMedications').value,
+        lifestyle: document.getElementById('editLifestyle').value
+      };
+      // If patientID is empty, treat as add, else edit
+      const url = updatedPatient.patientID ? 'PHP files/editPatient.php' : 'PHP files/addPatient.php';
+      fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedPatient)
+      })
+      .then(res => res.text())
+      .then(msg => {
+        alert(msg);
+        closeModal();
+        loadPatients();
+      });
+    });
+
+    // Delete patient
+    function deletePatient(id) {
+      if (!confirm('Are you sure to delete this patient?')) return;
+      fetch('PHP files/deletePatient.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ patientID: id })
+      })
+      .then(res => res.text())
+      .then(msg => {
+        alert(msg);
+        loadPatients();
+      });
+    }
+
+    // Initial load
+    window.addEventListener('DOMContentLoaded', loadPatients);
+  </script>
+</body>
+</html>
