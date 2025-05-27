@@ -7,6 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $middle_initial = $_POST['middle_initial'];
     $last_name = $_POST['last_name'];
     $date_of_birth = $_POST['date_of_birth'];
+    $age = $_POST['age'];
     $sex = $_POST['sex'];
     $address = $_POST['address'];
     $contact_number = $_POST['contact_number'];
@@ -20,19 +21,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $sql = "UPDATE patient SET 
         first_name = ?, middle_initial = ?, last_name = ?, date_of_birth = ?, 
+        age = ?, 
         sex = ?, address = ?, contact_number = ?, email_address = ?, 
         emergency_contact = ?, marital_status = ?, occupation = ?, 
         insurance_provider = ?, allergies = ?, date_admitted = ?
         WHERE patient_id = ?";
 
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssssssssssssi", 
-        $first_name, $middle_initial, $last_name, $date_of_birth, 
+    $stmt->bind_param("ssssisssssssssi", 
+        $first_name, $middle_initial, $last_name, $date_of_birth, $age,
         $sex, $address, $contact_number, $email_address, 
         $emergency_contact, $marital_status, $occupation, 
         $insurance_provider, $allergies, $date_admitted, $id
     );
-
     if ($stmt->execute()) {
         // Redirect on success
         header("Location: ../View Patients(Nurse Dashboard).html");
