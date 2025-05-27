@@ -1,5 +1,5 @@
 <?php
-include 'db_connection.php'; // Make sure this file connects to your DB
+include 'DBConnector.php'; // Make sure this file connects to your DB
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $id = $_POST['patient_id'];
@@ -34,9 +34,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     );
 
     if ($stmt->execute()) {
-        echo json_encode(["success" => true]);
+        // Redirect on success
+        header("Location: ../View Patients(Nurse Dashboard).html");
+        exit();
     } else {
-        echo json_encode(["success" => false, "error" => $stmt->error]);
+        // Output error if update fails
+        echo "Error updating patient: " . $stmt->error;
     }
 
     $stmt->close();
