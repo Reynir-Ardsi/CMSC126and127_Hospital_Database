@@ -169,7 +169,7 @@
   <header>
     <button class="back-button" onclick="history.back()">&#8592;</button>
     <h1>Manage Doctors</h1>
-    <img src="Logo Only.png" alt="Logo" class="logo" />
+    <img src="pictures/hospital_logo.jpeg" alt="Logo" class="logo" />
   </header>
 
   <div class="container">
@@ -249,7 +249,7 @@
 
 
       async function fetchDoctors() {
-        const response = await fetch('getDoctors.php');
+        const response = await fetch('PHP files/getDoctors.php');
         const doctors = await response.json();
         renderTable(doctors);
       }
