@@ -12,11 +12,56 @@
       padding: 0;
     }
 
-    .container {
-      max-width: 800px;
-      margin: 40px auto;
+    .header {
+      height: 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #ECEFCA;
+      padding: 40px;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .center-text {
+      flex: 1;
+      text-align: center;
+      font-size: 45px;
+      margin: 0;
+      color: #213448;
+    }
+
+    .logo {
+      width: 85px;
+      height: 85px;
+      border-radius: 50%;
+      border: 1px solid white;
+      background: url("pictures/hospital_logo.jpeg") center/cover no-repeat;
+      position: absolute;
+      top: 20px;
+      right: 40px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .container{
+      display: flex;
+      flex-direction: row;
+    }
+
+    .info_firstColumn {
+      width: 50%;
+      margin: 30px 20px;
       background-color: #517792;
-      padding: 30px;
+      padding: 0px 30px 10px 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      color: white;
+    }
+
+    .info_secondColumn {
+      width: 50%;
+      margin: 30px 20px;
+      background-color: #517792;
+      padding: 10px 30px 10px 30px;
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
       color: white;
@@ -30,7 +75,7 @@
       background: none;
       border: none;
       cursor: pointer;
-      width: 10px;
+      width: 35px;
     }
 
     h2 {
@@ -91,109 +136,128 @@
     button:hover {
       background-color: #0056b3;
     }
+
+    .box{
+      width: 100%;
+    }
   </style>
 </head>
 <body>
-
-  <div class="container">
+  <div class="header">
     <back-button class="back-button" onclick="history.back()">←</back-button>
-    <h2>New Patient Registration</h2>
-    <form id="registration-form" method="POST" action="PHP files/addPatient.php">
-      <!-- Personal Info -->
-    <div class="form-group">
-      <label for="fullName">Full Name</label>
-      <input type="text" id="fullName" name="fullName" required />
-    </div>
-
-    <div class="form-group">
-      <label for="dob">Date of Birth</label>
-      <input type="date" id="dob" name="dob" required />
-    </div>
-
-    <div class="form-group">
-      <label for="age">Age</label>
-      <input type="number" id="age" name="age" required readonly />
-    </div>
-
-    <div class="form-group">
-      <label for="sex">Sex</label>
-      <select id="sex" name="sex" required>
-        <option value="">-- Select Sex --</option>
-        <option value="Male">Male</option>
-        <option value="Female">Female</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="address">Address</label>
-      <textarea id="address" name="address" rows="3" required></textarea>
-    </div>
-
-    <div class="form-group">
-      <label for="phone">Phone Number</label>
-      <input type="tel" id="phone" name="phone" required />
-    </div>
-
-    <div class="form-group">
-      <label for="email">Email Address</label>
-      <input type="email" id="email" name="email" />
-    </div>
-
-    <div class="form-group">
-      <label for="emergencyContact">Emergency Contact</label>
-      <input type="tel" id="emergencyContact" name="emergencyContact" required />
-    </div>
-
-    <div class="form-group">
-      <label for="maritalStatus">Marital Status</label>
-      <select id="maritalStatus" name="maritalStatus" required>
-        <option value="">-- Select Status --</option>
-        <option value="Single">Single</option>
-        <option value="Married">Married</option>
-        <option value="Divorced">Divorced</option>
-        <option value="Widowed">Widowed</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="occupation">Occupation</label>
-      <input type="text" id="occupation" name="occupation" />
-    </div>
-
-    <!-- Medical Info -->
-    <div class="form-group">
-      <label for="insurance">Insurance Provider (if any)</label>
-      <input type="text" id="insurance" name="insurance" />
-    </div>
-
-    <div class="form-group">
-      <label for="allergies">Known Allergies</label>
-      <textarea id="allergies" name="allergies" rows="3"></textarea>
-    </div>
-
-    <div class="form-group">
-      <label for="history">Previous Medical History</label>
-      <textarea id="history" name="history" rows="3"></textarea>
-    </div>
-
-    <div class="form-group">
-      <label for="medication">Current Medications</label>
-      <textarea id="medication" name="medication" rows="3"></textarea>
-    </div>
-
-    <div class="form-group">
-      <label for="lifestyle">Lifestyle / Habits</label>
-      <textarea id="lifestyle" name="lifestyle" rows="3"></textarea>
-    </div>
-
-    <!-- Submit -->
-    <div class="form-actions">
-      <button type="submit">Register Patient</button>
-    </div>
-
-    </form>
+    <h2 class="center-text">Patient Registration</h2>
+    <div class="logo"></div>
   </div>
 
+  <div class="container">
+    <div class="info_firstColumn">
+      <h2>Register New Patient</h2>
+        <form id="registration-form" method="POST" action="PHP files/addPatient.php">
+          <!-- Personal Info -->
+        <div class="form-group">
+          <label for="firstName">First Name</label>
+          <input type="text" id="firstName" name="firstName" required placeholder="Enter First Name" />
+        </div>
+        <div class="form-group">
+          <label for="middleInitial">Middle Initial</label>
+          <input type="text" id="middleInitial" name="middleInitial" required placeholder="Enter Middle Initial" />
+        </div>
+        <div class="form-group">
+          <label for="lastName">Last Name</label>
+          <input type="text" id="lastName" name="lastName" required placeholder="Enter Last Name" />
+        </div>
+
+        <div class="form-group">
+          <label for="dob">Date of Birth</label>
+          <input type="date" id="dob" name="dob" required />
+        </div>
+
+        <div class="form-group">
+          <label for="age">Age</label>
+          <input type="number" id="age" name="age" required readonly />
+        </div>
+
+        <div class="form-group">
+          <label for="sex">Sex</label>
+          <select id="sex" name="sex" required>
+            <option value="">-- Select Sex --</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="address">Address</label>
+          <textarea id="address" name="address" rows="3" required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" name="phone" required />
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" />
+        </div>
+    </div >
+
+      <div class="info_secondColumn">
+        <div class="form-group">
+          <label for="emergencyContact">Emergency Contact</label>
+          <input type="tel" id="emergencyContact" name="emergencyContact" required />
+        </div>
+
+        <div class="form-group">
+          <label for="maritalStatus">Marital Status</label>
+          <select id="maritalStatus" name="maritalStatus" required>
+            <option value="">-- Select Status --</option>
+            <option value="Single">Single</option>
+            <option value="Married">Married</option>
+            <option value="Divorced">Divorced</option>
+            <option value="Widowed">Widowed</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="occupation">Occupation</label>
+          <input type="text" id="occupation" name="occupation" />
+        </div>
+        <!-- Medical Info -->
+      
+        <div class="form-group">
+          <label for="insurance">Insurance Provider (if any)</label>
+          <input type="text" id="insurance" name="insurance" />
+        </div>
+
+      
+        <div class="form-group">
+          <label for="allergies">Known Allergies</label>
+          <textarea id="allergies" name="allergies" rows="3"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="history">Previous Medical History</label>
+          <textarea id="history" name="history" rows="3"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="medication">Current Medications</label>
+          <textarea id="medication" name="medication" rows="3"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="lifestyle">Lifestyle / Habits</label>
+          <textarea id="lifestyle" name="lifestyle" rows="3"></textarea>
+        </div>
+        
+        <!-- Submit -->
+        <div class="form-actions">
+          <button type="submit">Register Patient</button>
+        </div>
+      </form>
+      </div>
+  </div>
   <script>
   // Function to calculate the age based on the date of birth
   function calculateAge() {
