@@ -115,10 +115,7 @@
     </div>
 
     <div class="patient-list" id="patientList">
-      <div class="patient" onclick="selectPatient('Maria Cruz')">Maria Cruz</div>
-      <div class="patient" onclick="selectPatient('Liam Santos')">Liam Santos</div>
-      <div class="patient" onclick="selectPatient('Elena Reyes')">Elena Reyes</div>
-      <div class="patient" onclick="selectPatient('John Lim')">John Lim</div>
+      <!-- Patient items populated via JS -->
     </div>
 
     <div class="form-section">
@@ -135,37 +132,59 @@
 
   <script>
     const billingData = {};
+    let allPatients = [];
 
-    function filterPatients() {
-      const input = document.getElementById("searchInput").value.toLowerCase();
-      const patients = document.querySelectorAll(".patient");
+    function fetchPatients() {
+      fetch('PHP files/getPatients.php')
+        .then(response => response.json())
+        .then(data => {
+          allPatients = data;
+          renderPatients(data);
+        })
+        .catch(error => console.error('Error fetching patients:', error));
+    }
+
+    function renderPatients(patients) {
+      const patientList = document.getElementById("patientList");
+      patientList.innerHTML = "";
 
       patients.forEach(patient => {
-        const name = patient.textContent.toLowerCase();
-        patient.style.display = name.includes(input) ? "" : "none";
+        const div = document.createElement("div");
+        div.className = "patient";
+        div.textContent = patient.name;
+        div.onclick = () => selectPatient(patient);
+        patientList.appendChild(div);
       });
     }
 
-    function selectPatient(name) {
-      document.getElementById("selectedPatient").value = name;
-      renderBilling(name);
+    function filterPatients() {
+      const input = document.getElementById("searchInput").value.toLowerCase();
+      const filtered = allPatients.filter(p => p.name.toLowerCase().includes(input));
+      renderPatients(filtered);
+    }
+
+    function selectPatient(patient) {
+      document.getElementById("selectedPatient").value = patient.name;
+      document.getElementById("selectedPatient").dataset.id = patient.id;  // store id
+      renderBilling(patient.id, patient.name);
     }
 
     function addBilling() {
-      const patient = document.getElementById("selectedPatient").value;
+      const patientName = document.getElementById("selectedPatient").value;
+      const patientId = document.getElementById("selectedPatient").dataset.id;
       const service = document.getElementById("serviceProvided").value;
       const amount = document.getElementById("amountCharged").value;
 
-      if (!patient || !service || !amount) {
+      if (!patientName || !patientId || !service || !amount) {
         alert("Please fill in all fields.");
         return;
       }
 
-      if (!billingData[patient]) {
-        billingData[patient] = [];
+      if (!billingData[patientId]) {
+        billingData[patientId] = [];
       }
 
-      billingData[patient].push({
+      billingData[patientId].push({
         date: new Date().toLocaleDateString(),
         service,
         amount: parseFloat(amount).toFixed(2)
@@ -174,29 +193,106 @@
       document.getElementById("serviceProvided").value = "";
       document.getElementById("amountCharged").value = "";
 
-      renderBilling(patient);
+      renderBilling(patientId, patientName);
     }
 
-    function renderBilling(patient) {
-      const urlParams = new URLSearchParams(window.location.search);
-      const patientId = urlParams.get('id');
-      
+
+    function renderBilling(patientId, patientName) {
       const recordsContainer = document.getElementById("billingRecords");
-      const entries = billingData[patient] || [];
 
-      let html = `<h3>Billing Records for ${patient}</h3>`;
+      // Use local billingData entries first
+      const entries = billingData[patientId] || [];
 
+      // Create table header
+      let html = `
+        <h3>Billing Records for ${patientName}</h3>
+        <table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse; width: 100%; background: white; color: black;">
+          <thead style="background-color: #547792; color: white;">
+            <tr>
+              <th>Date</th>
+              <th>Service Provided</th>
+              <th>Amount Charged (PHP)</th>
+              <th>Total Amount (PHP)</th>
+              <th>Payment Status</th>
+              <th>Payment Date</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+
+      entries.forEach(entry => {
+        html += `
+          <tr>
+            <td>${entry.date || '-'}</td>
+            <td>${entry.service || '-'}</td>
+            <td style="text-align: right;">${entry.amount || '-'}</td>
+            <td style="text-align: right;">${entry.total_amount || '-'}</td>
+            <td>${entry.payment_status || '-'}</td>
+            <td>${entry.payment_date || '-'}</td>
+          </tr>
+        `;
+      });
+
+      html += `
+          </tbody>
+        </table>
+      `;
+
+      recordsContainer.innerHTML = html;
+
+      // Now fetch from server and optionally update or append
       fetch(`PHP files/getBilling.php?id=${patientId}`)
         .then(response => response.json())
         .then(data => {
           if (!data || data.error) {
-            alert('Billing data not found');
+            // No billing found on server or error
             return;
           }
-        }).catch(error => {
+
+          // If server returns array of billing records, re-render table with server data
+          let serverHtml = `
+            <h3>Billing Records for ${patientName} (From Server)</h3>
+            <table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse; width: 100%; background: white; color: black;">
+              <thead style="background-color: #547792; color: white;">
+                <tr>
+                  <th>Date</th>
+                  <th>Service Provided</th>
+                  <th>Amount Charged (PHP)</th>
+                  <th>Total Amount (PHP)</th>
+                  <th>Payment Status</th>
+                  <th>Payment Date</th>
+                </tr>
+              </thead>
+              <tbody>
+          `;
+
+          data.forEach(entry => {
+            serverHtml += `
+              <tr>
+                <td>${entry.date || '-'}</td>
+                <td>${entry.service || '-'}</td>
+                <td style="text-align: right;">${entry.amount || '-'}</td>
+                <td style="text-align: right;">${entry.total_amount || '-'}</td>
+                <td>${entry.payment_status || '-'}</td>
+                <td>${entry.payment_date || '-'}</td>
+              </tr>
+            `;
+          });
+
+          serverHtml += `
+              </tbody>
+            </table>
+          `;
+
+          recordsContainer.innerHTML = serverHtml;
+        })
+        .catch(error => {
           console.error('Error fetching billing records:', error);
         });
     }
+
+    // Initial load
+    window.onload = fetchPatients;
   </script>
 </body>
 </html>
