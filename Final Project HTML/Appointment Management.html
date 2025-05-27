@@ -41,6 +41,16 @@
       cursor: pointer;
     }
 
+    .row_flexBox{
+      display: flex;
+      flex-direction: row;
+    }
+
+    .row_flexBox .first_column, .row_flexBox .second_column{
+      width: 50%;
+      border: solid;
+    }
+
     .lists-container {
       display: flex;
       justify-content: space-between;
@@ -118,10 +128,6 @@
       margin-top: 10px;
     }
 
-    .appointments {
-      margin-top: 30px;
-    }
-
     .appointments h3 {
       margin-bottom: 10px;
       color: white;
@@ -133,6 +139,11 @@
       background-color: white;
       color: #333;
     }
+
+    #appointment_list th, #appointment_list td {
+    border: 1px solid black;
+    padding: 8px;
+  }
   </style>
 </head>
 <body>
@@ -141,50 +152,55 @@
       <button class="back-button" onclick="history.back()">←</button>
       Appointment Management
     </div>
+    
+    <div class="row_flexBox">
+      <div class="first_column">
+        <div class="lists-container">
+          <div class="list" id="doctorList">
+            <h3>Doctors</h3>
+            <!-- Doctors loaded here -->
+          </div>
+          <div class="list" id="patientList">
+            <h3>Patients</h3>
+            <!-- Patients loaded here -->
+          </div>
+        </div>
 
-    <div class="lists-container">
-      <div class="list" id="doctorList">
-        <h3>Doctors</h3>
-        <!-- Doctors loaded here -->
+        <div class="form-section">
+          <h3>Book an Appointment</h3>
+          <input type="text" id="selectedDoctor" placeholder="Selected Doctor" readonly />
+          <input type="text" id="selectedPatient" placeholder="Selected Patient" readonly />
+          <input type="date" id="appointmentDate" />
+          <input type="time" id="appointmentTime" />
+          <input type="text" id="roomNumber" placeholder="Room Number" />
+          <textarea id="reason" placeholder="Reason for appointment"></textarea>
+
+          <button onclick="bookAppointment()">Book Appointment</button>
+        </div>
       </div>
-      <div class="list" id="patientList">
-        <h3>Patients</h3>
-        <!-- Patients loaded here -->
+
+      <div class="second_column">
+        <div class="appointments">
+          <table id="appointment_list" style="width:100%; border-collapse: collapse;">
+            <thead>
+              <tr style="background-color: #213448; color: white;">
+                <th>Appointment ID</th>
+                <th>Doctor Name</th>
+                <th>Patient Name</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Room</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Appointments will be inserted here -->
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-
-    <div class="form-section">
-      <h3>Book an Appointment</h3>
-      <input type="text" id="selectedDoctor" placeholder="Selected Doctor" readonly />
-      <input type="text" id="selectedPatient" placeholder="Selected Patient" readonly />
-      <input type="date" id="appointmentDate" />
-      <input type="time" id="appointmentTime" />
-      <input type="text" id="roomNumber" placeholder="Room Number" />
-      <textarea id="reason" placeholder="Reason for appointment"></textarea>
-
-      <button onclick="bookAppointment()">Book Appointment</button>
-    </div>
-
-    <div class="appointments">
-      <h3>Scheduled Appointments</h3>
-      <table id="appointment_list" style="width:100%; border-collapse: collapse;">
-        <thead>
-          <tr style="background-color: #213448; color: white;">
-            <th>Appointment ID</th>
-            <th>Doctor Name</th>
-            <th>Patient Name</th>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Room</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Appointments will be inserted here -->
-        </tbody>
-      </table>
-    </div>
-
+  </div>
   <script>
     let selectedDoctorId = null;
     let selectedPatientId = null;

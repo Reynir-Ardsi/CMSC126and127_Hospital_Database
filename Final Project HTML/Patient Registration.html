@@ -23,13 +23,14 @@
     }
 
     .back-button {
-      position: absolute;
+      display: block;
       top: 50px;
-      left: 250px;
+      left: 24%;
       font-size: 30px;
       background: none;
       border: none;
       cursor: pointer;
+      width: 10px;
     }
 
     h2 {
@@ -49,7 +50,13 @@
       color: white;
     }
 
-    input[type="text"],
+    input[type="text"]{
+      width: 50%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
     input[type="email"],
     input[type="tel"],
     input[type="date"],
@@ -216,7 +223,6 @@
   // Add event listener to the DOB input field to call the calculateAge function whenever the user selects a date
   document.getElementById('dob').addEventListener('change', calculateAge);
 </script>
-
 
 </body>
 </html>
