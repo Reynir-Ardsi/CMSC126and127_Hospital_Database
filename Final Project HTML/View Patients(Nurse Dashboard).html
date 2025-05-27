@@ -16,7 +16,6 @@
       margin: auto;
       padding: 20px;
       background-color: #517792;
-      border: 1px solid #ccc;
     }
 
     .header {
@@ -38,7 +37,7 @@
       background: none;
       border: none;
       cursor: pointer;
-      color:  white;
+      color: white;
     }
 
     .search-bar {
@@ -57,19 +56,20 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr); /* Two columns */
       gap: 20px;
-      background: white;
-      padding: 10px;
-      gap: 10px;
-      border: 1px solid #ccc;
-      padding: 10px;
+      border: 5px solid #213448;
+      background-color: white;
+      padding: 20px;
       font-size: 32px;
       font-weight: bold;
       text-align: center;
       height: auto;
       max-height: 500px;
       overflow-y: scroll;
-      overflow-x: hidden;
-      padding-left: 200px;
+    }
+
+    .patient-list a{
+      text-decoration: none;
+      color: #213448;
     }
 
     .patient-profile {
@@ -78,19 +78,17 @@
       justify-content: center;
       margin-bottom: 20px;
       text-decoration: none;
-      width: 300px;
     }
 
     .profile-box {
-      margin: 0px;
+      margin: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 30px;
-      background-color: #f0f0f0;
+      gap: 15px;
+      background-color: #ccc;
       padding: 10px 10px;
       border-radius: 8px;
-      border: 1px solid #ccc;
       font-size: 20px;
       font-weight: normal;
       width: 100%;
@@ -104,6 +102,18 @@
 
     .profile-name {
       flex: 1;
+    }
+
+    .profile-image {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .room-number {
+      font-size: 16px;
+      color: #555;
     }
 
   </style>
@@ -120,57 +130,53 @@
     </div>
 
     <div class="patient-list" id="patientList">
-      <!-- Patient profiles will be dynamically inserted here -->
+      <!-- Patient profiles will be inserted here -->
     </div>
   </div>
 
   <script>
+      async function fetchPatients() {
+        try {
+          const response = await fetch('PHP files/getAllPatientsWithRooms.php');
+          const data = await response.json();
+          const container = document.getElementById('patientList');
 
-    function searchPatients() {
-      const input = document.getElementById('searchInput').value.toLowerCase();
-      const profiles = document.querySelectorAll('.patient-profile');
+          container.innerHTML = ''; // Clear existing content
 
-      profiles.forEach(profile => {
-        const name = profile.innerText.toLowerCase();
-        profile.style.display = name.includes(input) ? '' : 'none';
-      });
-    }
+          data.forEach(patient => {
+            const profile = document.createElement('div');
+            profile.className = 'patient-profile';
 
-    // Function to fetch and display patient data
-    function loadPatients() {
-  fetch('PHP files/getPatients.php')
-    .then(response => response.json())
-    .then(data => {
-      const patientList = document.getElementById('patientList');
-      patientList.innerHTML = ''; // Clear any existing patient profiles
+            profile.innerHTML = `
+              <a class="profile-box" href="Medical Records (Doctor Dashboard).html?id=${patient.patient_id}">
+                <img src="pictures/defaultpfp.jpg" alt="Profile Picture" class="profile-image" />
+                <div>
+                  <span class="profile-name">${patient.full_name}</span><br />
+                  <span class="room-number">Room ${patient.room_number ?? 'N/A'}</span>
+                </div>
+              </a>
+            `;
 
-      data.forEach(patient => {
-        const fullName = `${patient.name}`;
-        const profileLink = document.createElement('a');
-        
-        profileLink.href = `View Medical Records(Nurse Dashboard).html?id=${patient.id}`;
-        profileLink.classList.add('patient-profile');
+            container.appendChild(profile);
+          });
+        } catch (error) {
+          console.error("Failed to fetch patient data:", error);
+        }
+      }
 
-        const profileBox = document.createElement('div');
-        profileBox.classList.add('profile-box');
+      function searchPatients() {
+        const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+        const patientProfiles = document.querySelectorAll('.patient-profile');
 
-        const profileName = document.createElement('span');
-        profileName.classList.add('profile-name');
-        profileName.textContent = fullName;
+        patientProfiles.forEach(profile => {
+          const profileName = profile.querySelector('.profile-name').textContent.toLowerCase();
+          profile.style.display = profileName.includes(searchQuery) ? 'flex' : 'none';
+        });
+      }
 
-        profileBox.appendChild(profileName);
-        profileLink.appendChild(profileBox);
-        patientList.appendChild(profileLink);
-      });
-    })
-    .catch(error => {
-      console.error('Error fetching patient data:', error);
-    });
-}
+      // Call the function on load
+      fetchPatients();
+    </script>
 
-
-    // Call the function when the page loads
-    window.onload = loadPatients();
-  </script>
 </body>
 </html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Medical Records</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #ECEFCA;
+    }
+
+    .container {
+      max-width: 90%;
+      margin: auto;
+      padding: 20px;
+      background-color: #517792;
+      border: 1px solid #ccc;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 10px 0;
+      font-size: 24px;
+      font-weight: bold;
+      background-color: #213448;
+      color: white;
+    }
+
+    .back-button {
+      position: absolute;
+      left: 20px;
+      font-size: 20px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: white;
+    }
+
+    .patient-info {
+      background: white;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 8px;
+      font-size: 18px;
+      display: grid;
+      grid-template-columns: 1fr 1fr; /* Two columns */
+      gap: 20px;
+    }
+
+    .patient-info div {
+      padding: 10px;
+      background-color: #f0f0f0;
+      border-radius: 5px;
+      font-size: 15px;
+    }
+
+    .patient-info h3 {
+      margin: 0 0 10px;
+      font-size: 20px;
+      grid-column: span 2; /* Name spans both columns */
+    }
+
+    .patient-info .title {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .medical-history,
+    .prescription,
+    .notes {
+      margin-top: 20px;
+    }
+
+    .record-item {
+      background: #f0f0f0;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <button class="back-button" onclick="history.back()">←</button>
+      Medical Records
+    </div>
+
+    <div id="patientDetails" class="patient-info">
+      <!-- Patient details will be dynamically inserted here -->
+    </div>
+
+    <div class="medical-history">
+      <h4>Medical History</h4>
+      <div id="medicalHistory" class="record-item">
+        <!-- Medical history data will be dynamically inserted here -->
+      </div>
+    </div>
+
+    <div class="prescription">
+      <h4>Prescriptions</h4>
+      <div id="prescriptions" class="record-item">
+        <!-- Prescription data will be dynamically inserted here -->
+      </div>
+    </div>
+
+    <div class="lifestyle">
+      <h4>Lifestyle</h4>
+      <div id="lifestyle" class="record-item">
+        <!-- Notes data will be dynamically inserted here -->
+      </div>
+    </div>
+  </div>
+  <div style="grid-column: span 2; text-align: center; margin-top: 20px;">
+    <button onclick="editPatient()" style="padding: 10px 20px; font-size: 16px; cursor: pointer;">Edit</button>
+  </div>
+
+
+  <script>
+      const userId = sessionStorage.getItem("user_id");
+      const role = sessionStorage.getItem("role");
+    // Function to fetch and display the patient's medical records
+    function loadMedicalRecords() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const patientId = urlParams.get('id'); // Retrieve patient ID from the URL
+
+      if (!patientId) {
+        alert('Patient ID not found');
+        return;
+      }
+
+      // Fetch patient data from backend PHP file
+    fetch(`PHP files/getPatientInformation.php?id=${patientId}`)
+  .then(response => response.json())
+  .then(data => {
+    if (!data || data.error) {
+      alert('Patient data not found');
+      return;
+    }
+
+    const patient = data;  // Store the fetched data as 'patient'
+
+    // Dynamically populate patient information
+    patientDetails.innerHTML = `
+      <h3>${patient.first_name} ${patient.middle_initial} ${patient.last_name}</h3>
+      <div>
+        <span class="title">Date of Birth:</span>
+        <p>${patient.date_of_birth}</p>
+      </div>
+      <div>
+        <span class="title">Age:</span>
+        <p>${patient.age} years</p>
+      </div>
+      <div>
+        <span class="title">Sex:</span>
+        <p>${patient.sex}</p>
+      </div>
+      <div>
+        <span class="title">Address:</span>
+        <p>${patient.address}</p>
+      </div>
+      <div>
+        <span class="title">Phone Number:</span>
+        <p>${patient.contact_number}</p>
+      </div>
+      <div>
+        <span class="title">Email:</span>
+        <p>${patient.email_address}</p>
+      </div>
+      <div>
+        <span class="title">Emergency Contact:</span>
+        <p>${patient.emergency_contact}</p>
+      </div>
+      <div>
+        <span class="title">Marital Status:</span>
+        <p>${patient.marital_status}</p>
+      </div>
+      <div>
+        <span class="title">Occupation:</span>
+        <p>${patient.occupation}</p>
+      </div>
+      <div>
+        <span class="title">Insurance Provider:</span>
+        <p>${patient.insurance_provider}</p>
+      </div>
+      <div>
+        <span class="title">Allergies:</span>
+        <p>${patient.allergies}</p>
+      </div>
+      <div>
+        <span class="title">Date Admitted:</span>
+        <p>${patient.date_admitted}</p>
+      </div>
+    `;
+
+    // Medical History Section
+    const medicalHistory = document.getElementById('medicalHistory');
+      medicalHistory.innerHTML = `<p>${patient.medical_history}</p>` || '<p>No medical history available.</p>';
+
+      const prescriptions = document.getElementById('prescriptions');
+      prescriptions.innerHTML = `<p>${patient.prescriptions}</p>` || '<p>No prescriptions available.</p>';
+
+      // Lifestyle Section
+      const notes = document.getElementById('lifestyle');
+      notes.innerHTML = `<p>${patient.lifestyle}</p>` || '<p>No lifestyle information available.</p>';
+    })
+    .catch(error => {
+      console.error('Error fetching medical records:', error);
+    });
+  }
+  function editPatient() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const patientId = urlParams.get('id');
+    if (!patientId) return alert("Patient ID missing");
+
+    // Redirect to edit page with ID in query string
+    window.location.href = `editPatientForm.html?id=${patientId}`;
+  }
+
+    // Call the function when the page loads
+    window.onload = loadMedicalRecords;
+  </script>
+</body>
+</html>
