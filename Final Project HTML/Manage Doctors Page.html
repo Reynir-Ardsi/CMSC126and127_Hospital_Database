@@ -73,6 +73,18 @@
       border-radius: 5px;
     }
 
+    .toggle-password {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      font-size: 14px;
+      background: none;
+      border: none;
+      color: #007bff;
+    }
+
     .form-actions {
       display: flex;
       justify-content: space-between;
@@ -133,6 +145,23 @@
 
     .edit { background-color: #007bff; }
     .delete { background-color: #dc3545; }
+
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #213448;
+      color: white;
+      padding: 12px 18px;
+      border-radius: 8px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 9999;
+    }
+
+    .toast.show {
+      opacity: 1;
+    }
   </style>
 </head>
 
@@ -148,16 +177,22 @@
     <div class="form-section">
       <h2>Registration Form</h2>
       <form id="doctorForm">
-        <div class="form-group"><input type="text" id="doctorID" placeholder="e.g. Dr. John" required></div>
+        <div class="form-group"><input type="text" id="doctorID" placeholder="e.g. 01" required></div>
         <div class="form-group"><input type="text" id="firstName" placeholder="First Name" required></div>
         <div class="form-group"><input type="text" id="middleInitial" placeholder="Middle Initial"></div>
         <div class="form-group"><input type="text" id="lastName" placeholder="Last Name" required></div>
         <div class="form-group"><input type="text" id="specialty" placeholder="e.g. Cardiology" required></div>
-        <div class="form-group"><input type="text" id="contact" placeholder="e.g. 123-456-7890" required></div>
+        <div class="form-group">
+          <input type="tel" id="contact" placeholder="e.g. 123-456-7890" required pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" title="Format: 123-456-7890">
+        </div>
         <div class="form-group"><input type="email" id="email" placeholder="johndoe@example.com" required></div>
-        <div class="form-group"><input type="password" id="password" placeholder="Password" required></div>
+        <div class="form-group"><input type="text" id="username" placeholder="Username" required></div>
+        <div class="form-group">
+          <input type="password" id="password" placeholder="Password" required>
+          <button type="button" class="toggle-password" onclick="togglePassword()">Show</button>
+        </div>
         <div class="form-actions">
-          <button type="submit">+ Add Doctor</button>
+          <button type="submit" id="submitBtn">+ Add Doctor</button>
           <button type="reset">Clear</button>
         </div>
       </form>
@@ -172,13 +207,151 @@
       <table>
         <thead>
           <tr>
-            <th>ID</th><th>First</th><th>M.I.</th><th>Last</th><th>Specialty</th><th>Contact</th><th>Email</th><th>Password</th><th colspan="2"></th>
+            <th>ID</th><th>First</th><th>M.I.</th><th>Last</th><th>Specialty</th><th>Contact</th><th>Email</th><th>Username</th><th colspan="2"></th>
           </tr>
         </thead>
         <tbody id="doctorTable"></tbody>
       </table>
     </div>
   </div>
-</body>
 
+  <div id="toast" class="toast"></div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const doctorForm = document.getElementById('doctorForm');
+      const doctorTable = document.getElementById('doctorTable');
+      const searchInput = document.getElementById('searchInput');
+      const toast = document.getElementById('toast');
+      const submitBtn = document.getElementById('submitBtn');
+
+      fetchDoctors();
+
+      function showToast(message) {
+        toast.textContent = message;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+      }
+
+      function getFormData() {
+        return {
+          doctorID: document.getElementById('doctorID').value,
+          firstName: document.getElementById('firstName').value,
+          middleInitial: document.getElementById('middleInitial').value,
+          lastName: document.getElementById('lastName').value,
+          specialty: document.getElementById('specialty').value,
+          contact: document.getElementById('contact').value,
+          email: document.getElementById('email').value,
+          username: document.getElementById('username').value,
+          password: document.getElementById('password').value
+        };
+      }
+
+
+      async function fetchDoctors() {
+        const response = await fetch('getDoctors.php');
+        const doctors = await response.json();
+        renderTable(doctors);
+      }
+
+      function renderTable(doctors) {
+        doctorTable.innerHTML = '';
+        doctors.forEach(doc => {
+          const tr = document.createElement('tr');
+          tr.innerHTML =`
+            <td>${doc.user_id}</td>
+            <td>${doc.first_name}</td>
+            <td>${doc.middle_initial}</td>
+            <td>${doc.last_name}</td>
+            <td>${doc.specialty}</td>
+            <td>${doc.contact_number}</td>
+            <td>${doc.email}</td>
+            <td>${doc.username}</td>
+            <td><button class="edit" onclick='editDoctor(${JSON.stringify(doc)})'>Edit</button></td>
+            <td><button class="delete" onclick='deleteDoctor("${doc.user_id}")'>Delete</button></td>
+          `;
+          doctorTable.appendChild(tr);
+        });
+      }
+
+      function handleAdd(e) {
+        e.preventDefault();
+        submitBtn.disabled = true;
+        const data = getFormData();
+        fetch('addDoctor.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        })
+        .then(res => res.text())
+        .then(text => {
+          showToast(text);
+          doctorForm.reset();
+          fetchDoctors();
+        })
+        .catch(() => showToast("An error occurred."))
+        .finally(() => submitBtn.disabled = false);
+      }
+
+      window.editDoctor = function(doc) {
+        doctorForm.doctorID.value = doc.user_id;
+        doctorForm.firstName.value = doc.first_name;
+        doctorForm.middleInitial.value = doc.middle_initial;
+        doctorForm.lastName.value = doc.last_name;
+        doctorForm.specialty.value = doc.specialty;
+        doctorForm.contact.value = doc.contact_number;
+        doctorForm.email.value = doc.email;
+        doctorForm.password.value = doc.password;
+
+        doctorForm.onsubmit = async function(e) {
+          e.preventDefault();
+          submitBtn.disabled = true;
+          const updatedData = getFormData();
+          const response = await fetch('editDoctor.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updatedData)
+          });
+          const result = await response.text();
+          showToast(result);
+          doctorForm.reset();
+          fetchDoctors();
+          doctorForm.onsubmit = handleAdd;
+          submitBtn.disabled = false;
+        };
+      };
+
+      window.deleteDoctor = async function(id) {
+        if (!confirm("Are you sure you want to delete this doctor?")) return;
+        const response = await fetch('deleteDoctor.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ doctorID: id })
+        });
+        const result = await response.text();
+        showToast(result);
+        fetchDoctors();
+      };
+
+      doctorForm.onsubmit = handleAdd;
+
+      searchInput.addEventListener('input', () => {
+        const query = searchInput.value.toLowerCase();
+        const rows = doctorTable.querySelectorAll('tr');
+        rows.forEach(row => {
+          const match = Array.from(row.children).some(cell => cell.textContent.toLowerCase().includes(query));
+          row.style.display = match ? '' : 'none';
+        });
+      });
+    });
+
+    function togglePassword() {
+      const passwordInput = document.getElementById('password');
+      const toggleBtn = document.querySelector('.toggle-password');
+      const isHidden = passwordInput.type === 'password';
+      passwordInput.type = isHidden ? 'text' : 'password';
+      toggleBtn.textContent = isHidden ? 'Hide' : 'Show';
+    }
+  </script>
+</body>
 </html>
