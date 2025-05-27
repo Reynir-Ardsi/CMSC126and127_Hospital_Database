@@ -249,7 +249,7 @@
 
 
       async function fetchDoctors() {
-        const response = await fetch('getDoctors.php');
+        const response = await fetch('PHP files/getDoctors.php');
         const doctors = await response.json();
         renderTable(doctors);
       }
@@ -278,7 +278,7 @@
         e.preventDefault();
         submitBtn.disabled = true;
         const data = getFormData();
-        fetch('addDoctor.php', {
+        fetch('PHP files/addDoctor.php', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data)
@@ -307,7 +307,7 @@
           e.preventDefault();
           submitBtn.disabled = true;
           const updatedData = getFormData();
-          const response = await fetch('editDoctor.php', {
+          const response = await fetch('PHP files/editDoctor.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(updatedData)
@@ -323,7 +323,7 @@
 
       window.deleteDoctor = async function(id) {
         if (!confirm("Are you sure you want to delete this doctor?")) return;
-        const response = await fetch('deleteDoctor.php', {
+        const response = await fetch('PHP files/deleteDoctor.php', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ doctorID: id })
