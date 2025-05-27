@@ -4,10 +4,7 @@ include 'DBConnector.php';
 
 // Fetch all patients
 $sql = "
-  SELECT patient_id,
-         first_name,
-         middle_initial,
-         last_name
+  SELECT *
     FROM patient
 ";
 $result = $conn->query($sql);

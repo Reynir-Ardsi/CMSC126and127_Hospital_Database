@@ -49,7 +49,14 @@
     .row_flexBox .first_column, .row_flexBox .second_column{
       width: 50%;
       border: solid;
+      padding: 10px 10px;
     }
+
+    .row_flexBox .second_column {
+      max-height: 100%; /* or adjust to your layout */
+      overflow-y: auto;  /* Scroll only when content overflows */
+    }
+
 
     .lists-container {
       display: flex;
@@ -99,9 +106,15 @@
       margin-bottom: 30px;
     }
 
-    .form-section h3 {
+    .form-section h3{
       margin-bottom: 10px;
       color: white;
+      text-align: center;
+      font-size: 30px;
+    }
+
+    .form-section h2{
+      margin-bottom: 5px;
     }
 
     .form-section input,
@@ -128,7 +141,7 @@
       margin-top: 10px;
     }
 
-    .appointments h3 {
+    .appointments h3{
       margin-bottom: 10px;
       color: white;
     }
@@ -167,12 +180,18 @@
         </div>
 
         <div class="form-section">
-          <h3>Book an Appointment</h3>
+          <h3>BOOK AN APPOINTMENT</h3>
+          <h2>Doctor</h2>
           <input type="text" id="selectedDoctor" placeholder="Selected Doctor" readonly />
+          <h2>Patient</h2>
           <input type="text" id="selectedPatient" placeholder="Selected Patient" readonly />
+          <h2>Date</h2>
           <input type="date" id="appointmentDate" />
+          <h2>Time</h2>
           <input type="time" id="appointmentTime" />
+          <h2>Room Number</h2>
           <input type="text" id="roomNumber" placeholder="Room Number" />
+          <h2>Reason</h2>
           <textarea id="reason" placeholder="Reason for appointment"></textarea>
 
           <button onclick="bookAppointment()">Book Appointment</button>
