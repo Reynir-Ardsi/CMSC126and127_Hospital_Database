@@ -7,6 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $middle_initial = $_POST['middle_initial'];
     $last_name = $_POST['last_name'];
     $date_of_birth = $_POST['date_of_birth'];
+    $age = $_POST['age'];
     $sex = $_POST['sex'];
     $address = $_POST['address'];
     $contact_number = $_POST['contact_number'];
