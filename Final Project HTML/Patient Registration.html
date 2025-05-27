@@ -8,12 +8,11 @@
     body {
       font-family: Arial, sans-serif;
       background-color: #213448;
-      margin-bottom: 30px;
-      padding: 0;
+      margin: 0;
+      padding: 0 0 30px;
     }
 
     .header {
-      height: 40px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -42,30 +41,27 @@
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
 
-    .container{
-      display: flex;
-      flex-direction: row;
-    }
-
-    .container > div{
-      width: 50%;
-      margin: 30px 20px;
-      background-color: #517792;
-      padding: 10px 30px 10px 30px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      color: white;
-    }
-
     .back-button {
-      display: block;
-      top: 50px;
-      left: 24%;
       font-size: 30px;
       background: none;
       border: none;
       cursor: pointer;
       width: 35px;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: row;
+    }
+
+    .container > div {
+      width: 50%;
+      margin: 30px 20px;
+      background-color: #517792;
+      padding: 10px 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      color: white;
     }
 
     h2 {
@@ -85,16 +81,11 @@
       color: white;
     }
 
-    input[type="text"]{
-      width: 50%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-size: 14px;
-    }
+    input[type="text"],
     input[type="email"],
     input[type="tel"],
     input[type="date"],
+    input[type="number"],
     select,
     textarea {
       width: 100%;
@@ -113,7 +104,7 @@
       margin-top: 10px;
     }
 
-    button {
+    button[type="submit"] {
       background-color: #007bff;
       color: white;
       padding: 12px 30px;
@@ -123,26 +114,21 @@
       cursor: pointer;
     }
 
-    button:hover {
+    button[type="submit"]:hover {
       background-color: #0056b3;
-    }
-
-    .box{
-      width: 100%;
     }
   </style>
 </head>
 <body>
   <div class="header">
-    <back-button class="back-button" onclick="history.back()">←</back-button>
+    <button class="back-button" onclick="history.back()">←</button>
     <h2 class="center-text">Patient Registration</h2>
     <div class="logo"></div>
   </div>
 
-  <div class="container">
-    <div class="info_firstColumn">
-        <form id="registration-form" method="POST" action="PHP files/addPatient.php">
-          <!-- Personal Info -->
+  <form id="registration-form" method="POST" action="PHP files/addPatient.php">
+    <div class="container">
+      <div>
         <div class="form-group">
           <label for="firstName">First Name</label>
           <input type="text" id="firstName" name="firstName" required placeholder="Enter First Name" />
@@ -155,17 +141,14 @@
           <label for="lastName">Last Name</label>
           <input type="text" id="lastName" name="lastName" required placeholder="Enter Last Name" />
         </div>
-
         <div class="form-group">
           <label for="dob">Date of Birth</label>
           <input type="date" id="dob" name="dob" required />
         </div>
-
         <div class="form-group">
           <label for="age">Age</label>
           <input type="number" id="age" name="age" required readonly />
         </div>
-
         <div class="form-group">
           <label for="sex">Sex</label>
           <select id="sex" name="sex" required>
@@ -174,29 +157,25 @@
             <option value="Female">Female</option>
           </select>
         </div>
-
         <div class="form-group">
           <label for="address">Address</label>
           <textarea id="address" name="address" rows="3" required></textarea>
         </div>
-
         <div class="form-group">
           <label for="phone">Phone Number</label>
           <input type="tel" id="phone" name="phone" required />
         </div>
-
         <div class="form-group">
           <label for="email">Email Address</label>
           <input type="email" id="email" name="email" />
         </div>
-    </div >
+      </div>
 
-      <div class="info_secondColumn">
+      <div>
         <div class="form-group">
           <label for="emergencyContact">Emergency Contact</label>
           <input type="tel" id="emergencyContact" name="emergencyContact" required />
         </div>
-
         <div class="form-group">
           <label for="maritalStatus">Marital Status</label>
           <select id="maritalStatus" name="maritalStatus" required>
@@ -207,76 +186,57 @@
             <option value="Widowed">Widowed</option>
           </select>
         </div>
-
         <div class="form-group">
           <label for="occupation">Occupation</label>
           <input type="text" id="occupation" name="occupation" />
         </div>
-        <!-- Medical Info -->
-      
         <div class="form-group">
           <label for="insurance">Insurance Provider (if any)</label>
           <input type="text" id="insurance" name="insurance" />
         </div>
-
-      
         <div class="form-group">
           <label for="allergies">Known Allergies</label>
           <textarea id="allergies" name="allergies" rows="3"></textarea>
         </div>
-
         <div class="form-group">
           <label for="history">Previous Medical History</label>
           <textarea id="history" name="history" rows="3"></textarea>
         </div>
-
         <div class="form-group">
           <label for="medication">Current Medications</label>
           <textarea id="medication" name="medication" rows="3"></textarea>
         </div>
-
         <div class="form-group">
           <label for="lifestyle">Lifestyle / Habits</label>
           <textarea id="lifestyle" name="lifestyle" rows="3"></textarea>
         </div>
       </div>
-  </div>
-        <!-- Submit -->
-        <div class="form-actions">
-          <button type="submit">Register Patient</button>
-        </div>
-      </form>
-      
-  
+    </div>
+
+    <div class="form-actions">
+      <button type="submit">Register Patient</button>
+    </div>
+  </form>
+
   <script>
-  // Function to calculate the age based on the date of birth
-  function calculateAge() {
-    const dobInput = document.getElementById('dob');
-    const ageInput = document.getElementById('age');
-    
-    // Ensure the DOB input is not empty
-    if (dobInput.value) {
-      const dob = new Date(dobInput.value); // Convert to Date object
-      const today = new Date(); // Current date
-      let age = today.getFullYear() - dob.getFullYear(); // Basic age calculation
-      
-      // Check if the birthday hasn't occurred yet this year
-      const monthDifference = today.getMonth() - dob.getMonth();
-      const dayDifference = today.getDate() - dob.getDate();
-      
-      if (monthDifference < 0 || (monthDifference === 0 && dayDifference < 0)) {
-        age--; // Adjust age if birthday hasn't occurred yet this year
+    function calculateAge() {
+      const dob = document.getElementById('dob').value;
+      const ageField = document.getElementById('age');
+      if (dob) {
+        const birthDate = new Date(dob);
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+          age--;
+        }
+        ageField.value = age;
+      } else {
+        ageField.value = '';
       }
-      
-      ageInput.value = age; // Update the age input field
-    } else {
-      ageInput.value = ''; // Clear the age field if DOB is empty
     }
-  }
 
-  // Add event listener to the DOB input field to call the calculateAge function whenever the user selects a date
-  document.getElementById('dob').addEventListener('change', calculateAge);
-</script>
-
+    document.getElementById('dob').addEventListener('change', calculateAge);
+  </script>
 </body>
 </html>
