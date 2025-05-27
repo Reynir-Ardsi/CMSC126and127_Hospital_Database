@@ -2,5 +2,5 @@
     "git-auto-pull.repoPath": "C:\\xampp\\htdocs\\CMSC126and127_Hospital_Database\\Final Project HTML",
     "git-auto-pull.watchForChanges": true,
     "git-auto-pull.pullInterval": 0.1,
-    "githubPullRequests.pullPullRequestBranchBeforeCheckout": "pullAndMergeBase"
+    "githubPullRequests.pullPullRequestBranchBeforeCheckout": "pullAndUpdateBase"
 }
