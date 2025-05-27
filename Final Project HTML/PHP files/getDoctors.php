@@ -1,7 +1,7 @@
 <?php
 include 'DBConnector.php';
 
-$sql = "SELECT u.user_id, u.first_name, u.middle_initial, u.last_name, u.specialty, u.contact_number, u.email, l.username
+$sql = "SELECT u.user_id, u.first_name, u.middle_initial, u.last_name, u.specialty, u.contact_number, u.email_address, l.username
         FROM users u
         JOIN login l ON u.user_id = l.user_id
         JOIN job j ON u.user_id = j.user_id
