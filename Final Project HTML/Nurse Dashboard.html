@@ -98,13 +98,14 @@
       width: 400px;
       height: 200px;
       border: 1px solid #ccc;
+      border-radius: 10px;
       display: flex;
       flex-direction: column;
       align-items: center;
       margin-left: 50px;
       margin-right: 50px;
       cursor: pointer;
-      transform: transform 0.2s;
+      transition: transform 0.2s;
     }
 
     .card:hover{
@@ -118,6 +119,7 @@
       width: 95%;
       padding: 10px;
       font-size: 16px;
+      border-radius: 10px;
     }
 
     .card .placeholder {
@@ -188,12 +190,6 @@
       </a>
   </div>
     <div class="row">
-      <a href ="View Patients(Nurse Dashboard).html" style="text-decoration: none; color: inherit;">
-      <div class="card">
-        <h3>View Medical Record</h3>
-        <div class="placeholder records"></div>
-      </div>
-      </a>
       <a href ="ScheduleForTheDay.html" style="text-decoration: none; color: inherit;">
       <div class="card">
         <h3>Scheduled Follow Ups</h3>

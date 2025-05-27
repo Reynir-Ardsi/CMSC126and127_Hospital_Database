@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Doctor Dashboard</title>
   <style>
-    /* General Body Styling */
     body {
       margin: 0;
       font-family: Arial, sans-serif;
@@ -15,7 +14,6 @@
       overflow-x: hidden;
     }
 
-    /* Header Styling */
     .header {
       height: 40px;
       display: flex;
@@ -27,55 +25,43 @@
       margin-bottom: 40px;
     }
 
-    /* Right Section (Logo) */
-    .right {
-      background-image: url("pictures/hospital_logo.jpeg");
-    }
-
-    /* Doctor Logo Styling */
     .logo {
       width: 85px;
       height: 85px;
       border-radius: 50%;
       border: 1px solid white;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
+      background: url("pictures/hospital_logo.jpeg") center/cover no-repeat;
       position: absolute;
       top: 20px;
       right: 40px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
 
-    /* Left Section (Logout Button) */
     .left {
       position: absolute;
       width: 100px;
       text-align: left;
     }
 
-    /* Logout Button Styling */
     .logoutbtn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       width: 85px;
       height: 85px;
-      text-decoration: white;
       border-radius: 50%;
       background-color: #547792;
-      text-decoration: none;
+      color: white;
       font-weight: bold;
+      text-decoration: none;
       transition: transform 0.2s;
     }
 
-    /* Hover Effect on Logout Button */
     .logoutbtn:hover {
       transform: scale(1.05);
       background-color: #709fc3;
     }
 
-    /* Header Text Styling */
     .center-text {
       flex: 1;
       text-align: center;
@@ -84,20 +70,6 @@
       color: #ffffff;
     }
 
-    /* Header Link Styling */
-    .header a {
-      margin-top: 15px;
-      color: black;
-      text-decoration: none;
-    }
-
-    /* Page Title Styling */
-    h1 {
-      font-size: 36px;
-      margin: 20px 0;
-    }
-
-    /* Dashboard Section */
     .dashboard {
       display: flex;
       flex-wrap: wrap;
@@ -106,26 +78,23 @@
       padding: 20px;
     }
 
-    /* Card Component Styling */
     .card {
       background-color: #547792;
       width: 400px;
       height: 200px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-left: 50px;
-      margin-right: 50px;
       cursor: pointer;
       transition: transform 0.2s;
     }
 
-    /* Hover Effect on Cards */
     .card:hover {
       transform: scale(1.05);
     }
 
-    /* Card Header Styling */
     .card h3 {
       background-color: #213448;
       color: white;
@@ -133,94 +102,74 @@
       width: 95%;
       padding: 10px;
       font-size: 16px;
+      border-radius: 10px;
     }
 
-    /* Placeholder Area for Card Backgrounds */
     .card .placeholder {
       flex: 1;
       width: 90%;
       background-color: white;
       margin: 10px 0;
-    }
-
-    /* Specific Card Backgrounds */
-    .patients {
-      background-image: url("pictures/Patients Icon ( Doctors Field ).png");
       background-size: contain;
       background-position: center;
       background-repeat: no-repeat;
+    }
+
+    .patients {
+      background-image: url("pictures/Patients Icon ( Doctors Field ).png");
     }
 
     .records {
       background-image: url("pictures/Patient Medical Record ( Doctors Field ).png");
-      background-size: contain;
-      background-position: center;
-      background-repeat: no-repeat;
     }
 
     .schedule {
       background-image: url("pictures/Schedule ( Doctors Field ).png");
-      background-size: contain;
-      background-position: center;
-      background-repeat: no-repeat;
     }
 
     .appointment {
       background-image: url("pictures/Appointments ( Doctors Field ).png");
-      background-size: contain;
-      background-position: center;
-      background-repeat: no-repeat;
     }
 
-    /* Row Container for Cards */
     .row {
       width: 100%;
       display: flex;
       justify-content: center;
       gap: 20px;
-      margin-bottom: 20px;
+      margin-top: 150px;
+    }
+
+    .row a {
+      margin-left: 50px;
+      margin-right: 50px;
+      text-decoration: none;
+      color: inherit;
     }
   </style>
 </head>
 
 <body>
 
-  <!-- Header Section -->
   <div class="header">
-    <div class="left"><a href="Login Dashboard.html" class="logoutbtn" style= color:white>Logout</a></div>
+    <div class="left">
+      <a href="Login Dashboard.html" class="logoutbtn">Logout</a>
+    </div>
     <h2 class="center-text">Welcome Doctor</h2>
-    <div class="right logo"></div>
+    <div class="logo"></div>
   </div>
 
-  <!-- Dashboard Cards -->
   <div class="row">
-    <a href="View Patients(Doctor Dashboard).html" style="text-decoration: none; color: inherit;">
+    <a href="View Patients(Doctor Dashboard).html">
       <div class="card">
         <h3>View Patients</h3>
         <div class="placeholder patients"></div>
       </div>
     </a>
-
-    <a href="View Patient Records(Doctor Dashboard).html" style="text-decoration: none; color: inherit;">
-      <div class="card">
-        <h3>View Patient Records</h3>
-        <div class="placeholder records"></div>
-      </div>
-    </a>
-  </div>
-
-  <div class="row">
-    <a href="View Schedule (Doctor Dashboard).html" style="text-decoration: none; color: inherit;">
+  
+    <a href="View Schedule (Doctor Dashboard).html">
       <div class="card">
         <h3>View Schedule</h3>
         <div class="placeholder schedule"></div>
-      </div>
-    </a>
-
-    <a href="View Appointments (Doctor Dashboard).html" style="text-decoration: none; color: inherit;">
-      <div class="card">
-        <h3>View Appointments</h3>
-        <div class="placeholder appointment"></div>
       </div>
     </a>
   </div>
