@@ -61,7 +61,8 @@
     <h2>Edit Patient Information</h2>
     <form id="editForm" method="POST" action="PHP files/editPatient.php">
       <input type="hidden" name="patient_id" id="patient_id" />
-      
+      <input type="hidden" name="age" id="hidden_age" />
+
       <div>
         <label>First Name</label>
         <input type="text" name="first_name" id="first_name" required />
@@ -130,6 +131,18 @@
   </div>
 
   <script>
+    function calculateAgeFromDOB(dob) {
+      if (!dob) return '';
+      const birthDate = new Date(dob);
+      const today = new Date();
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const m = today.getMonth() - birthDate.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      return age;
+    }
+
     window.onload = function () {
       const params = new URLSearchParams(window.location.search);
       const patientId = params.get('id');
@@ -165,6 +178,11 @@
         })
         .catch(err => console.error('Failed to load patient data:', err));
     };
+      document.getElementById('editForm').addEventListener('submit', function(e) {
+            const dob = document.getElementById('date_of_birth').value;
+            document.getElementById('hidden_age').value = calculateAgeFromDOB(dob);
+          });
+          
   </script>
 </body>
 </html>
