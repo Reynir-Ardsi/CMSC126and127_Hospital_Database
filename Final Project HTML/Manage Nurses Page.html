@@ -348,7 +348,7 @@
         e.preventDefault();
         submitBtn.disabled = true;
         const data = getFormData();
-        const url = `PHP files/add${currentRole}.php`;
+        const url = `PHP files/add${capitalize(currentRole)}.php`;
 
         try {
           const response = await fetch(url, {
@@ -381,7 +381,7 @@
           e.preventDefault();
           submitBtn.disabled = true;
           const updatedData = getFormData();
-          const url = `PHP files/edit${currentRole}.php`;
+          const url = `PHP files/edit${capitalize(currentRole)}.php`;
 
           try {
             const response = await fetch(url, {
@@ -408,7 +408,7 @@
         data[idField] = id;
 
         try {
-          const response = await fetch(`PHP files/delete${currentRole}.php`, {
+          const response = await fetch(`PHP files/delete${capitalize(currentRole)}.php`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
