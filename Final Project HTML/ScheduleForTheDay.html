@@ -139,6 +139,54 @@
     @media (max-width: 900px) {
       .main { flex-direction: column; }
     }
+    .edit-btn, .delete-btn {
+      background: #517792;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 4px 10px;
+      margin-right: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .delete-btn {
+      background: #d9534f;
+    }
+    .edit-btn:hover {
+      background: #31506b;
+    }
+    .delete-btn:hover {
+      background: #b52b27;
+    }
+    .modal-bg {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.3);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 9999;
+    }
+    .modal-content {
+      background: #fff;
+      padding: 30px 24px 18px 24px;
+      border-radius: 12px;
+      min-width: 340px;
+      max-width: 95vw;
+      max-height: 90vh;
+      overflow: auto;
+      position: relative;
+    }
+    .modal-content h2 {
+      margin-top: 0;
+    }
+    .modal-content button.close-modal {
+      position: absolute;
+      top: 10px;
+      right: 18px;
+      font-size: 20px;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -189,13 +237,16 @@
             <th>Time</th>
             <th>Doctor</th>
             <th>Patient</th>
+            <th>Room</th>
             <th>Reason</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody id="schedule-body"></tbody>
       </table>
     </div>
   </div>
+  <div id="modal-root"></div>
   <script>
     let appointments = {};
     let allAppointments = [];
@@ -204,9 +255,7 @@
     let currentMonth = new Date().getMonth();
     let currentYear = new Date().getFullYear();
 
-    // Fetch doctors and patients for the select dropdowns
     async function fetchDoctorsAndPatients() {
-      // Fetch doctors
       const doctorRes = await fetch('PHP files/getAllDoctors.php');
       doctors = await doctorRes.json();
       const doctorSelect = document.getElementById('doctorSelect');
@@ -218,7 +267,6 @@
         doctorSelect.appendChild(opt);
       });
 
-      // Fetch patients
       const patientRes = await fetch('PHP files/getPatients.php');
       patients = await patientRes.json();
       const patientSelect = document.getElementById('patientSelect');
@@ -227,11 +275,11 @@
         const opt = document.createElement('option');
         opt.value = pat.id || pat.patient_id;
         opt.textContent = pat.name || `${pat.first_name} ${pat.middle_initial || ''} ${pat.last_name}`;
+        opt.dataset.room = pat.room_number || '';
         patientSelect.appendChild(opt);
       });
     }
 
-    // Fetch all appointments and update both calendar and table
     async function fetchAllAppointments() {
       const res = await fetch("PHP files/getAllAppointments.php");
       const data = await res.json();
@@ -245,8 +293,12 @@
           time: a.time,
           doctor: `${a.doctor_first_name} ${a.doctor_last_name}`,
           patient: `${a.patient_first_name} ${a.middle_initial || ''} ${a.patient_last_name}`,
+          room: a.room_number || '', // keep the original room from patient
           reason: a.reason || '',
-          date: a.appointment_date
+          date: a.appointment_date,
+          doctor_id: a.doctor_id,
+          patient_id: a.patient_id,
+          appointment_date: a.appointment_date
         });
       });
       renderCalendar();
@@ -296,11 +348,9 @@
       });
     }
 
-    // Show all schedules in the right table
     function renderAllSchedulesTable() {
       const tbody = document.getElementById("schedule-body");
       tbody.innerHTML = '';
-      // Sort by date and time
       const sorted = [...allAppointments].sort((a, b) => {
         if (a.appointment_date === b.appointment_date) {
           return a.time.localeCompare(b.time);
@@ -310,7 +360,6 @@
       sorted.forEach(app => {
         const doctorName = `${app.doctor_first_name} ${app.doctor_last_name}`;
         const patientName = `${app.patient_first_name} ${app.middle_initial || ''} ${app.patient_last_name}`;
-        // Reason fallback: try app.reason, then app['reason'], then empty string
         const reason = (typeof app.reason !== "undefined" && app.reason !== null) ? app.reason : (typeof app['reason'] !== "undefined" ? app['reason'] : '');
         const row = document.createElement("tr");
         row.innerHTML = `
@@ -318,25 +367,110 @@
           <td>${app.time}</td>
           <td>${doctorName}</td>
           <td>${patientName}</td>
+          <td>${app.room_number || ''}</td>
           <td>${reason}</td>
+          <td>
+            <button class="edit-btn" onclick="openEditModal('${app.appointment_id}')">Edit</button>
+            <button class="delete-btn" onclick="deleteAppointment('${app.appointment_id}')">Delete</button>
+          </td>
         `;
         tbody.appendChild(row);
       });
     }
 
-    // Optionally, you can still use this for day details
     function renderDayDetails(dateKey) {
       const dayAppts = appointments[dateKey] || [];
       alert(
         dayAppts.length === 0
           ? 'No appointments'
-          : dayAppts.map(app => `Doctor: ${app.doctor} | Patient: ${app.patient} | Time: ${app.time} | Reason: ${app.reason || ''}`).join('\n')
+          : dayAppts.map(app => `Doctor: ${app.doctor} | Patient: ${app.patient} | Time: ${app.time} | Room: ${app.room} | Reason: ${app.reason || ''}`).join('\n')
       );
     }
 
-    // Add schedule handler
+    // Edit Modal
+    window.openEditModal = function(appointmentId) {
+      const app = allAppointments.find(a => a.appointment_id == appointmentId);
+      if (!app) return;
+      const modalRoot = document.getElementById('modal-root');
+      modalRoot.innerHTML = `
+        <div class="modal-bg" id="editModalBg">
+          <div class="modal-content">
+            <button class="close-modal" onclick="document.getElementById('modal-root').innerHTML=''">✕</button>
+            <h2>Edit Appointment</h2>
+            <form id="editAppointmentForm">
+              <label>Doctor</label>
+              <select id="editDoctorSelect" required>
+                ${doctors.map(d => `<option value="${d.id || d.user_id}" ${d.id == app.doctor_id || d.user_id == app.doctor_id ? 'selected' : ''}>${d.name || `${d.first_name} ${d.middle_initial || ''} ${d.last_name}`}</option>`).join('')}
+              </select>
+              <label>Patient</label>
+              <select id="editPatientSelect" required>
+                ${patients.map(p => `<option value="${p.id || p.patient_id}" ${p.id == app.patient_id || p.patient_id == app.patient_id ? 'selected' : ''}>${p.name || `${p.first_name} ${p.middle_initial || ''} ${p.last_name}`}</option>`).join('')}
+              </select>
+              <label>Date</label>
+              <input type="date" id="editDateInput" value="${app.appointment_date}" required>
+              <label>Time</label>
+              <input type="time" id="editTimeInput" value="${app.time.slice(0,5)}" required>
+              <label>Reason</label>
+              <input type="text" id="editReasonInput" value="${app.reason || ''}" required>
+              <button type="submit">Save Changes</button>
+            </form>
+          </div>
+        </div>
+      `;
+      document.getElementById('editAppointmentForm').onsubmit = async function(e) {
+        e.preventDefault();
+        const doctorId = document.getElementById('editDoctorSelect').value;
+        const patientId = document.getElementById('editPatientSelect').value;
+        const date = document.getElementById('editDateInput').value;
+        let raw = document.getElementById('editTimeInput').value;
+        const time = raw.length === 5 ? raw + ':00' : raw;
+        const reason = document.getElementById('editReasonInput').value;
+        if (!doctorId || !patientId || !date || !time || !reason) {
+          alert('Please fill in all fields.');
+          return;
+        }
+        const res = await fetch('PHP files/editAppointment.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({
+            appointmentId,
+            doctorId,
+            patientId,
+            appointmentDate: date,
+            appointmentTime: time,
+            reason
+          })
+        });
+        const result = await res.json();
+        if (result.success) {
+          alert('Appointment updated!');
+          document.getElementById('modal-root').innerHTML = '';
+          await fetchAllAppointments();
+        } else {
+          alert('Error: ' + (result.error || 'Unknown error'));
+        }
+      };
+    };
+
+    // Delete
+    window.deleteAppointment = async function(appointmentId) {
+      if (!confirm('Are you sure you want to delete this appointment?')) return;
+      const res = await fetch('PHP files/deleteAppointment.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ appointmentId })
+      });
+      const result = await res.json();
+      if (result.success) {
+        alert('Appointment deleted!');
+        await fetchAllAppointments();
+      } else {
+        alert('Error: ' + (result.error || 'Unknown error'));
+      }
+    };
+
     document.addEventListener("DOMContentLoaded", async () => {
-      await fetchDoctorsAndPatients(); // Only ONCE on page load
+      await fetchDoctorsAndPatients();
       await fetchAllAppointments();
 
       document.getElementById('addScheduleForm').addEventListener('submit', async function(e) {
@@ -353,7 +487,6 @@
           return;
         }
 
-        // Add appointment via backend (DO NOT add or edit patient here!)
         const res = await fetch('PHP files/addAppointment.php', {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -369,7 +502,7 @@
         if (result.success) {
           alert('Schedule added!');
           this.reset();
-          await fetchAllAppointments(); // <-- This will reload both calendar and table
+          await fetchAllAppointments();
         } else {
           alert('Error: ' + (result.error || 'Unknown error'));
         }
