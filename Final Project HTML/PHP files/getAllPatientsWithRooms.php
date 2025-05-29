@@ -1,4 +1,5 @@
 <?php
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -7,13 +8,12 @@ include 'DBConnector.php';
 
 $sql = "
     SELECT 
-        p.patient_id, 
-        p.first_name, 
-        p.middle_initial, 
-        p.last_name, 
-        a.room_number 
-    FROM patient p 
-    LEFT JOIN appointment a ON p.patient_id = a.patient_id
+        patient_id, 
+        first_name, 
+        middle_initial, 
+        last_name, 
+        room_number 
+    FROM patient
 ";
 
 $result = $conn->query($sql);
