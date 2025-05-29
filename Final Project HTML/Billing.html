@@ -48,10 +48,10 @@
     }
 
     .search-bar input {
-      width: 60%;
-      padding: 10px;
-      font-size: 16px;
+      width: 45%;
+      margin: 0 10px;
     }
+
 
     .billing-layout {
       display: flex;
@@ -64,10 +64,10 @@
 
     .patient-list {
       flex: 1;
-      width: 100%;
       max-width: 100%;
       overflow-y: auto;
       border: 1px solid #ccc;
+      border-radius: 1%;
       padding: 10px;
       font-size: 20px;
       font-weight: bold;
@@ -107,7 +107,7 @@
       cursor: pointer;
       margin-top: 10px;
       justify-content: center;
-      width: 15%;
+      width: 20%;
       background-color: #007bff;
       color: white;
       border-radius: 4px;
@@ -137,8 +137,10 @@
       width: 600px;
       display: flex;
       flex-direction: column;
-      padding: 10px;
-      margin: 10px 10px
+      padding: 10px 10px;
+      margin: 10px 10px;
+      border: solid 1px;
+      background-color: #ECEFCA;
     }
   </style>
 </head>
@@ -151,11 +153,13 @@
 
     <div class="search-bar">
       <input type="text" id="searchInput" placeholder="Search patients..." onkeyup="filterPatients()" />
+      <input type="text" id="doctorSearchInput" placeholder="Search by doctor..." onkeyup="filterPatients()" />
     </div>
+
 
     <div class="billing-layout">
       <div class="column">
-        <h1>Patient List</h1>
+        <h1>Appointment List</h1>
         <div class="patient-list" id="patientList"></div>
       </div>
 
@@ -197,15 +201,22 @@
       patients.forEach(patient => {
         const div = document.createElement("div");
         div.className = "patient";
-        div.textContent = patient.name;
+        div.textContent = `Doctor: ${patient.doctor_name}   Patient: ${patient.name}`;
         div.onclick = () => selectPatient(patient);
         patientList.appendChild(div);
       });
     }
 
     function filterPatients() {
-      const input = document.getElementById("searchInput").value.toLowerCase();
-      const filtered = allPatients.filter(p => p.name.toLowerCase().includes(input));
+      const nameInput = document.getElementById("searchInput").value.toLowerCase();
+      const doctorInput = document.getElementById("doctorSearchInput").value.toLowerCase();
+
+      const filtered = allPatients.filter(p => {
+        const nameMatch = p.name.toLowerCase().includes(nameInput);
+        const doctorMatch = p.doctor_name?.toLowerCase().includes(doctorInput);
+        return nameMatch && doctorMatch;
+      });
+
       renderPatients(filtered);
     }
 
@@ -306,7 +317,7 @@
                 <td>
                   <button onclick="enableEdit(this)">Edit</button>
                   <button style="display:none;" onclick="updateBilling(this, ${entry.patient_id})">Update</button>
-                  <button onclick="deleteBilling(${entry.patient_id})">Delete</button>
+                  <button onclick="deleteBilling(${entry.billing_id})">Delete</button>
                 </td>
               </tr>
             `;
