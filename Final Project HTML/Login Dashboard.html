@@ -12,11 +12,11 @@
     crossorigin=""
   />
   
-  <script
+  <script defer
     src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-    crossorigin=""
-  ></script>
+    crossorigin="">
+  </script>
 
   <style>
     * {
@@ -31,6 +31,21 @@
       display: flex;
       min-height: 100vh;
       overflow-x: hidden;
+
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition:
+        opacity 2.5s cubic-bezier(0.4, 0, 0.2, 1),
+        visibility 0s linear 2.5s,
+        transform 2.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body.loaded {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      transition-delay: 0s;
     }
 
     .firstBox {
@@ -192,15 +207,15 @@
       </form>
       <div id="errorMessage" class="error-message" style="display:none;"></div>
       <div class="links">
-        <a href="#" onclick="openForgotPopup()">Forgot Password?</a>
-        <a href="#" onclick="openPopup()">Find Hospital</a>
+        <a href="#" id="forgotLink">Forgot Password?</a>
+        <a href="#" id="findHospitalLink">Find Hospital</a>
       </div>
     </div>
   </div>
 
   <div class="secondBox">
     <div class="backgroundImage">
-      <img src="pictures/Hospital Background Philippine Setting.png" alt="Hospital Background">
+      <img src="pictures/Hospital Background Philippine Setting.png" alt="Hospital Background" />
     </div>
   </div>
 
@@ -221,122 +236,135 @@
   </div>
 
   <script>
-  // Map Popup
-  let mapInitialized = false;
-  let map;
+    // Map Popup
+    let mapInitialized = false;
+    let map;
 
-  function openPopup() {
-    document.getElementById('popup').style.display = 'flex';
+    function openPopup() {
+      document.getElementById('popup').style.display = 'flex';
 
-    if (!mapInitialized) {
-      map = L.map('map').setView([11.3500, 142.2000], 13);
-      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; OpenStreetMap contributors'
-      }).addTo(map);
-      L.marker([11.3500, 142.2000]).addTo(map);
-      mapInitialized = true;
-    }
-
-    setTimeout(() => {
-      map.invalidateSize();
-    }, 100);
-  }
-
-  function closePopup() {
-    document.getElementById('popup').style.display = 'none';
-  }
-
-  document.getElementById('popup').addEventListener('click', function (e) {
-    if (!document.getElementById('popupBox').contains(e.target)) {
-      closePopup();
-    }
-  });
-
-  // Forgot Password Popup
-  const adminContact = {
-    email: "RJ'sAngels@hospital.org",
-    phone: "(123) 456-7890",
-    office: "Room 2004, Admin Building",
-    note: "For security reasons, password resets must be handled in person or through authorized channels only."
-  };
-
-  function openForgotPopup() {
-    const content = `
-      <h3 style="margin-bottom: 20px;">Password Assistance</h3>
-      <p style="margin-bottom: 15px;">
-        If you forgot your password, please contact the system administrator:
-      </p>
-      <ul style="margin-bottom: 20px; padding-left: 20px;">
-        <li style="margin-bottom: 20px;"><strong>Email:</strong> ${adminContact.email}</li>
-        <li style="margin-bottom: 20px;"><strong>Phone:</strong> ${adminContact.phone}</li>
-        <li style="margin-bottom: 20px;"><strong>IT Helpdesk:</strong> ${adminContact.office}</li>
-      </ul>
-      <p style="margin-top: 30px; font-style: italic;">
-        ${adminContact.note}
-      </p>
-    `;
-    document.getElementById('forgotContent').innerHTML = content;
-    document.getElementById('forgotPopup').style.display = 'flex';
-  }
-
-  function closeForgotPopup() {
-    document.getElementById('forgotPopup').style.display = 'none';
-  }
-
-  document.getElementById('forgotPopup').addEventListener('click', function (e) {
-    if (!document.getElementById('forgotPopupBox').contains(e.target)) {
-      closeForgotPopup();
-    }
-  });
-
-  // 🚀 Login Submission with sessionStorage + JSON
-  document.getElementById("loginForm").addEventListener("submit", function (e) {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-
-    fetch("PHP files/loginUser.php", {
-      method: "POST",
-      body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.status === "success") {
-        sessionStorage.setItem("user_id", data.user_id);
-        sessionStorage.setItem("role", data.role);
-
-        let redirectURL = "";
-        switch (data.role) {
-          case "Doctor":
-            redirectURL = "/CMSC126and127_Hospital_Database/Final%20Project%20HTML/Doctor Dashboard.html";
-            break;
-          case "Admin":
-            redirectURL = "/CMSC126and127_Hospital_Database/Final%20Project%20HTML/Admin Dashboard.html";
-            break;
-          case "Nurse":
-            redirectURL = "/CMSC126and127_Hospital_Database/Final%20Project%20HTML/Nurse Dashboard.html";
-            break;
-          case "Receptionist":
-            redirectURL = "/CMSC126and127_Hospital_Database/Final%20Project%20HTML/Receptionist Dashboard.html";
-            break;
-          default:
-            alert("Unknown role. Please contact the admin.");
-            return;
-        }
-        window.location.href = redirectURL;
-      } else {
-        const errorDiv = document.getElementById("errorMessage");
-        errorDiv.innerText = data.message || "Login failed.";
-        errorDiv.style.display = "block";
+      if (!mapInitialized) {
+        map = L.map('map').setView([11.3500, 142.2000], 13);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19,
+          attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+        L.marker([11.3500, 142.2000]).addTo(map);
+        mapInitialized = true;
       }
-    })
-    .catch(error => {
-      console.error("Error:", error);
-      const errorDiv = document.getElementById("errorMessage");
-      errorDiv.innerText = "Network or server error. Try again later.";
-      errorDiv.style.display = "block";
+
+      setTimeout(() => {
+        map.invalidateSize();
+      }, 100);
+    }
+
+    function closePopup() {
+      document.getElementById('popup').style.display = 'none';
+    }
+
+    document.getElementById('popup').addEventListener('click', function (e) {
+      if (!document.getElementById('popupBox').contains(e.target)) {
+        closePopup();
+      }
     });
-  });
-</script>
+
+    // Forgot Password Popup
+    const adminContact = {
+      email: "RJ'sAngels@hospital.org",
+      phone: "(123) 456-7890",
+      office: "Room 2004, Admin Building",
+      note: "For security reasons, password resets must be handled in person or through authorized channels only."
+    };
+
+    function openForgotPopup() {
+      const content = `
+        <h3 style="margin-bottom: 20px;">Password Assistance</h3>
+        <p style="margin-bottom: 15px;">
+          If you forgot your password, please contact the system administrator:
+        </p>
+        <ul style="margin-bottom: 20px; padding-left: 20px;">
+          <li style="margin-bottom: 20px;"><strong>Email:</strong> ${adminContact.email}</li>
+          <li style="margin-bottom: 20px;"><strong>Phone:</strong> ${adminContact.phone}</li>
+          <li style="margin-bottom: 20px;"><strong>IT Helpdesk:</strong> ${adminContact.office}</li>
+        </ul>
+        <p style="margin-top: 30px; font-style: italic;">
+          ${adminContact.note}
+        </p>
+      `;
+      document.getElementById('forgotContent').innerHTML = content;
+      document.getElementById('forgotPopup').style.display = 'flex';
+    }
+
+    function closeForgotPopup() {
+      document.getElementById('forgotPopup').style.display = 'none';
+    }
+
+    document.getElementById('forgotPopup').addEventListener('click', function (e) {
+      if (!document.getElementById('forgotPopupBox').contains(e.target)) {
+        closeForgotPopup();
+      }
+    });
+
+    // 🚀 Login Submission with sessionStorage + JSON
+    document.getElementById("loginForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+
+      fetch("PHP files/loginUser.php", {
+        method: "POST",
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === "success") {
+          sessionStorage.setItem("user_id", data.user_id);
+          sessionStorage.setItem("role", data.role);
+
+          let redirectURL = "";
+          switch (data.role) {
+            case "Doctor":
+              redirectURL = "/CMSC126and127_Hospital_Database/Final%20Project%20HTML/Doctor Dashboard.html";
+              break;
+            case "Admin":
+              redirectURL = "/CMSC126and127_Hospital_Database/Final%20Project%20HTML/Admin Dashboard.html";
+              break;
+            case "Nurse":
+              redirectURL = "/CMSC126and127_Hospital_Database/Final%20Project%20HTML/Nurse Dashboard.html";
+              break;
+            case "Receptionist":
+              redirectURL = "/CMSC126and127_Hospital_Database/Final%20Project%20HTML/Receptionist Dashboard.html";
+              break;
+            default:
+              alert("Unknown role. Please contact the admin.");
+              return;
+          }
+          window.location.href = redirectURL;
+        } else {
+          const errorDiv = document.getElementById("errorMessage");
+          errorDiv.innerText = data.message || "Login failed.";
+          errorDiv.style.display = "block";
+        }
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        const errorDiv = document.getElementById("errorMessage");
+        errorDiv.innerText = "Network or server error. Try again later.";
+        errorDiv.style.display = "block";
+      });
+    });
+
+    document.getElementById('findHospitalLink').addEventListener('click', function(e) {
+      e.preventDefault();
+      openPopup();
+    });
+    document.getElementById('forgotLink').addEventListener('click', function(e) {
+      e.preventDefault();
+      openForgotPopup();
+    });
+
+    window.addEventListener('load', () => {
+      document.body.classList.add('loaded');
+    });
+  </script>
 </body>
 </html>
