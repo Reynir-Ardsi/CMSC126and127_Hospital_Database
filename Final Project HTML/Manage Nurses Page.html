@@ -198,7 +198,7 @@
   <header>
     <button class="back-button" onclick="history.back()">&#8592;</button>
     <h1>Manage Nurse / Receptionist</h1>
-    <img src="Logo Only.png" alt="Logo" class="logo" />
+    <img src="pictures/Logo Only.png" alt="Logo" class="logo" />
   </header>
 
   <div class="container">
@@ -214,14 +214,15 @@
           </select>
         </div>
 
+        <!-- Just replace your current code with this fixed snippet for the ID fields -->
         <div class="form-group" id="nurseIDContainer">
           <label for="nurseID">Nurse ID:</label>
-          <input type="text" id="nurseID" placeholder="e.g. 01" required>
+          <input type="text" id="nurseID" name="nurseID" placeholder="e.g. 01">
         </div>
 
         <div class="form-group" id="receptionistIDContainer" style="display:none;">
           <label for="receptionistID">Receptionist ID:</label>
-          <input type="text" id="receptionistID" placeholder="e.g. 01" required>
+          <input type="text" id="receptionistID" name="receptionistID" placeholder="e.g. 01">
         </div>
 
         <div class="form-group">
@@ -340,7 +341,7 @@
           contact: document.getElementById("contact").value,
           email: document.getElementById("email").value,
           username: document.getElementById("username").value,
-          password: document.getElementById("password").value = ""
+          password: document.getElementById("password").value
         };
       }
 
@@ -380,25 +381,48 @@
         staffForm.onsubmit = async function (e) {
           e.preventDefault();
           submitBtn.disabled = true;
-          const updatedData = getFormData();
-          const url = `PHP files/edit${capitalize(currentRole)}.php`;
+
+          // Validate visible ID field
+          const nurseID = document.getElementById("nurseID");
+          const receptionistID = document.getElementById("receptionistID");
+          const role = roleSelect.value;
+
+          if (role === "nurse" && nurseID.value.trim() === "") {
+            showToast("Please enter Nurse ID.");
+            nurseID.focus();
+            submitBtn.disabled = false;
+            return;
+          }
+
+          if (role === "receptionist" && receptionistID.value.trim() === "") {
+            showToast("Please enter Receptionist ID.");
+            receptionistID.focus();
+            submitBtn.disabled = false;
+            return;
+          }
+
+          const data = getFormData();
+          const url = `PHP files/add${capitalize(currentRole)}.php`;
 
           try {
             const response = await fetch(url, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(updatedData),
+              body: JSON.stringify(data),
             });
             const result = await response.text();
             showToast(result);
             staffForm.reset();
             fetchStaff();
+            // ✅ Restore to original submit handler for adding new staff
             staffForm.onsubmit = originalSubmitHandler;
           } catch (err) {
-            showToast("Error editing staff.");
+            showToast("Error updating staff.");
           }
+
           submitBtn.disabled = false;
         };
+
       };
 
       window.deleteStaff = async function (id) {

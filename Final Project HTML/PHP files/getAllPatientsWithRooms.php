@@ -8,11 +8,13 @@ include 'DBConnector.php';
 
 $sql = "
     SELECT 
-        patient_id, 
+        patient.patient_id, 
         first_name, 
         middle_initial, 
-        last_name
+        last_name,
+        appointment.room_number
     FROM patient
+    INNER JOIN appointment ON appointment.patient_id = patient.patient_id
 ";
 
 $result = $conn->query($sql);

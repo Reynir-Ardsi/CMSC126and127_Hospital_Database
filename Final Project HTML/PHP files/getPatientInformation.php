@@ -1,19 +1,20 @@
-
 <?php
 include 'DBConnector.php';
 
-// SQL query to fetch all patients
-$sql = "SELECT * FROM patient";
+if (!isset($_GET['id'])) {
+    echo json_encode(['error' => 'No ID provided']);
+    exit;
+}
+
+$patientId = intval($_GET['id']);  // Sanitize input
+$sql = "SELECT * FROM patient WHERE patient_id = $patientId";
 $result = $conn->query($sql);
 
-$patients = [];
 if ($result && $result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $patients[] = $row;
-    }
-    echo json_encode($patients);
+    $patient = $result->fetch_assoc();
+    echo json_encode($patient);
 } else {
-    echo json_encode([]);
+    echo json_encode(['error' => 'Patient not found']);
 }
 
 $conn->close();

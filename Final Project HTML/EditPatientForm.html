@@ -38,9 +38,22 @@
       width: 93%;
       padding: 8px;
       font-size: 16px;
+      box-sizing: border-box;
     }
     .full-width {
       grid-column: span 2;
+      width: 100%;
+    }
+    textarea {
+      width: 100%;
+      min-height: 80px;
+      box-sizing: border-box;
+      padding: 8px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: vertical;
+      font-family: Arial, sans-serif;
     }
     button {
       padding: 10px 20px;
@@ -105,7 +118,7 @@
       </div>
       <div>
         <label for="maritalStatus">Marital Status</label>
-          <select id="marital_status" name="marital_status" required>   
+        <select id="marital_status" name="marital_status" required>   
           <option value="">-- Select Status --</option>
           <option value="Single">Single</option>
           <option value="Married">Married</option>
@@ -128,6 +141,21 @@
       <div>
         <label>Date Admitted</label>
         <input type="date" name="date_admitted" id="date_admitted" />
+      </div>
+
+      <div class="full-width">
+        <label>Medical History</label>
+        <textarea name="medical_history" id="medical_history" rows="3"></textarea>
+      </div>
+
+      <div class="full-width">
+        <label>Prescriptions</label>
+        <textarea name="medications" id="medications" rows="3"></textarea>
+      </div>
+
+      <div class="full-width">
+        <label>Lifestyle</label>
+        <textarea name="lifestyle" id="lifestyle" rows="3"></textarea>
       </div>
 
       <div class="full-width" style="text-align: center;">
@@ -176,10 +204,14 @@
           document.getElementById('email_address').value = patient.email_address;
           document.getElementById('address').value = patient.address;
           document.getElementById('emergency_contact').value = patient.emergency_contact;
-          document.getElementById('marital_status').value = patient.marital_status || '';           document.getElementById('occupation').value = patient.occupation;
+          document.getElementById('marital_status').value = patient.marital_status || '';
+          document.getElementById('occupation').value = patient.occupation;
           document.getElementById('insurance_provider').value = patient.insurance_provider;
           document.getElementById('allergies').value = patient.allergies;
           document.getElementById('date_admitted').value = patient.date_admitted;
+          document.getElementById('medical_history').value = patient.medical_history || '';
+          document.getElementById('medications').value = patient.medications || '';
+          document.getElementById('lifestyle').value = patient.lifestyle || '';
         })
         .catch(err => console.error('Failed to load patient data:', err));
 

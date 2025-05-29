@@ -14,40 +14,88 @@ $middleInitial = $data['middleInitial'];
 $lastName = $data['lastName'];
 $contact = $data['contact'];
 $email = $data['email'];
-$username = $data['username'];
 $password = $data['password'];
-$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
+// Check if receptionist already exists in users table
 $checkStmt = $conn->prepare("SELECT user_id FROM users WHERE user_id = ?");
 $checkStmt->bind_param("s", $receptionistID);
 $checkStmt->execute();
 $checkStmt->store_result();
 
-if ($checkStmt->num_rows > 0) {
-    echo "A receptionist with this ID already exists.";
-    $checkStmt->close();
-    $conn->close();
-    exit;
-}
+$isExisting = $checkStmt->num_rows > 0;
 $checkStmt->close();
 
-$stmt1 = $conn->prepare("INSERT INTO users (user_id, first_name, middle_initial, last_name, contact_number, email) VALUES (?, ?, ?, ?, ?, ?)");
-$stmt1->bind_param("ssssss", $receptionistID, $firstName, $middleInitial, $lastName, $contact, $email);
+if ($isExisting) {
+    // UPDATE users info (without password)
+    $stmt = $conn->prepare("UPDATE users SET first_name=?, middle_initial=?, last_name=?, contact_number=?, email=? WHERE user_id=?");
+    $stmt->bind_param("ssssss", $firstName, $middleInitial, $lastName, $contact, $email, $receptionistID);
+    $userUpdated = $stmt->execute();
+    $stmt->close();
 
-$stmt2 = $conn->prepare("INSERT INTO login (user_id, username, password) VALUES (?, ?, ?)");
-$stmt2->bind_param("sss", $receptionistID, $username, $hashedPassword);
+    // If password provided, update in login table
+    if (!empty($password)) {
+        // No hashing, store plain password
+        // Check if user already has a login entry
+        $loginCheck = $conn->prepare("SELECT user_id FROM login WHERE user_id = ?");
+        $loginCheck->bind_param("s", $receptionistID);
+        $loginCheck->execute();
+        $loginCheck->store_result();
+        $loginExists = $loginCheck->num_rows > 0;
+        $loginCheck->close();
 
-$stmt3 = $conn->prepare("INSERT INTO job (user_id, role) VALUES (?, 'Receptionist')");
-$stmt3->bind_param("s", $receptionistID);
+        if ($loginExists) {
+            // UPDATE password in login table
+            $loginUpdate = $conn->prepare("UPDATE login SET password=? WHERE user_id=?");
+            $loginUpdate->bind_param("ss", $password, $receptionistID);
+            $loginUpdated = $loginUpdate->execute();
+            $loginUpdate->close();
+        } else {
+            // INSERT password in login table
+            $username = $email;
+            $loginInsert = $conn->prepare("INSERT INTO login (user_id, username, password) VALUES (?, ?, ?)");
+            $loginInsert->bind_param("sss", $receptionistID, $username, $password);
+            $loginInserted = $loginInsert->execute();
+            $loginInsert->close();
+        }
+    }
+    
+    if ($userUpdated) {
+        echo "Receptionist updated successfully.";
+    } else {
+        echo "Failed to update receptionist.";
+    }
 
-if ($stmt1->execute() && $stmt2->execute() && $stmt3->execute()) {
-    echo "Receptionist added successfully!";
 } else {
-    echo "Error adding receptionist: " . $conn->error;
+    // INSERT new receptionist (password required)
+    if (empty($password)) {
+        echo "Password is required for new receptionist.";
+        exit;
+    }
+
+    // Insert into users table with role 'receptionist'
+    $stmt = $conn->prepare("INSERT INTO users (user_id, first_name, middle_initial, last_name, contact_number, email, role) VALUES (?, ?, ?, ?, ?, ?, 'receptionist')");
+    $stmt->bind_param("ssssss", $receptionistID, $firstName, $middleInitial, $lastName, $contact, $email);
+    $userInserted = $stmt->execute();
+    $stmt->close();
+
+    if ($userInserted) {
+        // Insert into login table
+        $username = $email;
+
+        $loginInsert = $conn->prepare("INSERT INTO login (user_id, username, password) VALUES (?, ?, ?)");
+        $loginInsert->bind_param("sss", $receptionistID, $username, $password);
+        $loginInserted = $loginInsert->execute();
+        $loginInsert->close();
+
+        if ($loginInserted) {
+            echo "Receptionist added successfully.";
+        } else {
+            echo "Failed to add login info.";
+        }
+    } else {
+        echo "Failed to add receptionist.";
+    }
 }
 
-$stmt1->close();
-$stmt2->close();
-$stmt3->close();
 $conn->close();
 ?>
