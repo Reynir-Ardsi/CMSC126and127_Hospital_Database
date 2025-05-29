@@ -17,11 +17,12 @@ $totalAmount    = $data['total_amount'] ?? null;
 $paymentStatus  = trim($data['payment_status'] ?? '');
 $paymentDate    = $data['payment_date'] ?? null;
 $receptionistId = $data['receptionist_id'] ?? null;
+$dateIssued     = $data['date'] ?? null;  // Capture the date_issued from the request
 
 // Check for required fields and correct types
 if (
     !$patientId || !$service || $totalAmount === null || !is_numeric($totalAmount) ||
-    !$paymentStatus || !$paymentDate || !$receptionistId
+    !$paymentStatus || !$paymentDate || !$receptionistId || !$dateIssued
 ) {
     echo json_encode(['success' => false, 'error' => 'Missing or invalid required fields']);
     exit;
@@ -38,8 +39,8 @@ $billingId = generateBillingId();
 try {
     $stmt = $conn->prepare("
         INSERT INTO billing 
-            (billing_id, patient_id, service, total_amount, payment_status, payment_date, receptionist_id) 
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+            (billing_id, patient_id, service, total_amount, payment_status, payment_date, receptionist_id, date_issued) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     ");
     $stmt->execute([
         $billingId,
@@ -48,7 +49,8 @@ try {
         $totalAmount,
         $paymentStatus,
         $paymentDate,
-        $receptionistId
+        $receptionistId,
+        $dateIssued // Add the date_issued value to the query
     ]);
 
     echo json_encode(['success' => true]);
