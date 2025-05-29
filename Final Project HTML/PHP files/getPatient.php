@@ -23,6 +23,7 @@ $result = $conn->query($sql);
 $patients = [];
 while ($row = $result->fetch_assoc()) {
     $patients[] = [
+        'appointment_id' => $row['appointment_id'],
         'id'          => $row['patient_id'],
         'name'        => trim($row['patient_first'] . ' ' . $row['patient_middle'] . ' ' . $row['patient_last']),
         'doctor_name' => trim($row['doctor_first'] . ' ' . $row['doctor_middle'] . ' ' . $row['doctor_last']),
