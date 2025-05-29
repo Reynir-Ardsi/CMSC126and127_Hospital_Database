@@ -150,7 +150,7 @@
 
       <div class="full-width">
         <label>Prescriptions</label>
-        <textarea name="medications" id="medications" rows="3"></textarea>
+        <textarea name="prescriptions" id="prescriptions" rows="3"></textarea>
       </div>
 
       <div class="full-width">
@@ -210,7 +210,7 @@
           document.getElementById('allergies').value = patient.allergies;
           document.getElementById('date_admitted').value = patient.date_admitted;
           document.getElementById('medical_history').value = patient.medical_history || '';
-          document.getElementById('medications').value = patient.medications || '';
+          document.getElementById('prescriptions').value = patient.prescriptions || '';
           document.getElementById('lifestyle').value = patient.lifestyle || '';
         })
         .catch(err => console.error('Failed to load patient data:', err));

@@ -20,11 +20,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $occupation = $_POST['occupation'] ?? '';
     $insurance_provider = $_POST['insurance_provider'] ?? '';
     $allergies = $_POST['allergies'] ?? '';
-    $medications = null; // Same as medical_history
-    $lifestyle = null;   // Same as above
     $middle_initial = $_POST['middle_initial'] ?? '';
     $medical_history = $_POST['medical_history'] ?? null;
-    $medications = $_POST['medications'] ?? null;
+    $prescriptions = $_POST['prescriptions'] ?? null;
     $lifestyle = $_POST['lifestyle'] ?? null;
 
 
@@ -45,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         occupation = ?, 
         insurance_provider = ?, 
         allergies = ?, 
-        medications = ?, 
+        prescriptions = ?, 
         lifestyle = ?, 
         middle_initial = ? 
     WHERE patient_id = ?";
@@ -68,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $occupation,
             $insurance_provider,
             $allergies,
-            $medications,
+            $prescriptions,
             $lifestyle,
             $middle_initial,
             $id
