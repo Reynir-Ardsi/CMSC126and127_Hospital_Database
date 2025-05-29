@@ -144,7 +144,7 @@
 <body>
   <header>
     <button class="back-button" onclick="history.back()">←</button>
-    Schedules for the Days
+    Schedules for the Day
   </header>
   <div class="main">
     <!-- Left Side: Calendar and Add Schedule -->
@@ -174,8 +174,6 @@
           <input type="date" id="dateInput" required>
           <label for="timeInput">Time</label>
           <input type="time" id="timeInput" required>
-          <label for="roomInput">Room Number</label>
-          <input type="text" id="roomInput" required>
           <label for="reasonInput">Reason</label>
           <input type="text" id="reasonInput" required>
           <button type="submit">Add Schedule</button>
@@ -191,7 +189,6 @@
             <th>Time</th>
             <th>Doctor</th>
             <th>Patient</th>
-            <th>Room</th>
             <th>Reason</th>
           </tr>
         </thead>
@@ -246,7 +243,6 @@
         appointments[key].push({
           id: a.appointment_id,
           time: a.time,
-          room: a.room_number,
           doctor: `${a.doctor_first_name} ${a.doctor_last_name}`,
           patient: `${a.patient_first_name} ${a.middle_initial || ''} ${a.patient_last_name}`,
           reason: a.reason || '',
@@ -314,14 +310,15 @@
       sorted.forEach(app => {
         const doctorName = `${app.doctor_first_name} ${app.doctor_last_name}`;
         const patientName = `${app.patient_first_name} ${app.middle_initial || ''} ${app.patient_last_name}`;
+        // Reason fallback: try app.reason, then app['reason'], then empty string
+        const reason = (typeof app.reason !== "undefined" && app.reason !== null) ? app.reason : (typeof app['reason'] !== "undefined" ? app['reason'] : '');
         const row = document.createElement("tr");
         row.innerHTML = `
           <td>${app.appointment_date}</td>
           <td>${app.time}</td>
           <td>${doctorName}</td>
           <td>${patientName}</td>
-          <td>${app.room_number}</td>
-          <td>${app.reason || ''}</td>
+          <td>${reason}</td>
         `;
         tbody.appendChild(row);
       });
@@ -333,7 +330,7 @@
       alert(
         dayAppts.length === 0
           ? 'No appointments'
-          : dayAppts.map(app => `Doctor: ${app.doctor} | Patient: ${app.patient} | Room: ${app.room} | Time: ${app.time}`).join('\n')
+          : dayAppts.map(app => `Doctor: ${app.doctor} | Patient: ${app.patient} | Time: ${app.time} | Reason: ${app.reason || ''}`).join('\n')
       );
     }
 
@@ -349,10 +346,9 @@
         const date = document.getElementById('dateInput').value;
         let raw = document.getElementById('timeInput').value;
         const time = raw.length === 5 ? raw + ':00' : raw;
-        const room = document.getElementById('roomInput').value;
         const reason = document.getElementById('reasonInput').value;
 
-        if (!doctorId || !patientId || !date || !time || !room || !reason) {
+        if (!doctorId || !patientId || !date || !time || !reason) {
           alert('Please fill in all fields.');
           return;
         }
@@ -366,7 +362,6 @@
             patientId,
             appointmentDate: date,
             appointmentTime: time,
-            roomNumber: room,
             reason
           })
         });
