@@ -50,6 +50,7 @@
     .search-bar input {
       width: 45%;
       margin: 0 10px;
+      font-size: 20px;
     }
 
 
@@ -138,10 +139,31 @@
       display: flex;
       flex-direction: column;
       padding: 10px 10px;
-      margin: 10px 10px;
+      margin: 0px 10px;
       border: solid 1px;
       background-color: #ECEFCA;
     }
+    .patient {
+      padding: 12px 16px;
+      border-bottom: 1px solid #ddd;
+      cursor: pointer;
+      background-color: white;
+      margin-bottom: 8px;
+      border-radius: 6px;
+      box-shadow: 0 1px 3px rgb(0 0 0 / 0.1);
+      transition: background-color 0.3s ease;
+    }
+
+    .patient:hover {
+      background-color: #d7e0f3;
+    }
+
+    .patient div {
+      margin-bottom: 4px;
+      font-size: 16px;
+      color: #333;
+    }
+
   </style>
 </head>
 <body>
@@ -169,7 +191,13 @@
           <input type="text" id="selectedPatient" placeholder="Selected Patient" readonly />
           <input type="text" id="serviceProvided" placeholder="Service Provided (e.g., X-ray, Consultation)" />
           <input type="number" id="totalAmount" placeholder="Total Amount (PHP)" />
-          <input type="text" id="paymentStatus" placeholder="Payment Status (e.g., Paid, Unpaid)" />
+          <select id="paymentStatus" style="width: 96%; padding: 10px; font-size: 16px; margin: 5px auto;">
+            <option value="">-- Select Payment Status --</option>
+            <option value="Succeeded">Succeeded</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Failed">Failed</option>
+            <option value="Expired">Expired</option>
+          </select>
           <input type="date" id="paymentDate" placeholder="Payment Date" />
           <button onclick="addBilling()">Add Billing Entry</button>
         </div>
@@ -201,7 +229,13 @@
       patients.forEach(patient => {
         const div = document.createElement("div");
         div.className = "patient";
-        div.textContent = `Doctor: ${patient.doctor_name}   Patient: ${patient.name}`;
+
+        div.innerHTML = `
+          <div><strong>Appointment ID:</strong> ${patient.appointment_id || 'N/A'}</div>
+          <div><strong>Doctor:</strong> ${patient.doctor_name || 'N/A'}</div>
+          <div><strong>Patient:</strong> ${patient.name || 'N/A'}</div>
+        `;
+
         div.onclick = () => selectPatient(patient);
         patientList.appendChild(div);
       });
@@ -245,14 +279,18 @@
         return;
       }
 
+      const today = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
+
       const billingData = {
         patient_id: patientId,
         service,
         total_amount: totalAmount,
         payment_status: paymentStatus,
         payment_date: paymentDate,
-        receptionist_id: receptionistId
+        receptionist_id: receptionistId,
+        date: today // Add the current date to the record
       };
+
 
       fetch('PHP files/addBilling.php', {
         method: 'POST',
@@ -309,7 +347,7 @@
           data.forEach(entry => {
             html += `
               <tr>
-                <td>${entry.date || '-'}</td>
+                <td>${entry.date_issued || '-'}</td>
                 <td>${entry.service || '-'}</td>
                 <td style="text-align: right;">${entry.total_amount || '-'}</td>
                 <td>${entry.payment_status || '-'}</td>
