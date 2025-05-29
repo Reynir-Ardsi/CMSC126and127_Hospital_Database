@@ -436,8 +436,8 @@
         const time = cells[4].textContent.trim();
         const room = cells[5].textContent.trim();
 
-        cells[1].innerHTML = `<input type="text" value="${doctorName}" readonly>`;
-        cells[2].innerHTML = `<input type="text" value="${patientName}" readonly>`;
+        cells[1].innerHTML = `<span>${doctorName}</span>`;
+      cells[2].innerHTML = `<span>${patientName}</span>`;
         cells[3].innerHTML = `<input type="date" value="${date}">`;
         cells[4].innerHTML = `<input type="time" value="${time}">`;
         cells[5].innerHTML = `<input type="text" value="${room}">`;
@@ -452,8 +452,8 @@
         const timeInput = cells[4].querySelector("input");
         const roomInput = cells[5].querySelector("input");
 
-        const newDoctor = doctorInput.value.trim();    // used for display only
-        const newPatient = patientInput.value.trim();  // used for display only
+        const newDoctor = cells[1].querySelector("span").textContent.trim();
+        const newPatient = cells[2].querySelector("span").textContent.trim();
         const newDate = dateInput.value;
         const newTime = timeInput.value;
         const newRoom = roomInput.value;
