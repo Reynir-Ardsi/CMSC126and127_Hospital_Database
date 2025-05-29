@@ -241,7 +241,8 @@
 
         <div class="form-group">
           <label for="contact">Contact Number:</label>
-          <input type="tel" id="contact" placeholder="e.g. 1234567890" required>
+          <input type="tel" id="contact" name="contact" placeholder="e.g. 1234567890" 
+                pattern="[0-9]{11}" maxlength="11" inputmode="numeric" required>
         </div>
 
         <div class="form-group">
