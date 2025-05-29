@@ -12,10 +12,9 @@ try {
     $appointmentDate= $_POST['appointmentDate']      ?? '';
     $rawTime        = $_POST['appointmentTime']      ?? '';
     $time           = preg_match('/^\d{2}:\d{2}$/', $rawTime) ? "$rawTime:00" : $rawTime;
-    $roomNumber     = trim($_POST['roomNumber']      ?? '');
     $reason         = trim($_POST['reason']          ?? '');
 
-    if (!$doctorId || !$patientId || !$appointmentDate || !$time || !$roomNumber) {
+    if (!$doctorId || !$patientId || !$appointmentDate || !$time) {
         http_response_code(400);
         throw new Exception('Missing required fields');
     }
@@ -35,23 +34,22 @@ try {
     }
     $appointmentId = generateAppointmentId($conn);
 
-    // 3) Insert into appointment table
+    // 3) Insert into appointment table (remove room_number)
     $stmt = $conn->prepare("
         INSERT INTO appointment
           (appointment_id, patient_id, doctor_id,
-           appointment_date, room_number, time, status, reason)
-        VALUES (?, ?, ?, ?, ?, ?, 1, ?)
+           appointment_date, time, status, reason)
+        VALUES (?, ?, ?, ?, ?, 1, ?)
     ");
     if (!$stmt) {
         throw new Exception("Prepare failed: " . $conn->error);
     }
     $stmt->bind_param(
-        "iiissss",
+        "iiisss",
         $appointmentId,
         $patientId,
         $doctorId,
         $appointmentDate,
-        $roomNumber,
         $time,
         $reason
     );

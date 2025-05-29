@@ -10,11 +10,11 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $appointmentId = isset($_POST['appointmentId']) ? intval($_POST['appointmentId']) : 0;
 $appointmentDate = $_POST['appointmentDate'] ?? null;
 $appointmentTime = $_POST['appointmentTime'] ?? null;
-$roomNumber = $_POST['roomNumber'] ?? null;
+$reason = $_POST['reason'] ?? null;
 
-$sql = "UPDATE appointment SET appointment_date = ?, time = ?, room_number = ? WHERE appointment_id = ?";
+$sql = "UPDATE appointment SET appointment_date = ?, time = ?, reason = ? WHERE appointment_id = ?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("sssi", $appointmentDate, $appointmentTime, $roomNumber, $appointmentId);
+$stmt->bind_param("sssi", $appointmentDate, $appointmentTime, $reason, $appointmentId);
 
 if ($stmt->execute()) {
   echo json_encode(['success' => true]);

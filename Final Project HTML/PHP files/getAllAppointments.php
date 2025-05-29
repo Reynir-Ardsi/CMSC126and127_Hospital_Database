@@ -10,9 +10,9 @@ $sql = "
         patient.middle_initial,
         patient.last_name AS patient_last_name,
         appointment.time,
-        appointment.room_number,
         appointment.status,
-        appointment.appointment_date
+        appointment.appointment_date,
+        appointment.reason
     FROM appointment
     INNER JOIN patient ON appointment.patient_id = patient.patient_id
     INNER JOIN users ON appointment.doctor_id = users.user_id

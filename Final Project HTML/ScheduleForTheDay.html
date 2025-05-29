@@ -5,188 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Schedules for the Day</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background-color: #ecefca;
-    }
-    header {
-      background-color: #213448;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      font-size: 24px;
-      font-weight: bold;
-      position: relative;
-    }
-    .back-button {
-      position: absolute;
-      left: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      border: none;
-      color: white;
-      font-size: 24px;
-      cursor: pointer;
-    }
-    .main {
-      display: flex;
-      flex-direction: row;
-      padding: 20px;
-      gap: 30px;
-    }
-    .left-panel, .right-panel {
-      flex: 1;
-      padding: 10px;
-    }
-    .add-schedule-box {
-      background: #fff;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      padding: 20px;
-      margin-bottom: 30px;
-    }
-    .add-schedule-box h3 {
-      margin-top: 0;
-      color: #213448;
-    }
-    .add-schedule-box label {
-      display: block;
-      margin-top: 10px;
-      font-weight: bold;
-    }
-    .add-schedule-box input, .add-schedule-box select {
-      width: 100%;
-      padding: 8px;
-      margin-top: 4px;
-      margin-bottom: 10px;
-      border-radius: 5px;
-      border: 1px solid #bbb;
-      font-size: 15px;
-    }
-    .add-schedule-box button {
-      background: #213448;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-    .add-schedule-box button:hover {
-      background: #517792;
-    }
-    .schedule-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-      background: #fff;
-      border-radius: 10px;
-      overflow: hidden;
-    }
-    .schedule-table th, .schedule-table td {
-      border: 1px solid #aaa;
-      padding: 10px;
-      text-align: left;
-    }
-    .schedule-table thead {
-      background-color: #213448;
-      color: white;
-    }
-    .schedule-table tbody tr:hover {
-      background: #ecefca;
-    }
-    .calendar-box {
-      background-color: white;
-      border: 1px solid #ccc;
-      padding: 15px;
-      border-radius: 10px;
-      margin-bottom: 30px;
-    }
-    .calendar-box .title {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: bold;
-      font-size: 20px;
-      margin-bottom: 10px;
-    }
-    .calendar-box table {
-      width: 100%;
-      border-collapse: collapse;
-      text-align: center;
-    }
-    .calendar-box th, .calendar-box td {
-      border: 1px solid #ccc;
-      height: 40px;
-      cursor: pointer;
-    }
-    .calendar-box td.selected {
-      background-color: #00BCD4;
-      color: white;
-      font-weight: bold;
-      border-radius: 50%;
-    }
-    .calendar-box td.marked {
-      background-color: #E936A7;
-      color: white;
-      font-weight: bold;
-    }
-    @media (max-width: 900px) {
-      .main { flex-direction: column; }
-    }
-    .edit-btn, .delete-btn {
-      background: #517792;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      padding: 4px 10px;
-      margin-right: 4px;
-      cursor: pointer;
-      font-size: 14px;
-    }
-    .delete-btn {
-      background: #d9534f;
-    }
-    .edit-btn:hover {
-      background: #31506b;
-    }
-    .delete-btn:hover {
-      background: #b52b27;
-    }
-    .modal-bg {
-      position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100vh;
-      background: rgba(0,0,0,0.3);
-      display: flex; align-items: center; justify-content: center;
-      z-index: 9999;
-    }
-    .modal-content {
-      background: #fff;
-      padding: 30px 24px 18px 24px;
-      border-radius: 12px;
-      min-width: 340px;
-      max-width: 95vw;
-      max-height: 90vh;
-      overflow: auto;
-      position: relative;
-    }
-    .modal-content h2 {
-      margin-top: 0;
-    }
-    .modal-content button.close-modal {
-      position: absolute;
-      top: 10px;
-      right: 18px;
-      font-size: 20px;
-      background: none;
-      border: none;
-      cursor: pointer;
-    }
+    body { font-family: Arial, sans-serif; margin: 0; background-color: #ecefca; }
+    header { background-color: #213448; color: white; display: flex; align-items: center; justify-content: center; padding: 20px; font-size: 24px; font-weight: bold; position: relative; }
+    .back-button { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); background: none; border: none; color: white; font-size: 24px; cursor: pointer; }
+    .main { display: flex; flex-direction: row; padding: 20px; gap: 30px; }
+    .left-panel, .right-panel { flex: 1; padding: 10px; }
+    .add-schedule-box { background: #fff; border: 1px solid #ccc; border-radius: 10px; padding: 20px; margin-bottom: 30px; }
+    .add-schedule-box h3 { margin-top: 0; color: #213448; }
+    .add-schedule-box label { display: block; margin-top: 10px; font-weight: bold; }
+    .add-schedule-box input, .add-schedule-box select { width: 100%; padding: 8px; margin-top: 4px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #bbb; font-size: 15px; }
+    .add-schedule-box button { background: #213448; color: #fff; border: none; border-radius: 5px; padding: 10px 20px; font-size: 16px; cursor: pointer; margin-top: 10px; }
+    .add-schedule-box button:hover { background: #517792; }
+    .schedule-table { width: 100%; border-collapse: collapse; margin-top: 10px; background: #fff; border-radius: 10px; overflow: hidden; }
+    .schedule-table th, .schedule-table td { border: 1px solid #aaa; padding: 10px; text-align: left; }
+    .schedule-table thead { background-color: #213448; color: white; }
+    .schedule-table tbody tr:hover { background: #ecefca; }
+    .calendar-box { background-color: white; border: 1px solid #ccc; padding: 15px; border-radius: 10px; margin-bottom: 30px; }
+    .calendar-box .title { display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 20px; margin-bottom: 10px; }
+    .calendar-box table { width: 100%; border-collapse: collapse; text-align: center; }
+    .calendar-box th, .calendar-box td { border: 1px solid #ccc; height: 40px; cursor: pointer; }
+    .calendar-box td.selected { background-color: #00BCD4; color: white; font-weight: bold; border-radius: 50%; }
+    .calendar-box td.marked { background-color: #E936A7; color: white; font-weight: bold; }
+    @media (max-width: 900px) { .main { flex-direction: column; } }
+    .edit-btn, .delete-btn { background: #517792; color: #fff; border: none; border-radius: 4px; padding: 4px 10px; margin-right: 4px; cursor: pointer; font-size: 14px; }
+    .delete-btn { background: #d9534f; }
+    .edit-btn:hover { background: #31506b; }
+    .delete-btn:hover { background: #b52b27; }
+    .modal-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; z-index: 9999; }
+    .modal-content { background: #fff; padding: 30px 24px 18px 24px; border-radius: 12px; min-width: 340px; max-width: 95vw; max-height: 90vh; overflow: auto; position: relative; }
+    .modal-content h2 { margin-top: 0; }
+    .modal-content button.close-modal { position: absolute; top: 10px; right: 18px; font-size: 20px; background: none; border: none; cursor: pointer; }
   </style>
 </head>
 <body>
@@ -237,7 +85,6 @@
             <th>Time</th>
             <th>Doctor</th>
             <th>Patient</th>
-            <th>Room</th>
             <th>Reason</th>
             <th>Actions</th>
           </tr>
@@ -267,7 +114,7 @@
         doctorSelect.appendChild(opt);
       });
 
-      const patientRes = await fetch('PHP files/getPatients.php');
+      const patientRes = await fetch('PHP files/getPatient.php');
       patients = await patientRes.json();
       const patientSelect = document.getElementById('patientSelect');
       patientSelect.innerHTML = '<option value="">Select Patient</option>';
@@ -275,7 +122,6 @@
         const opt = document.createElement('option');
         opt.value = pat.id || pat.patient_id;
         opt.textContent = pat.name || `${pat.first_name} ${pat.middle_initial || ''} ${pat.last_name}`;
-        opt.dataset.room = pat.room_number || '';
         patientSelect.appendChild(opt);
       });
     }
@@ -293,12 +139,8 @@
           time: a.time,
           doctor: `${a.doctor_first_name} ${a.doctor_last_name}`,
           patient: `${a.patient_first_name} ${a.middle_initial || ''} ${a.patient_last_name}`,
-          room: a.room_number || '', // keep the original room from patient
           reason: a.reason || '',
-          date: a.appointment_date,
-          doctor_id: a.doctor_id,
-          patient_id: a.patient_id,
-          appointment_date: a.appointment_date
+          date: a.appointment_date
         });
       });
       renderCalendar();
@@ -367,7 +209,6 @@
           <td>${app.time}</td>
           <td>${doctorName}</td>
           <td>${patientName}</td>
-          <td>${app.room_number || ''}</td>
           <td>${reason}</td>
           <td>
             <button class="edit-btn" onclick="openEditModal('${app.appointment_id}')">Edit</button>
@@ -383,7 +224,7 @@
       alert(
         dayAppts.length === 0
           ? 'No appointments'
-          : dayAppts.map(app => `Doctor: ${app.doctor} | Patient: ${app.patient} | Time: ${app.time} | Room: ${app.room} | Reason: ${app.reason || ''}`).join('\n')
+          : dayAppts.map(app => `Doctor: ${app.doctor} | Patient: ${app.patient} | Time: ${app.time} | Reason: ${app.reason || ''}`).join('\n')
       );
     }
 
@@ -394,25 +235,30 @@
       const modalRoot = document.getElementById('modal-root');
       modalRoot.innerHTML = `
         <div class="modal-bg" id="editModalBg">
-          <div class="modal-content">
+          <div class="modal-content" style="max-width:400px;">
             <button class="close-modal" onclick="document.getElementById('modal-root').innerHTML=''">✕</button>
-            <h2>Edit Appointment</h2>
-            <form id="editAppointmentForm">
-              <label>Doctor</label>
-              <select id="editDoctorSelect" required>
-                ${doctors.map(d => `<option value="${d.id || d.user_id}" ${d.id == app.doctor_id || d.user_id == app.doctor_id ? 'selected' : ''}>${d.name || `${d.first_name} ${d.middle_initial || ''} ${d.last_name}`}</option>`).join('')}
-              </select>
-              <label>Patient</label>
-              <select id="editPatientSelect" required>
-                ${patients.map(p => `<option value="${p.id || p.patient_id}" ${p.id == app.patient_id || p.patient_id == app.patient_id ? 'selected' : ''}>${p.name || `${p.first_name} ${p.middle_initial || ''} ${p.last_name}`}</option>`).join('')}
-              </select>
-              <label>Date</label>
-              <input type="date" id="editDateInput" value="${app.appointment_date}" required>
-              <label>Time</label>
-              <input type="time" id="editTimeInput" value="${app.time.slice(0,5)}" required>
-              <label>Reason</label>
-              <input type="text" id="editReasonInput" value="${app.reason || ''}" required>
-              <button type="submit">Save Changes</button>
+            <h2 style="margin-bottom:18px;color:#213448;">Edit Appointment</h2>
+            <form id="editAppointmentForm" style="display:flex;flex-direction:column;gap:12px;">
+              <label style="font-weight:bold;text-align:left;">Doctor
+                <select id="editDoctorSelect" required style="width:100%;padding:8px;margin-top:4px;border-radius:5px;border:1px solid #bbb;">
+                  ${doctors.map(d => `<option value="${d.id || d.user_id}" ${d.id == app.doctor_id || d.user_id == app.doctor_id ? 'selected' : ''}>${d.name || `${d.first_name} ${d.middle_initial || ''} ${d.last_name}`}</option>`).join('')}
+                </select>
+              </label>
+              <label style="font-weight:bold;text-align:left;">Patient
+                <select id="editPatientSelect" required style="width:100%;padding:8px;margin-top:4px;border-radius:5px;border:1px solid #bbb;">
+                  ${patients.map(p => `<option value="${p.id || p.patient_id}" ${p.id == app.patient_id || p.patient_id == app.patient_id ? 'selected' : ''}>${p.name || `${p.first_name} ${p.middle_initial || ''} ${p.last_name}`}</option>`).join('')}
+                </select>
+              </label>
+              <label style="font-weight:bold;text-align:left;">Date
+                <input type="date" id="editDateInput" value="${app.appointment_date}" required style="width:100%;padding:8px;margin-top:4px;border-radius:5px;border:1px solid #bbb;">
+              </label>
+              <label style="font-weight:bold;text-align:left;">Time
+                <input type="time" id="editTimeInput" value="${app.time.slice(0,5)}" required style="width:100%;padding:8px;margin-top:4px;border-radius:5px;border:1px solid #bbb;">
+              </label>
+              <label style="font-weight:bold;text-align:left;">Reason
+                <input type="text" id="editReasonInput" value="${app.reason || ''}" required style="width:100%;padding:8px;margin-top:4px;border-radius:5px;border:1px solid #bbb;">
+              </label>
+              <button type="submit" style="background:#213448;color:#fff;border:none;border-radius:5px;padding:10px 0;font-size:16px;margin-top:10px;">Save Changes</button>
             </form>
           </div>
         </div>
