@@ -83,11 +83,15 @@
     }
 
     .list input[type="text"] {
-      width: 100%;
+      position: sticky;
+      top: 0;
+      background-color: white;  /* So it overlays nicely */
+      z-index: 1;               /* Make sure it stays above list items */
       padding: 6px;
       margin-bottom: 10px;
       font-size: 16px;
       box-sizing: border-box;
+      border-bottom: 1px solid #ccc; /* Optional: separates the input from list items */
     }
 
     .item {
@@ -206,7 +210,7 @@
       </div>
 
       <div class="second_column">
-        <div class="appointments" style="overflow-y: auto; max-height: 300px; direction: rtl; overflow-anchor: none;">
+        <div class="appointments" style="overflow-y: auto; max-height: 100%; direction: rtl; overflow-anchor: none;">
           <table id="appointment_list" style="width:100%; border-collapse: collapse; direction: ltr;">
             <thead>
               <tr style="background-color: #213448; color: white;">
