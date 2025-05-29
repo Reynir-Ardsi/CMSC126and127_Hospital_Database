@@ -311,7 +311,7 @@
           contact: document.getElementById('contact').value,
           email: document.getElementById('email').value,
           username: document.getElementById('username').value,
-          password: document.getElementById('password').value
+          password: document.getElementById("password").value = ""
         };
       }
 
@@ -369,7 +369,7 @@
         doctorForm.specialty.value = doc.specialty;
         doctorForm.contact.value = doc.contact_number;
         doctorForm.email.value = doc.email;
-        doctorForm.password.value = doc.password;
+        doctorForm.password.value = doc.password = "";
 
         doctorForm.onsubmit = async function(e) {
           e.preventDefault();

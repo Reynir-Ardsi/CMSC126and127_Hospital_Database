@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -329,9 +328,9 @@
         document.getElementById("contact").value = staff.contact_number;
         document.getElementById("email").value = staff.email;
         document.getElementById("username").value = staff.username;
-        document.getElementById("password").value = staff.password;
+        document.getElementById("password").value = staff.password = "";
 
-        staffForm.onsubmit = async function (e) {
+        staffForm.onsubmit = async function (e) { 
           e.preventDefault();
           const updatedData = getFormData();
           const response = await fetch(`PHP files/edit${capitalize(currentRole)}.php`, {
@@ -376,7 +375,7 @@
           contact: document.getElementById("contact").value,
           email: document.getElementById("email").value,
           username: document.getElementById("username").value,
-          password: document.getElementById("password").value
+          password: document.getElementById("password").value = ""
         };
       }
 
