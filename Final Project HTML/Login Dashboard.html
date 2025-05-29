@@ -28,8 +28,8 @@
     /* Initial hidden state */
     body.preload {
       opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 2.5s ease, transform 2.5s ease;
+      transform: scale(1.1);
+      transition: opacity 2.5s ease, transform 2s ease;
     }
 
     /* Final visible state */
@@ -41,8 +41,8 @@
       overflow-x: hidden;
 
       opacity: 1;
-      transform: translateY(0);
-      transition: opacity 2.5s ease, transform 2.5s ease;
+      transform: scale(1);
+      transition: opacity 2.5s ease, transform 2s ease;
     }
 
     /* ... rest of your styles unchanged ... */
@@ -192,9 +192,11 @@
   </style>
 
   <script>
-    // Remove preload on window load to trigger transition
+    // Remove preload on window load to trigger transition EVERY time
     window.addEventListener('load', () => {
-      document.body.classList.remove('preload');
+      setTimeout(() => {
+        document.body.classList.remove('preload');
+      }, 100); // 50ms delay to force browser to apply initial styles before transition
     });
   </script>
 </head>
