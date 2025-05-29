@@ -430,6 +430,7 @@
       });
 
       async function fetchStaff() {
+        staffTable.innerHTML = "";
         try {
           const response = await fetch(`PHP files/get${capitalize(currentRole)}.php`);
           const staff = await response.json();
