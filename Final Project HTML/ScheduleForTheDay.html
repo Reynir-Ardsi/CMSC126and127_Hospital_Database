@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>All Doctors' Schedules for the Day</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #ecefca;
+    }
+    header {
+      background-color: #213448;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      font-size: 24px;
+      font-weight: bold;
+      position: relative;
+    }
+    .back-button {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+    }
+    .main {
+      display: flex;
+      flex-direction: row;
+      padding: 20px;
+      gap: 30px;
+    }
+    .left-panel, .right-panel {
+      flex: 1;
+      padding: 10px;
+    }
+    .add-schedule-box {
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 30px;
+    }
+    .add-schedule-box h3 {
+      margin-top: 0;
+      color: #213448;
+    }
+    .add-schedule-box label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    .add-schedule-box input, .add-schedule-box select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 4px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      border: 1px solid #bbb;
+      font-size: 15px;
+    }
+    .add-schedule-box button {
+      background: #213448;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .add-schedule-box button:hover {
+      background: #517792;
+    }
+    .schedule-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .schedule-table th, .schedule-table td {
+      border: 1px solid #aaa;
+      padding: 10px;
+      text-align: left;
+    }
+    .schedule-table thead {
+      background-color: #213448;
+      color: white;
+    }
+    .schedule-table tbody tr:hover {
+      background: #ecefca;
+    }
+    .calendar-box {
+      background-color: white;
+      border: 1px solid #ccc;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+    }
+    .calendar-box .title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: bold;
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+    .calendar-box table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: center;
+    }
+    .calendar-box th, .calendar-box td {
+      border: 1px solid #ccc;
+      height: 40px;
+      cursor: pointer;
+    }
+    .calendar-box td.selected {
+      background-color: #00BCD4;
+      color: white;
+      font-weight: bold;
+      border-radius: 50%;
+    }
+    .calendar-box td.marked {
+      background-color: #E936A7;
+      color: white;
+      font-weight: bold;
+    }
+    @media (max-width: 900px) {
+      .main { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <button class="back-button" onclick="history.back()">←</button>
+    All Doctors' Schedules for the Day
+  </header>
+  <div class="main">
+    <!-- Left Side: Calendar and Add Schedule -->
+    <div class="left-panel">
+      <div class="calendar-box">
+        <div class="title">
+          <span id="calendarMonth">Month Year</span>
+          <div>
+            <button onclick="changeMonth(-1)">←</button>
+            <button onclick="changeMonth(1)">→</button>
+          </div>
+        </div>
+        <div id="calendarContent"></div>
+      </div>
+      <div class="add-schedule-box">
+        <h3>Add Schedule</h3>
+        <form id="addScheduleForm">
+          <label for="doctorSelect">Doctor</label>
+          <select id="doctorSelect" required>
+            <option value="">Select Doctor</option>
+          </select>
+          <label for="patientSelect">Patient</label>
+          <select id="patientSelect" required>
+            <option value="">Select Patient</option>
+          </select>
+          <label for="dateInput">Date</label>
+          <input type="date" id="dateInput" required>
+          <label for="timeInput">Time</label>
+          <input type="time" id="timeInput" required>
+          <label for="roomInput">Room Number</label>
+          <input type="text" id="roomInput" required>
+          <label for="reasonInput">Reason</label>
+          <input type="text" id="reasonInput" required>
+          <button type="submit">Add Schedule</button>
+        </form>
+      </div>
+    </div>
+    <!-- Right Side: Schedule Table -->
+    <div class="right-panel">
+      <table class="schedule-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Doctor</th>
+            <th>Patient</th>
+            <th>Room</th>
+            <th>Reason</th>
+          </tr>
+        </thead>
+        <tbody id="schedule-body"></tbody>
+      </table>
+    </div>
+  </div>
+  <script>
+    let appointments = {};
+    let allAppointments = [];
+    let doctors = [];
+    let patients = [];
+    let currentMonth = new Date().getMonth();
+    let currentYear = new Date().getFullYear();
+
+    // Fetch doctors and patients for the select dropdowns
+    async function fetchDoctorsAndPatients() {
+      // Fetch doctors
+      const doctorRes = await fetch('PHP files/getAllDoctors.php');
+      doctors = await doctorRes.json();
+      const doctorSelect = document.getElementById('doctorSelect');
+      doctors.forEach(doc => {
+        const opt = document.createElement('option');
+        opt.value = doc.id || doc.user_id;
+        opt.textContent = doc.name || `${doc.first_name} ${doc.middle_initial || ''} ${doc.last_name}`;
+        doctorSelect.appendChild(opt);
+      });
+
+      // Fetch patients
+      const patientRes = await fetch('PHP files/getPatients.php');
+      patients = await patientRes.json();
+      const patientSelect = document.getElementById('patientSelect');
+      patients.forEach(pat => {
+        const opt = document.createElement('option');
+        opt.value = pat.id || pat.patient_id;
+        opt.textContent = pat.name || `${pat.first_name} ${pat.middle_initial || ''} ${pat.last_name}`;
+        patientSelect.appendChild(opt);
+      });
+    }
+
+    // Fetch all appointments
+    async function fetchAllAppointments() {
+      const res = await fetch("PHP files/getAllAppointments.php");
+      const data = await res.json();
+      allAppointments = data;
+      appointments = {};
+      data.forEach(a => {
+        const key = a.appointment_date;
+        if (!appointments[key]) appointments[key] = [];
+        appointments[key].push({
+          time: a.time,
+          room: a.room_number,
+          doctor: `${a.doctor_first_name} ${a.doctor_last_name}`,
+          patient: `${a.patient_first_name} ${a.middle_initial || ''} ${a.patient_last_name}`,
+          reason: a.reason || '',
+          date: a.appointment_date
+        });
+      });
+      renderCalendar();
+      renderTodaySchedule();
+    }
+
+    function formatDateKey(year, month, day) {
+      return `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    }
+
+    function changeMonth(offset) {
+      currentMonth += offset;
+      if (currentMonth > 11) {
+        currentMonth = 0;
+        currentYear++;
+      } else if (currentMonth < 0) {
+        currentMonth = 11;
+        currentYear--;
+      }
+      renderCalendar();
+    }
+
+    function renderCalendar() {
+      const date = new Date(currentYear, currentMonth);
+      const monthName = date.toLocaleString('default', { month: 'long' });
+      document.getElementById('calendarMonth').textContent = `${monthName} ${currentYear}`;
+
+      const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+      const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+      let html = '<table><thead><tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr></thead><tbody><tr>';
+      for (let i = 0; i < firstDay; i++) html += '<td></td>';
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dateKey = formatDateKey(currentYear, currentMonth, day);
+        const hasAppt = appointments.hasOwnProperty(dateKey);
+        const isToday = dateKey === new Date().toISOString().split('T')[0];
+        let className = hasAppt ? 'marked' : '';
+        if (isToday) className = 'selected';
+        html += `<td class="${className}" data-date="${dateKey}">${day}</td>`;
+        if ((firstDay + day) % 7 === 0) html += '</tr><tr>';
+      }
+      html += '</tr></tbody></table>';
+      document.getElementById("calendarContent").innerHTML = html;
+      document.querySelectorAll("td[data-date]").forEach(td => {
+        td.addEventListener('click', e => renderDayDetails(e.target.dataset.date));
+      });
+    }
+
+    function renderDayDetails(dateKey) {
+      const dayAppts = appointments[dateKey] || [];
+      alert(
+        dayAppts.length === 0
+          ? 'No appointments'
+          : dayAppts.map(app => `Doctor: ${app.doctor} | Patient: ${app.patient} | Room: ${app.room} | Time: ${app.time}`).join('\n')
+      );
+    }
+
+    function renderTodaySchedule() {
+      const todayKey = new Date().toISOString().split('T')[0];
+      const todayAppointments = appointments[todayKey] || [];
+      const tbody = document.getElementById("schedule-body");
+      tbody.innerHTML = todayAppointments.map(app =>
+        `<tr>
+          <td>${todayKey}</td>
+          <td>${app.time}</td>
+          <td>${app.doctor}</td>
+          <td>${app.patient}</td>
+          <td>${app.room}</td>
+          <td>${app.reason}</td>
+        </tr>`
+      ).join('');
+    }
+
+    // Add schedule handler
+    document.addEventListener("DOMContentLoaded", async () => {
+      await fetchDoctorsAndPatients();
+      await fetchAllAppointments();
+
+      document.getElementById('addScheduleForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const doctorId = document.getElementById('doctorSelect').value;
+        const patientId = document.getElementById('patientSelect').value;
+        const date = document.getElementById('dateInput').value;
+        let raw = document.getElementById('timeInput').value;
+        const time = raw.length === 5 ? raw + ':00' : raw;
+        const room = document.getElementById('roomInput').value;
+        const reason = document.getElementById('reasonInput').value;
+
+        if (!doctorId || !patientId || !date || !time || !room || !reason) {
+          alert('Please fill in all fields.');
+          return;
+        }
+
+        // Add appointment via backend
+        const res = await fetch('PHP files/addAppointment.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({
+            doctorId,
+            patientId,
+            appointmentDate: date,
+            appointmentTime: time,
+            roomNumber: room,
+            reason
+          })
+        });
+        const result = await res.json();
+        if (result.success) {
+          alert('Schedule added!');
+          this.reset();
+          await fetchAllAppointments();
+        } else {
+          alert('Error: ' + (result.error || 'Unknown error'));
+        }
+      });
+    });
+  </script>
+</body>
+</html>

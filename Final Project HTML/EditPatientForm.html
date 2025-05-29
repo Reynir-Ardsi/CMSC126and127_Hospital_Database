@@ -35,7 +35,7 @@
       font-weight: bold;
     }
     input, select {
-      width: 100%;
+      width: 93%;
       padding: 8px;
       font-size: 16px;
     }
@@ -105,7 +105,7 @@
       </div>
       <div>
         <label for="maritalStatus">Marital Status</label>
-        <select id="maritalStatus" name="maritalStatus" required>
+          <select id="marital_status" name="marital_status" required>   
           <option value="">-- Select Status --</option>
           <option value="Single">Single</option>
           <option value="Married">Married</option>
@@ -176,8 +176,7 @@
           document.getElementById('email_address').value = patient.email_address;
           document.getElementById('address').value = patient.address;
           document.getElementById('emergency_contact').value = patient.emergency_contact;
-          document.getElementById('marital_status').value = patient.marital_status || ''; 
-          document.getElementById('occupation').value = patient.occupation;
+          document.getElementById('marital_status').value = patient.marital_status || '';           document.getElementById('occupation').value = patient.occupation;
           document.getElementById('insurance_provider').value = patient.insurance_provider;
           document.getElementById('allergies').value = patient.allergies;
           document.getElementById('date_admitted').value = patient.date_admitted;
