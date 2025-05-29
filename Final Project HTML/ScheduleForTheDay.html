@@ -72,6 +72,8 @@
           <input type="time" id="timeInput" required>
           <label for="reasonInput">Reason</label>
           <input type="text" id="reasonInput" required>
+          <label for="roomNumberInput">Room Number</label>
+          <input type="text" id="roomNumberInput" name="roomNumber" required>
           <button type="submit">Add Schedule</button>
         </form>
       </div>
@@ -121,7 +123,10 @@
       patients.forEach(pat => {
         const opt = document.createElement('option');
         opt.value = pat.id || pat.patient_id;
-        opt.textContent = pat.name || `${pat.first_name} ${pat.middle_initial || ''} ${pat.last_name}`;
+        opt.textContent =
+          (pat.name || `${pat.first_name} ${pat.middle_initial || ''} ${pat.last_name}`) +
+          (pat.room_number ? ` (Room ${pat.room_number})` : '');
+        opt.dataset.room = pat.room_number || '';
         patientSelect.appendChild(opt);
       });
     }
@@ -258,6 +263,9 @@
               <label style="font-weight:bold;text-align:left;">Reason
                 <input type="text" id="editReasonInput" value="${app.reason || ''}" required style="width:100%;padding:8px;margin-top:4px;border-radius:5px;border:1px solid #bbb;">
               </label>
+              <label style="font-weight:bold;text-align:left;">Room Number
+                <input type="text" id="editRoomNumberInput" value="${app.room_number || ''}" required style="width:100%;padding:8px;margin-top:4px;border-radius:5px;border:1px solid #bbb;">
+              </label>
               <button type="submit" style="background:#213448;color:#fff;border:none;border-radius:5px;padding:10px 0;font-size:16px;margin-top:10px;">Save Changes</button>
             </form>
           </div>
@@ -271,7 +279,8 @@
         let raw = document.getElementById('editTimeInput').value;
         const time = raw.length === 5 ? raw + ':00' : raw;
         const reason = document.getElementById('editReasonInput').value;
-        if (!doctorId || !patientId || !date || !time || !reason) {
+        const roomNumber = document.getElementById('editRoomNumberInput').value;
+        if (!doctorId || !patientId || !date || !time || !reason || !roomNumber) {
           alert('Please fill in all fields.');
           return;
         }
@@ -284,7 +293,8 @@
             patientId,
             appointmentDate: date,
             appointmentTime: time,
-            reason
+            reason,
+            roomNumber // send to backend
           })
         });
         const result = await res.json();
@@ -327,8 +337,9 @@
         let raw = document.getElementById('timeInput').value;
         const time = raw.length === 5 ? raw + ':00' : raw;
         const reason = document.getElementById('reasonInput').value;
+        const roomNumber = document.getElementById('roomNumberInput').value;
 
-        if (!doctorId || !patientId || !date || !time || !reason) {
+        if (!doctorId || !patientId || !date || !time || !reason || !roomNumber) {
           alert('Please fill in all fields.');
           return;
         }
@@ -341,7 +352,8 @@
             patientId,
             appointmentDate: date,
             appointmentTime: time,
-            reason
+            reason,
+            roomNumber // send to backend
           })
         });
         const result = await res.json();

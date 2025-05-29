@@ -12,7 +12,8 @@ $sql = "
         appointment.time,
         appointment.status,
         appointment.appointment_date,
-        appointment.reason
+        appointment.reason,
+        appointment.room_number
     FROM appointment
     INNER JOIN patient ON appointment.patient_id = patient.patient_id
     INNER JOIN users ON appointment.doctor_id = users.user_id

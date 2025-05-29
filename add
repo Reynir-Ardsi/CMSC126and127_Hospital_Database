@@ -1,0 +1,261 @@
+[33mcommit 39bf1e7033cbadb7bac1bbbc15ef0fdce6dd68a5[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m
+Author: JayyyyUPV <emtolentino2@up.edu.ph>
+Date:   Fri May 30 04:22:41 2025 +0800
+
+    Database EJs Ver
+
+[33mcommit 129754f53e89aea530b9f1efb62736a8bf6a92dc[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: 45c7f52 4768012
+Author: JayyyyUPV <emtolentino2@up.edu.ph>
+Date:   Fri May 30 01:03:47 2025 +0800
+
+    Merge branch 'main' of https://github.com/Reynir-Ardsi/CMSC126and127_Hospital_Database
+
+[33mcommit 4768012853ffa3eda72a8ecad4292a25e0314847[m
+Author: HewRMyFire <fmatthewsimpas@gmail.com>
+Date:   Fri May 30 00:59:19 2025 +0800
+
+    back to orig
+
+[33mcommit c4e12bac4002f3aa613b225496be44d50a0b2142[m
+Author: HewRMyFire <fmatthewsimpas@gmail.com>
+Date:   Fri May 30 00:58:03 2025 +0800
+
+    try for login again
+
+[33mcommit 45c7f522a1d223a302186d315c45f5e256efbb29[m
+Merge: 728a40c 95c04c6
+Author: JayyyyUPV <emtolentino2@up.edu.ph>
+Date:   Fri May 30 00:58:02 2025 +0800
+
+    Merge branch 'main' of https://github.com/Reynir-Ardsi/CMSC126and127_Hospital_Database
+
+[33mcommit 728a40cbc57246b63b3bbd56324a435958b4b07d[m
+Author: JayyyyUPV <emtolentino2@up.edu.ph>
+Date:   Fri May 30 00:57:58 2025 +0800
+
+    Final Changes in Appointments
+
+[33mcommit 95c04c6abc63497c6aa3cf632bb137db496d20a3[m
+Author: HewRMyFire <fmatthewsimpas@gmail.com>
+Date:   Fri May 30 00:54:00 2025 +0800
+
+    philippine number format
+
+[33mcommit d08713fea1deed23508a93e07932cfc538435dad[m
+Author: HewRMyFire <fmatthewsimpas@gmail.com>
+Date:   Fri May 30 00:51:04 2025 +0800
+
+    phone number input correction
+
+[33mcommit 1a77d5d9289e63631a4efa1810e9c4b099fd8026[m
+Author: HewRMyFire <fmatthewsimpas@gmail.com>
+Date:   Fri May 30 00:46:35 2025 +0800
+
+    back sa orig
+
+[33mcommit 9c7f209c71ec8786485ae34e2b03980d34c5fe3f[m
+Merge: a753ae0 8baefa5
+Author: HewRMyFire <fmatthewsimpas@gmail.com>
+Date:   Fri May 30 00:20:01 2025 +0800
+
+    Merge branch 'main' of https://github.com/Reynir-Ardsi/CMSC126and127_Hospital_Database
+
+[33mcommit a753ae0624688421aa61107d03c6fa7adee2f429[m
+Author: HewRMyFire <fmatthewsimpas@gmail.com>
+Date:   Fri May 30 00:19:59 2025 +0800
+
+    hashed password for login
+
+[33mcommit 8baefa54d5576d2cd0f25dbc96f88d76fced8fde[m
+Author: Chakinzo Sombito <schakinzo@gmail.com>
+Date:   Fri May 30 00:01:16 2025 +0800
+
+    Billing entry
+
+[33mcommit 35dd0cba355a75298981f5f759fdffcf482467a1[m
+Author: Chakinzo Sombito <schakinzo@gmail.com>
+Date:   Thu May 29 23:22:05 2025 +0800
+
+    Billing layout
+
+[33mcommit e59cc8f5d31eac6e2378aabbfd51744398150d9a[m
+Merge: 151b7b5 7a42c47
+Author: Chakinzo Sombito <schakinzo@gmail.com>
+Date:   Thu May 29 23:13:33 2025 +0800
+
+    Merge branch 'main' of https://github.com/Reynir-Ardsi/CMSC126and127_Hospital_Database
+
+[33mcommit 151b7b59eb4bb6681f1ecaa594f186a4ea261758[m
+Author: Chakinzo Sombito <schakinzo@gmail.com>
+Date:   Thu May 29 23:13:30 2025 +0800
+
+    Edit
+
+[33mcommit 7a42c478dc36dd5ad213daa2ae3e3be773478eb1[m
+Author: HewRMyFire <fmatthewsimpas@gmail.com>
+Date:   Thu May 29 23:12:32 2025 +0800
+
+    username shown while edit in doctor
+
+[33mcommit 7e7a22c5c1b86ff1297894a260daa7a4852b99e5[m
+Author: HewRMyFire <fmatthewsimpas@gmail.com>
+Date:   Thu May 29 23:09:39 2025 +0800
+
+    please gumana ka
+
+[33mcommit c5123624a5d486303964da7ddcd6b1d6f0b12c23[m
+Author: Chakinzo Sombito <schakinzo@gmail.com>
+Date:   Thu May 29 22:57:28 2025 +0800
+
+    Updates
+
+[33mcommit 16624932700a8a077f87f90800b42dcb35605909[m
+Author: Chakinzo Sombito <schakinzo@gmail.com>
+Date:   Thu May 29 22:48:04 2025 +0800
+
+    Login page
+
+[33mcommit 8e1e49578d35fb5834232ddc11a2d172e622d34b[m
+Merge: 220929a 5cdb411
+Author: HewRMyFire <fmatthewsimpas@gmail.com>
+Date:   Thu May 29 22:41:22 2025 +0800
+
+    Merge branch 'main' of https://github.com/Reynir-Ardsi/CMSC126and127_Hospital_Database
+
+[33mcommit 220929a1d9b83e786e1bd40855091a09795b691f[m
+Author: HewRMyFire <fmatthewsimpas@gmail.com>
+Date:   Thu May 29 22:41:20 2025 +0800
+
+    clear data everychange role
+
+[33mcommit 5cdb41124b226b50e012216608a9b04122a235d7[m
+Merge: f2630b6 7fe11a9
+Author: Chakinzo Sombito <schakinzo@gmail.com>
+Date:   Thu May 29 22:41:17 2025 +0800
+
+    Merge branch 'main' of https://github.com/Reynir-Ardsi/CMSC126and127_Hospital_Database
+
+[33mcommit f2630b6581b9e41523f2eb81b241e19fef98e42b[m
+Author: Chakinzo Sombito <schakinzo@gmail.com>
+Date:   Thu May 29 22:41:15 2025 +0800
+
+    Log in transition
+
+[33mcommit 7fe11a9e7064dce790db4c1a2362e488c753dc16[m
+Merge: 95da581 94d36fe
+Author: HewRMyFire <fmatthewsimpas@gmail.com>
+Date:   Thu May 29 22:37:54 2025 +0800
+
+    Merge branch 'main' of https://github.com/Reynir-Ardsi/CMSC126and127_Hospital_Database
+
+[33mcommit 95da5812ad6cc9286f33f2a244b873b75e33a0cb[m
+Author: HewRMyFire <fmatthewsimpas@gmail.com>
+Date:   Thu May 29 22:37:52 2025 +0800
+
+    edit
+
+[33mcommit 94d36fe7e63326a233d745084fec7ad25c544cc5[m
+Merge: f72d84e 48d2c71
+Author: Chakinzo Sombito <schakinzo@gmail.com>
+Date:   Thu May 29 22:31:45 2025 +0800
+
+    Merge branch 'main' of https://github.com/Reynir-Ardsi/CMSC126and127_Hospital_Database
+
+[33mcommit f72d84e6e8e2b1a225ef8a797bed03ae2ea65060[m
+Author: Chakinzo Sombito <schakinzo@gmail.com>
+Date:   Thu May 29 22:31:43 2025 +0800
+
+    Pull ni matt
+
+[33mcommit 48d2c71aaec87ef4224f1e548e0e33edc33e02b8[m
+Merge: 7a727de adf61b1
+Author: HewRMyFire <fmatthewsimpas@gmail.com>
+Date:   Thu May 29 22:30:40 2025 +0800
+
+    Merge branch 'main' of https://github.com/Reynir-Ardsi/CMSC126and127_Hospital_Database
+
+[33mcommit 7a727decec7a412958c2a177845918646ee1be1b[m
+Author: HewRMyFire <fmatthewsimpas@gmail.com>
+Date:   Thu May 29 22:30:38 2025 +0800
+
+    mango sakon HAHAHA
+
+[33mcommit adf61b13fcfc07073f7b826df3b21bb90707bf08[m
+Merge: f1844fd 85ef07a
+Author: Chakinzo Sombito <schakinzo@gmail.com>
+Date:   Thu May 29 22:27:50 2025 +0800
+
+    Merge branch 'main' of https://github.com/Reynir-Ardsi/CMSC126and127_Hospital_Database
+
+[33mcommit f1844fde4f23f4986f899439275cac6f8dfd8b93[m
+Author: Chakinzo Sombito <schakinzo@gmail.com>
+Date:   Thu May 29 22:27:48 2025 +0800
+
+    Loaded
+
+[33mcommit 85ef07a9f110e105ef176768d79d9519902595be[m
+Merge: 0a1599e 56baa0d
+Author: JayyyyUPV <emtolentino2@up.edu.ph>
+Date:   Thu May 29 22:26:27 2025 +0800
+
+    Merge branch 'main' of https://github.com/Reynir-Ardsi/CMSC126and127_Hospital_Database
+
+[33mcommit 0a1599e57d3eca7240038fcc13a3b8c04c564fce[m
+Author: JayyyyUPV <emtolentino2@up.edu.ph>
+Date:   Thu May 29 22:26:22 2025 +0800
+
+    schedule for the day
+
+[33mcommit 56baa0d1ba05167dec0cea6a7779182f19e28aee[m
+Author: Chakinzo Sombito <schakinzo@gmail.com>
+Date:   Thu May 29 22:25:17 2025 +0800
+
+    Fixes
+
+[33mcommit 87682d0a082692c299935bcfc357699b9796ea5c[m
+Merge: d3e8c22 8f3b5bb
+Author: HewRMyFire <fmatthewsimpas@gmail.com>
+Date:   Thu May 29 22:19:36 2025 +0800
+
+    Merge branch 'main' of https://github.com/Reynir-Ardsi/CMSC126and127_Hospital_Database
+
+[33mcommit d3e8c22fc0fa30318d64fb153dbb2ea924e73af7[m
+Author: HewRMyFire <fmatthewsimpas@gmail.com>
+Date:   Thu May 29 22:19:33 2025 +0800
+
+    connect backend fixed
+
+[33mcommit 8f3b5bb144029dbb54dd6702e541691f8518d95b[m
+Merge: 7c7afde c68e4fc
+Author: JayyyyUPV <emtolentino2@up.edu.ph>
+Date:   Thu May 29 22:14:48 2025 +0800
+
+    Merge branch 'main' of https://github.com/Reynir-Ardsi/CMSC126and127_Hospital_Database
+
+[33mcommit 7c7afde4ab4b6c6ed530fb37630d2ac20b6ee6bd[m
+Author: JayyyyUPV <emtolentino2@up.edu.ph>
+Date:   Thu May 29 22:14:36 2025 +0800
+
+    schedule for the day
+
+[33mcommit c68e4fc073e2cd47ee035418b3ff126d2c24eb59[m
+Author: Chakinzo Sombito <schakinzo@gmail.com>
+Date:   Thu May 29 22:08:06 2025 +0800
+
+    Polishing
+
+[33mcommit 5afce7003d4af465e958202c26ea8a763b3cefdb[m
+Merge: 52bc254 269e584
+Author: JayyyyUPV <emtolentino2@up.edu.ph>
+Date:   Thu May 29 21:57:58 2025 +0800
+
+    Merge branch 'main' of https://github.com/Reynir-Ardsi/CMSC126and127_Hospital_Database
+
+[33mcommit 52bc254b333906cc23c4b4e6e9ce233a8a9295d4[m
+Author: JayyyyUPV <emtolentino2@up.edu.ph>
+Date:   Thu May 29 21:57:51 2025 +0800
+
+    changed in schedule for the day
+
+[33mcommit 269e584688adf686f0949eb9e

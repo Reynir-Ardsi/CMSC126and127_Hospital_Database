@@ -135,48 +135,56 @@
   </div>
 
   <script>
-      async function fetchPatients() {
-        try {
-          const response = await fetch('PHP files/getAllPatientsWithRooms.php');
-          const data = await response.json();
-          const container = document.getElementById('patientList');
+  async function fetchPatients() {
+    try {
+      const response = await fetch('PHP files/getAllPatientsWithRooms.php');
+      const data = await response.json();
+      const container = document.getElementById('patientList');
 
-          container.innerHTML = ''; // Clear existing content
+      container.innerHTML = ''; // Clear existing content
 
-          data.forEach(patient => {
-            const profile = document.createElement('div');
-            profile.className = 'patient-profile';
-
-            profile.innerHTML = `
-              <a class="profile-box" href="Medical Records (Nurse Dashboard).html?id=${patient.patient_id}">
-                <img src="pictures/defaultpfp.jpg" alt="Profile Picture" class="profile-image" />
-                <div>
-                  <span class="profile-name">${patient.full_name}</span><br />
-                  <span class="room-number">Room ${patient.room_number ?? 'N/A'}</span>
-                </div>
-              </a>
-            `;
-
-            container.appendChild(profile);
-          });
-        } catch (error) {
-          console.error("Failed to fetch patient data:", error);
+      // Use a Map to keep only the first occurrence of each patient_id
+      const uniquePatients = new Map();
+      data.forEach(patient => {
+        if (!uniquePatients.has(patient.patient_id)) {
+          uniquePatients.set(patient.patient_id, patient);
         }
-      }
+      });
 
-      function searchPatients() {
-        const searchQuery = document.getElementById('searchInput').value.toLowerCase();
-        const patientProfiles = document.querySelectorAll('.patient-profile');
+      uniquePatients.forEach(patient => {
+        const profile = document.createElement('div');
+        profile.className = 'patient-profile';
 
-        patientProfiles.forEach(profile => {
-          const profileName = profile.querySelector('.profile-name').textContent.toLowerCase();
-          profile.style.display = profileName.includes(searchQuery) ? 'flex' : 'none';
-        });
-      }
+        profile.innerHTML = `
+          <a class="profile-box" href="Medical Records (Nurse Dashboard).html?id=${patient.patient_id}">
+            <img src="pictures/defaultpfp.jpg" alt="Profile Picture" class="profile-image" />
+            <div>
+              <span class="profile-name">${patient.full_name}</span><br />
+              <span class="room-number">Room ${patient.room_number ?? 'N/A'}</span>
+            </div>
+          </a>
+        `;
 
-      // Call the function on load
-      fetchPatients();
-    </script>
+        container.appendChild(profile);
+      });
+    } catch (error) {
+      console.error("Failed to fetch patient data:", error);
+    }
+  }
+
+  function searchPatients() {
+    const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+    const patientProfiles = document.querySelectorAll('.patient-profile');
+
+    patientProfiles.forEach(profile => {
+      const profileName = profile.querySelector('.profile-name').textContent.toLowerCase();
+      profile.style.display = profileName.includes(searchQuery) ? 'flex' : 'none';
+    });
+  }
+
+  // Call the function on load
+  fetchPatients();
+</script>
 
 </body>
 </html>
