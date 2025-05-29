@@ -198,7 +198,7 @@
   <header>
     <button class="back-button" onclick="history.back()">&#8592;</button>
     <h1>Manage Nurse / Receptionist</h1>
-    <img src="pictures/Logo Only.png" alt="Logo" class="logo" />
+    <img src="Logo Only.png" alt="Logo" class="logo" />
   </header>
 
   <div class="container">
@@ -214,9 +214,14 @@
           </select>
         </div>
 
-        <div class="form-group">
-          <label for="userID">ID:</label>
-          <input type="text" id="userID" placeholder="e.g. 01" required>
+        <div class="form-group" id="nurseIDContainer">
+          <label for="nurseID">Nurse ID:</label>
+          <input type="text" id="nurseID" placeholder="e.g. 01" required>
+        </div>
+
+        <div class="form-group" id="receptionistIDContainer" style="display:none;">
+          <label for="receptionistID">Receptionist ID:</label>
+          <input type="text" id="receptionistID" placeholder="e.g. 01" required>
         </div>
 
         <div class="form-group">
@@ -292,83 +297,43 @@
       const staffTable = document.getElementById("staffTable");
       const submitBtn = document.getElementById("submitBtn");
       const searchInput = document.getElementById("searchInput");
+      const nurseIDContainer = document.getElementById("nurseIDContainer");
+      const receptionistIDContainer = document.getElementById("receptionistIDContainer");
 
       let currentRole = "nurse";
 
-      roleSelect.addEventListener("change", () => {
+      function switchRole() {
         currentRole = roleSelect.value;
         formTitle.textContent = `Registration Form - ${capitalize(currentRole)}`;
         listTitle.textContent = `${capitalize(currentRole)}'s List`;
         submitBtn.textContent = `+ Add ${capitalize(currentRole)}`;
-        searchInput.placeholder = `Search ${(currentRole)}...`;
-        fetchStaff();
-      });
+        searchInput.placeholder = `Search ${currentRole}...`;
 
-      staffForm.onsubmit = async (e) => {
-        e.preventDefault();
-        const data = getFormData();
-        submitBtn.disabled = true;
-        const response = await fetch(`PHP files/add${capitalize(currentRole)}.php`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data),
-        });
-        const result = await response.text();
-        showToast(result);
+        if (currentRole === "nurse") {
+          nurseIDContainer.style.display = "block";
+          receptionistIDContainer.style.display = "none";
+          document.getElementById("receptionistID").value = "";
+        } else {
+          nurseIDContainer.style.display = "none";
+          receptionistIDContainer.style.display = "block";
+          document.getElementById("nurseID").value = "";
+        }
+        
         staffForm.reset();
+        roleSelect.value = currentRole;
         fetchStaff();
-        submitBtn.disabled = false;
-      };
+      }
 
-      window.editStaff = function (staff) {
-        document.getElementById("userID").value = staff.user_id;
-        document.getElementById("firstName").value = staff.first_name;
-        document.getElementById("middleInitial").value = staff.middle_initial;
-        document.getElementById("lastName").value = staff.last_name;
-        document.getElementById("contact").value = staff.contact_number;
-        document.getElementById("email").value = staff.email;
-        document.getElementById("username").value = staff.username;
-        document.getElementById("password").value = staff.password = "";
+      roleSelect.addEventListener("change", switchRole);
 
-        staffForm.onsubmit = async function (e) { 
-          e.preventDefault();
-          const updatedData = getFormData();
-          const response = await fetch(`PHP files/edit${capitalize(currentRole)}.php`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(updatedData),
-          });
-          const result = await response.text();
-          showToast(result);
-          staffForm.reset();
-          fetchStaff();
-          staffForm.onsubmit = submitBtn.onsubmit;
-        };
-      };
-
-      window.deleteStaff = async function (id) {
-        if (!confirm("Are you sure?")) return;
-        const response = await fetch(`PHP files/delete${capitalize(currentRole)}.php`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ userID: id }),
-        });
-        const result = await response.text();
-        showToast(result);
-        fetchStaff();
-      };
-
-      searchInput.addEventListener("input", () => {
-        const value = searchInput.value.toLowerCase();
-        Array.from(staffTable.children).forEach(row => {
-          const visible = Array.from(row.children).some(cell => cell.textContent.toLowerCase().includes(value));
-          row.style.display = visible ? "" : "none";
-        });
-      });
+      function getIDFieldName() {
+        return currentRole === "nurse" ? "nurseID" : "receptionistID";
+      }
 
       function getFormData() {
+        const idField = getIDFieldName();
         return {
-          userID: document.getElementById("userID").value,
+          [idField]: document.getElementById(idField).value,
           firstName: document.getElementById("firstName").value,
           middleInitial: document.getElementById("middleInitial").value,
           lastName: document.getElementById("lastName").value,
@@ -379,25 +344,114 @@
         };
       }
 
-      async function fetchStaff() {
-        const response = await fetch(`PHP files/get${capitalize(currentRole)}.php`);
-        const staff = await response.json();
-        staffTable.innerHTML = "";
-        staff.forEach(member => {
-          const tr = document.createElement("tr");
-          tr.innerHTML = `
-            <td>${member.user_id}</td>
-            <td>${member.first_name}</td>
-            <td>${member.middle_initial}</td>
-            <td>${member.last_name}</td>
-            <td>${member.contact_number}</td>
-            <td>${member.email}</td>
-            <td>${member.username}</td>
-            <td><button class="edit" onclick='editStaff(${JSON.stringify(member)})'>Edit</button></td>
-            <td><button class="delete" onclick='deleteStaff("${member.user_id}")'>Delete</button></td>
-          `;
-          staffTable.appendChild(tr);
+      staffForm.onsubmit = async (e) => {
+        e.preventDefault();
+        submitBtn.disabled = true;
+        const data = getFormData();
+        const url = `PHP files/add${currentRole}.php`;
+
+        try {
+          const response = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+          });
+          const result = await response.text();
+          showToast(result);
+          staffForm.reset();
+          fetchStaff();
+        } catch (err) {
+          showToast("Error adding staff.");
+        }
+        submitBtn.disabled = false;
+      };
+
+      window.editStaff = function (staff) {
+        const idField = getIDFieldName();
+        document.getElementById(idField).value = staff.user_id;
+        document.getElementById("firstName").value = staff.first_name;
+        document.getElementById("middleInitial").value = staff.middle_initial;
+        document.getElementById("lastName").value = staff.last_name;
+        document.getElementById("contact").value = staff.contact_number;
+        document.getElementById("email").value = staff.email;
+        document.getElementById("username").value = staff.username;
+        document.getElementById("password").value = "";
+
+        staffForm.onsubmit = async function (e) {
+          e.preventDefault();
+          submitBtn.disabled = true;
+          const updatedData = getFormData();
+          const url = `PHP files/edit${currentRole}.php`;
+
+          try {
+            const response = await fetch(url, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(updatedData),
+            });
+            const result = await response.text();
+            showToast(result);
+            staffForm.reset();
+            fetchStaff();
+            staffForm.onsubmit = originalSubmitHandler;
+          } catch (err) {
+            showToast("Error editing staff.");
+          }
+          submitBtn.disabled = false;
+        };
+      };
+
+      window.deleteStaff = async function (id) {
+        if (!confirm("Are you sure?")) return;
+        const idField = getIDFieldName();
+        const data = {};
+        data[idField] = id;
+
+        try {
+          const response = await fetch(`PHP files/delete${currentRole}.php`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+          });
+          const result = await response.text();
+          showToast(result);
+          fetchStaff();
+        } catch (err) {
+          showToast("Error deleting staff.");
+        }
+      };
+
+      searchInput.addEventListener("input", () => {
+        const value = searchInput.value.toLowerCase();
+        Array.from(staffTable.children).forEach(row => {
+          const visible = Array.from(row.children).some(cell => cell.textContent.toLowerCase().includes(value));
+          row.style.display = visible ? "" : "none";
         });
+      });
+
+      async function fetchStaff() {
+        try {
+          const response = await fetch(`PHP files/get${capitalize(currentRole)}.php`);
+          const staff = await response.json();
+          staffTable.innerHTML = "";
+          staff.forEach(member => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+              <td>${member.user_id}</td>
+              <td>${member.first_name}</td>
+              <td>${member.middle_initial}</td>
+              <td>${member.last_name}</td>
+              <td>${member.contact_number}</td>
+              <td>${member.email}</td>
+              <td>${member.username}</td>
+              <td><button class="edit" onclick='editStaff(${JSON.stringify(member)})'>Edit</button></td>
+              <td><button class="delete" onclick='deleteStaff("${member.user_id}")'>Delete</button></td>
+            `;
+            staffTable.appendChild(tr);
+          });
+        } catch (err) {
+          showToast("Failed to load staff list.");
+        }
       }
 
       function showToast(message) {
@@ -411,16 +465,18 @@
         return str.charAt(0).toUpperCase() + str.slice(1);
       }
 
-      fetchStaff(); // initial load
-    });
+      function togglePassword() {
+        const input = document.getElementById("password");
+        const btn = document.querySelector(".toggle-password");
+        const show = input.type === "password";
+        input.type = show ? "text" : "password";
+        btn.textContent = show ? "Hide" : "Show";
+      }
 
-    function togglePassword() {
-      const input = document.getElementById("password");
-      const btn = document.querySelector(".toggle-password");
-      const show = input.type === "password";
-      input.type = show ? "text" : "password";
-      btn.textContent = show ? "Hide" : "Show";
-    }
+      const originalSubmitHandler = staffForm.onsubmit;
+
+      switchRole();
+    });
   </script>
 </body>
 </html>
