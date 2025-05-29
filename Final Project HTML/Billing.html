@@ -185,7 +185,7 @@
     let allPatients = [];
 
     function fetchPatients() {
-      fetch('PHP files/getPatients.php')
+      fetch('PHP files/getPatient.php')
         .then(response => response.json())
         .then(data => {
           allPatients = data;

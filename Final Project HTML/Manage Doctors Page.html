@@ -317,7 +317,7 @@
 
 
       async function fetchDoctors() {
-        const response = await fetch('PHP files/getDoctors.php');
+        const response = await fetch('PHP files/getDoctor.php');
         const doctors = await response.json();
         renderTable(doctors);
       }
