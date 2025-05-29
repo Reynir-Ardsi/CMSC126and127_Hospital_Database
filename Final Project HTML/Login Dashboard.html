@@ -12,11 +12,11 @@
     crossorigin=""
   />
   
-  <script
+  <script defer
     src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-    crossorigin=""
-  ></script>
+    crossorigin="">
+  </script>
 
   <style>
     * {
@@ -207,8 +207,8 @@
       </form>
       <div id="errorMessage" class="error-message" style="display:none;"></div>
       <div class="links">
-        <a href="#" onclick="openForgotPopup()">Forgot Password?</a>
-        <a href="#" onclick="openPopup()">Find Hospital</a>
+        <a href="#" id="forgotLink">Forgot Password?</a>
+        <a href="#" id="findHospitalLink">Find Hospital</a>
       </div>
     </div>
   </div>
@@ -351,6 +351,15 @@
         errorDiv.innerText = "Network or server error. Try again later.";
         errorDiv.style.display = "block";
       });
+    });
+
+    document.getElementById('findHospitalLink').addEventListener('click', function(e) {
+      e.preventDefault();
+      openPopup();
+    });
+    document.getElementById('forgotLink').addEventListener('click', function(e) {
+      e.preventDefault();
+      openForgotPopup();
     });
 
     window.addEventListener('load', () => {
