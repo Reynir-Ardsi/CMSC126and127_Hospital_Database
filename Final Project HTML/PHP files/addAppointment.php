@@ -46,7 +46,7 @@ try {
         throw new Exception("Prepare failed: " . $conn->error);
     }
     $stmt->bind_param(
-        "iiisssss",
+        "iiissss",
         $appointmentId,
         $patientId,
         $doctorId,

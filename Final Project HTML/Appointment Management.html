@@ -300,7 +300,16 @@
     function renderPatients(list) {
       const container = document.getElementById('patientList');
       container.querySelectorAll('.patient-item').forEach(e => e.remove());
+
+      // Only add the first instance of each patient by patient id
+      const uniquePatients = new Map();
       list.forEach(p => {
+        if (!uniquePatients.has(p.id)) {
+          uniquePatients.set(p.id, p);
+        }
+      });
+
+      uniquePatients.forEach(p => {
         const div = document.createElement('div');
         div.className = 'item patient-item';
         div.textContent = p.name;

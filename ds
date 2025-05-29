@@ -1,10 +1,16 @@
-[33mcommit 39bf1e7033cbadb7bac1bbbc15ef0fdce6dd68a5[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m
+[33mcommit bd5140d3e642af6ed5d40ed849622d0a09d6b366[m[33m ([m[1;36mHEAD -> [m[1;32mworking-ver[m[33m)[m
 Author: JayyyyUPV <emtolentino2@up.edu.ph>
-Date:   Fri May 30 04:22:41 2025 +0800
+Date:   Fri May 30 04:55:12 2025 +0800
 
-    Database EJs Ver
+    working
 
-[33mcommit 129754f53e89aea530b9f1efb62736a8bf6a92dc[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+[33mcommit e5da319d10c8a41b7fd5db9dbc87fe0becb9d322[m
+Author: JayyyyUPV <emtolentino2@up.edu.ph>
+Date:   Fri May 30 04:53:12 2025 +0800
+
+    working ver
+
+[33mcommit 129754f53e89aea530b9f1efb62736a8bf6a92dc[m
 Merge: 45c7f52 4768012
 Author: JayyyyUPV <emtolentino2@up.edu.ph>
 Date:   Fri May 30 01:03:47 2025 +0800
