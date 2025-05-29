@@ -149,7 +149,7 @@
       return age;
     }
 
-    window.onload = function () {
+    document.addEventListener('DOMContentLoaded', function () {
       const params = new URLSearchParams(window.location.search);
       const patientId = params.get('id');
 
@@ -182,12 +182,12 @@
           document.getElementById('date_admitted').value = patient.date_admitted;
         })
         .catch(err => console.error('Failed to load patient data:', err));
-    };
+
       document.getElementById('editForm').addEventListener('submit', function(e) {
-            const dob = document.getElementById('date_of_birth').value;
-            document.getElementById('hidden_age').value = calculateAgeFromDOB(dob);
-          });
-          
+        const dob = document.getElementById('date_of_birth').value;
+        document.getElementById('hidden_age').value = calculateAgeFromDOB(dob);
+      });
+    });
   </script>
 </body>
 </html>
