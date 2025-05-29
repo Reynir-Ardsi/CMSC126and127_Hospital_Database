@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>All Doctors' Schedules for the Day</title>
+  <title>Schedules for the Day</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -144,7 +144,7 @@
 <body>
   <header>
     <button class="back-button" onclick="history.back()">←</button>
-    All Doctors' Schedules for the Day
+    Schedules for the Day
   </header>
   <div class="main">
     <!-- Left Side: Calendar and Add Schedule -->
@@ -213,6 +213,7 @@
       const doctorRes = await fetch('PHP files/getAllDoctors.php');
       doctors = await doctorRes.json();
       const doctorSelect = document.getElementById('doctorSelect');
+      doctorSelect.innerHTML = '<option value="">Select Doctor</option>';
       doctors.forEach(doc => {
         const opt = document.createElement('option');
         opt.value = doc.id || doc.user_id;
@@ -224,6 +225,7 @@
       const patientRes = await fetch('PHP files/getPatients.php');
       patients = await patientRes.json();
       const patientSelect = document.getElementById('patientSelect');
+      patientSelect.innerHTML = '<option value="">Select Patient</option>';
       patients.forEach(pat => {
         const opt = document.createElement('option');
         opt.value = pat.id || pat.patient_id;
@@ -232,7 +234,7 @@
       });
     }
 
-    // Fetch all appointments
+    // Fetch all appointments and update both calendar and table
     async function fetchAllAppointments() {
       const res = await fetch("PHP files/getAllAppointments.php");
       const data = await res.json();
@@ -242,6 +244,7 @@
         const key = a.appointment_date;
         if (!appointments[key]) appointments[key] = [];
         appointments[key].push({
+          id: a.appointment_id,
           time: a.time,
           room: a.room_number,
           doctor: `${a.doctor_first_name} ${a.doctor_last_name}`,
@@ -251,7 +254,7 @@
         });
       });
       renderCalendar();
-      renderTodaySchedule();
+      renderAllSchedulesTable();
     }
 
     function formatDateKey(year, month, day) {
@@ -297,6 +300,34 @@
       });
     }
 
+    // Show all schedules in the right table
+    function renderAllSchedulesTable() {
+      const tbody = document.getElementById("schedule-body");
+      tbody.innerHTML = '';
+      // Sort by date and time
+      const sorted = [...allAppointments].sort((a, b) => {
+        if (a.appointment_date === b.appointment_date) {
+          return a.time.localeCompare(b.time);
+        }
+        return a.appointment_date.localeCompare(b.appointment_date);
+      });
+      sorted.forEach(app => {
+        const doctorName = `${app.doctor_first_name} ${app.doctor_last_name}`;
+        const patientName = `${app.patient_first_name} ${app.middle_initial || ''} ${app.patient_last_name}`;
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${app.appointment_date}</td>
+          <td>${app.time}</td>
+          <td>${doctorName}</td>
+          <td>${patientName}</td>
+          <td>${app.room_number}</td>
+          <td>${app.reason}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    // Optionally, you can still use this for day details
     function renderDayDetails(dateKey) {
       const dayAppts = appointments[dateKey] || [];
       alert(
@@ -304,22 +335,6 @@
           ? 'No appointments'
           : dayAppts.map(app => `Doctor: ${app.doctor} | Patient: ${app.patient} | Room: ${app.room} | Time: ${app.time}`).join('\n')
       );
-    }
-
-    function renderTodaySchedule() {
-      const todayKey = new Date().toISOString().split('T')[0];
-      const todayAppointments = appointments[todayKey] || [];
-      const tbody = document.getElementById("schedule-body");
-      tbody.innerHTML = todayAppointments.map(app =>
-        `<tr>
-          <td>${todayKey}</td>
-          <td>${app.time}</td>
-          <td>${app.doctor}</td>
-          <td>${app.patient}</td>
-          <td>${app.room}</td>
-          <td>${app.reason}</td>
-        </tr>`
-      ).join('');
     }
 
     // Add schedule handler
@@ -359,7 +374,7 @@
         if (result.success) {
           alert('Schedule added!');
           this.reset();
-          await fetchAllAppointments();
+          await fetchAllAppointments(); // <-- This will reload both calendar and table
         } else {
           alert('Error: ' + (result.error || 'Unknown error'));
         }
