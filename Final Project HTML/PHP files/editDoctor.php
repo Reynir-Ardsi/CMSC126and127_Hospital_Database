@@ -36,7 +36,6 @@ if (
     if ($stmt_users->execute() && $stmt_login->execute()) {
         echo "Doctor updated successfully.";
     } else {
-        http_response_code(500);
         echo "Error updating doctor: " . $conn->error;
     }
 
@@ -44,7 +43,6 @@ if (
     $stmt_login->close();
 
 } else {
-    http_response_code(400);
     echo "Invalid input.";
 }
 
