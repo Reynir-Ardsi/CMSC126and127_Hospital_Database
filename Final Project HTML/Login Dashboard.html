@@ -192,6 +192,12 @@
       font-size: 14px;
     }
   </style>
+  <script>
+    // Remove .loaded before CSS is applied, so transition always works
+    document.addEventListener('DOMContentLoaded', function() {
+      document.body.classList.remove('loaded');
+    });
+  </script>
 </head>
 
 <body>
