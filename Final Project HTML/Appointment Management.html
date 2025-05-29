@@ -249,7 +249,7 @@
         });
 
       // Load patients
-      fetch('PHP%20files/getPatient.php')
+      fetch('PHP%20files/getAllPatientsWithRooms.php')
         .then(res => res.json())
         .then(list => {
           allPatients = list;
@@ -303,7 +303,7 @@
       list.forEach(p => {
         const div = document.createElement('div');
         div.className = 'item patient-item';
-        div.textContent = p.name;
+        div.textContent = p.full_name;
         div.dataset.id = p.id;
         div.onclick = () => selectPatient(div);
         container.appendChild(div);

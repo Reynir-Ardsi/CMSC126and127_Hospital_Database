@@ -11,8 +11,7 @@ $sql = "
         patient_id, 
         first_name, 
         middle_initial, 
-        last_name, 
-        room_number 
+        last_name
     FROM patient
 ";
 

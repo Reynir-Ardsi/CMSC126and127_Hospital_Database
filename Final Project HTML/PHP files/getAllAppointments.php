@@ -4,6 +4,7 @@ include 'DBConnector.php';
 $sql = "
     SELECT DISTINCT 
         appointment.appointment_id,
+        appointment.room_number,
         users.first_name AS doctor_first_name,
         users.last_name AS doctor_last_name,
         patient.first_name AS patient_first_name,
