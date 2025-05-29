@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Hospital Login</title>
 
   <link
@@ -11,7 +11,7 @@
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
     crossorigin=""
   />
-  
+
   <script defer
     src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
@@ -25,31 +25,27 @@
       padding: 0;
     }
 
+    /* Initial hidden state */
     body.preload {
       opacity: 0;
-      visibility: hidden;
       transform: translateY(10px);
-      transition:
-        opacity 2.5s cubic-bezier(0.4, 0, 0.2, 1),
-        visibility 0s linear 2.5s,
-        transform 2.5s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: opacity 2.5s ease, transform 2.5s ease;
     }
 
+    /* Final visible state */
     body {
       font-family: Arial, sans-serif;
       background-color: #a39d9d;
       display: flex;
       min-height: 100vh;
       overflow-x: hidden;
+
       opacity: 1;
-      visibility: visible;
       transform: translateY(0);
-      transition:
-        opacity 2.5s cubic-bezier(0.4, 0, 0.2, 1),
-        visibility 0s linear 2.5s,
-        transform 2.5s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: opacity 2.5s ease, transform 2.5s ease;
     }
 
+    /* ... rest of your styles unchanged ... */
     .firstBox {
       width: 40%;
       background-color: #547792;
@@ -194,9 +190,10 @@
       font-size: 14px;
     }
   </style>
+
   <script>
-    // Remove .preload on window load to trigger transition every time
-    window.addEventListener('load', function() {
+    // Remove preload on window load to trigger transition
+    window.addEventListener('load', () => {
       document.body.classList.remove('preload');
     });
   </script>
@@ -313,7 +310,7 @@
       }
     });
 
-    // 🚀 Login Submission with sessionStorage + JSON
+    // Login Submission with sessionStorage + JSON
     document.getElementById("loginForm").addEventListener("submit", function (e) {
       e.preventDefault();
       const formData = new FormData(e.target);
@@ -368,10 +365,6 @@
     document.getElementById('forgotLink').addEventListener('click', function(e) {
       e.preventDefault();
       openForgotPopup();
-    });
-
-    window.addEventListener('load', () => {
-      document.body.classList.add('loaded');
     });
   </script>
 </body>
