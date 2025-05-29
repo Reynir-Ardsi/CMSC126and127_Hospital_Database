@@ -2,9 +2,9 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Manage Nurses</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manage Nurse/Receptionist</title>
   <style>
     body {
       margin: 0;
@@ -55,6 +55,7 @@
       background-color: #ffffff;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
     }
 
     .form-section h2, .list-section h2 {
@@ -67,10 +68,22 @@
     }
 
     .form-group input {
-      width: 100%;
+      width: 95%;
       padding: 10px;
       border: 1px solid #ccc;
       border-radius: 5px;
+    }
+
+    toggle-password {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      font-size: 14px;
+      background: none;
+      border: none;
+      color: #007bff;
     }
 
     .form-actions {
@@ -133,52 +146,281 @@
 
     .edit { background-color: #007bff; }
     .delete { background-color: #dc3545; }
+
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #213448;
+      color: white;
+      padding: 12px 18px;
+      border-radius: 8px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 9999;
+    }
+
+    .toast.show {
+      opacity: 1;
+    }
+
+    .password-input-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      max-width: 220px;      
+      box-sizing: border-box;
+    }
+
+    .password-input-wrapper input {
+      flex-shrink: 1;
+      width: 150px;          
+      min-width: 0;          
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .toggle-password {
+      flex-shrink: 0;
+      padding: 8px 12px;
+      font-size: 14px;
+      cursor: pointer;
+      background: none;
+      border: 1px solid #007bff;
+      border-radius: 5px;
+      color: #007bff;
+    }
   </style>
 </head>
 
 <body>
   <header>
     <button class="back-button" onclick="history.back()">&#8592;</button>
-    <h1>Manage Nurses</h1>
-    <img src="logo.png" alt="Logo" class="logo" />
+    <h1>Manage Nurse / Receptionist</h1>
+    <img src="Logo Only.png" alt="Logo" class="logo" />
   </header>
 
   <div class="container">
-    <!-- Registration Form -->
+    <!-- Form Section -->
     <div class="form-section">
-      <h2>Registration Form</h2>
-      <form id="nurseForm">
-        <div class="form-group"><input type="text" id="nurseID" placeholder="e.g. Nurse Jane" required></div>
-        <div class="form-group"><input type="text" id="firstName" placeholder="First Name" required></div>
-        <div class="form-group"><input type="text" id="middleInitial" placeholder="Middle Initial"></div>
-        <div class="form-group"><input type="text" id="lastName" placeholder="Last Name" required></div>
-        <div class="form-group"><input type="text" id="contact" placeholder="e.g. 123-456-7890" required></div>
-        <div class="form-group"><input type="email" id="email" placeholder="nurse@example.com" required></div>
-        <div class="form-group"><input type="text" id="username" placeholder="Username" required></div>
-        <div class="form-group"><input type="password" id="password" placeholder="Password" required></div>
+      <h2 id="formTitle">Registration Form - Nurse</h2>
+      <form id="staffForm">
+        <div class="form-group">
+          <label for="role">Select Role:</label>
+          <select id="role" required>
+            <option value="nurse">Nurse</option>
+            <option value="receptionist">Receptionist</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="userID">ID:</label>
+          <input type="text" id="userID" placeholder="e.g. 01" required>
+        </div>
+
+        <div class="form-group">
+          <label for="firstName">First Name:</label>
+          <input type="text" id="firstName" placeholder="First Name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="middleInitial">Middle Initial:</label>
+          <input type="text" id="middleInitial" placeholder="Middle Initial"> 
+        </div>
+
+        <div class="form-group">
+          <label for="lastName">Last Name:</label>
+          <input type="text" id="lastName" placeholder="Last Name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="contact">Contact Number:</label>
+          <input type="tel" id="contact" placeholder="e.g. 1234567890" required>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address:</label>
+          <input type="email" id="email" placeholder="johndoe@example.com" required>
+        </div>
+
+        <div class="form-group">
+          <label for="username">Username:</label>
+          <input type="text" id="username" placeholder="Username" required>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <div class="password-input-wrapper">
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="button" class="toggle-password" onclick="togglePassword()">Show</button>
+          </div>
+        </div>
+
         <div class="form-actions">
-          <button type="submit">+ Add Nurse</button>
+          <button type="submit" id="submitBtn">+ Add</button>
           <button type="reset">Clear</button>
         </div>
       </form>
     </div>
 
-    <!-- Nurse's List -->
+    <!-- List Section -->
     <div class="list-section">
-      <h2>Nurse List</h2>
+      <h2 id="listTitle">Nurse's List</h2>
       <div class="search-container">
-        <input type="text" id="searchInput" placeholder="Search nurses...">
+        <input type="text" id="searchInput" placeholder="Search nurses..." />
       </div>
       <table>
         <thead>
           <tr>
-            <th>ID</th><th>First</th><th>M.I.</th><th>Last</th><th>Contact</th><th>Email</th><th>Username</th><th>Password</th><th colspan="2"></th>
+            <th>ID</th><th>First</th><th>M.I.</th><th>Last</th><th>Contact Number</th><th>Email Address</th><th>Username</th><th colspan="2"></th>
           </tr>
         </thead>
-        <tbody id="nurseTableBody"></tbody>
+        <tbody id="staffTable"></tbody>
       </table>
     </div>
   </div>
-</body>
 
+  <div id="toast" class="toast"></div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const roleSelect = document.getElementById("role");
+      const formTitle = document.getElementById("formTitle");
+      const listTitle = document.getElementById("listTitle");
+      const staffForm = document.getElementById("staffForm");
+      const staffTable = document.getElementById("staffTable");
+      const submitBtn = document.getElementById("submitBtn");
+      const searchInput = document.getElementById("searchInput");
+
+      let currentRole = "nurse";
+
+      roleSelect.addEventListener("change", () => {
+        currentRole = roleSelect.value;
+        formTitle.textContent = `Registration Form - ${capitalize(currentRole)}`;
+        listTitle.textContent = `${capitalize(currentRole)}'s List`;
+        submitBtn.textContent = `+ Add ${capitalize(currentRole)}`;
+        searchInput.placeholder = `Search ${(currentRole)}...`;
+        fetchStaff();
+      });
+
+      staffForm.onsubmit = async (e) => {
+        e.preventDefault();
+        const data = getFormData();
+        submitBtn.disabled = true;
+        const response = await fetch(`PHP files/add${capitalize(currentRole)}.php`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+        const result = await response.text();
+        showToast(result);
+        staffForm.reset();
+        fetchStaff();
+        submitBtn.disabled = false;
+      };
+
+      window.editStaff = function (staff) {
+        document.getElementById("userID").value = staff.user_id;
+        document.getElementById("firstName").value = staff.first_name;
+        document.getElementById("middleInitial").value = staff.middle_initial;
+        document.getElementById("lastName").value = staff.last_name;
+        document.getElementById("contact").value = staff.contact_number;
+        document.getElementById("email").value = staff.email;
+        document.getElementById("username").value = staff.username;
+        document.getElementById("password").value = staff.password;
+
+        staffForm.onsubmit = async function (e) {
+          e.preventDefault();
+          const updatedData = getFormData();
+          const response = await fetch(`PHP files/edit${capitalize(currentRole)}.php`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(updatedData),
+          });
+          const result = await response.text();
+          showToast(result);
+          staffForm.reset();
+          fetchStaff();
+          staffForm.onsubmit = submitBtn.onsubmit;
+        };
+      };
+
+      window.deleteStaff = async function (id) {
+        if (!confirm("Are you sure?")) return;
+        const response = await fetch(`PHP files/delete${capitalize(currentRole)}.php`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userID: id }),
+        });
+        const result = await response.text();
+        showToast(result);
+        fetchStaff();
+      };
+
+      searchInput.addEventListener("input", () => {
+        const value = searchInput.value.toLowerCase();
+        Array.from(staffTable.children).forEach(row => {
+          const visible = Array.from(row.children).some(cell => cell.textContent.toLowerCase().includes(value));
+          row.style.display = visible ? "" : "none";
+        });
+      });
+
+      function getFormData() {
+        return {
+          userID: document.getElementById("userID").value,
+          firstName: document.getElementById("firstName").value,
+          middleInitial: document.getElementById("middleInitial").value,
+          lastName: document.getElementById("lastName").value,
+          contact: document.getElementById("contact").value,
+          email: document.getElementById("email").value,
+          username: document.getElementById("username").value,
+          password: document.getElementById("password").value
+        };
+      }
+
+      async function fetchStaff() {
+        const response = await fetch(`PHP files/get${capitalize(currentRole)}.php`);
+        const staff = await response.json();
+        staffTable.innerHTML = "";
+        staff.forEach(member => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${member.user_id}</td>
+            <td>${member.first_name}</td>
+            <td>${member.middle_initial}</td>
+            <td>${member.last_name}</td>
+            <td>${member.contact_number}</td>
+            <td>${member.email}</td>
+            <td>${member.username}</td>
+            <td><button class="edit" onclick='editStaff(${JSON.stringify(member)})'>Edit</button></td>
+            <td><button class="delete" onclick='deleteStaff("${member.user_id}")'>Delete</button></td>
+          `;
+          staffTable.appendChild(tr);
+        });
+      }
+
+      function showToast(message) {
+        const toast = document.getElementById("toast");
+        toast.textContent = message;
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 3000);
+      }
+
+      function capitalize(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+      }
+
+      fetchStaff(); // initial load
+    });
+
+    function togglePassword() {
+      const input = document.getElementById("password");
+      const btn = document.querySelector(".toggle-password");
+      const show = input.type === "password";
+      input.type = show ? "text" : "password";
+      btn.textContent = show ? "Hide" : "Show";
+    }
+  </script>
+</body>
 </html>
