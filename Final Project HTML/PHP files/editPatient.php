@@ -10,79 +10,98 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $sex = $_POST['sex'] ?? '';
     $contact_number = isset($_POST['contact_number']) ? intval($_POST['contact_number']) : null;
     $address = $_POST['address'] ?? '';
-    // Optional or missing fields - set to NULL if not provided
-    $medical_history = null; // You can extend your form to add this if needed
     $date_admitted = $_POST['date_admitted'] ?? null;
     $age = isset($_POST['age']) ? intval($_POST['age']) : null;
     $email_address = $_POST['email_address'] ?? '';
     $emergency_contact = $_POST['emergency_contact'] ?? '';
     $marital_status = $_POST['marital_status'] ?? '';
     $occupation = $_POST['occupation'] ?? '';
+    $middle_initial = $_POST['middle_initial'] ?? '';
+
+    // Fields for medical_record table
+    $medical_history = $_POST['medical_history'] ?? null;
     $insurance_provider = $_POST['insurance_provider'] ?? '';
     $allergies = $_POST['allergies'] ?? '';
-    $middle_initial = $_POST['middle_initial'] ?? '';
-    $medical_history = $_POST['medical_history'] ?? null;
     $prescriptions = $_POST['prescriptions'] ?? null;
     $lifestyle = $_POST['lifestyle'] ?? null;
 
-
-    // Prepare the SQL statement matching table column order
-    $sql = "UPDATE patient SET 
+    // Update patient table
+    $sql1 = "UPDATE patient SET 
         first_name = ?, 
         last_name = ?, 
         date_of_birth = ?, 
         sex = ?, 
         contact_number = ?, 
         address = ?, 
-        medical_history = ?, 
         date_admitted = ?, 
         age = ?, 
         email_address = ?, 
         emergency_contact = ?, 
         marital_status = ?, 
         occupation = ?, 
-        insurance_provider = ?, 
-        allergies = ?, 
-        prescriptions = ?, 
-        lifestyle = ?, 
         middle_initial = ? 
     WHERE patient_id = ?";
 
-    if ($stmt = $conn->prepare($sql)) {
+    if ($stmt = $conn->prepare($sql1)) {
         $stmt->bind_param(
-            "ssssisssisssssssssi",
+            "ssssississsssi",
             $first_name,
             $last_name,
             $date_of_birth,
             $sex,
             $contact_number,
             $address,
-            $medical_history,
             $date_admitted,
             $age,
             $email_address,
             $emergency_contact,
             $marital_status,
             $occupation,
-            $insurance_provider,
-            $allergies,
-            $prescriptions,
-            $lifestyle,
             $middle_initial,
             $id
         );
 
         if ($stmt->execute()) {
-            // Success: redirect or show a message
+            $stmt->close();
+
+            // Update medical_record table
+            $sql2 = "UPDATE medical_record SET 
+                medical_history = ?, 
+                insurance_provider = ?, 
+                allergies = ?, 
+                lifestyle = ?, 
+                prescriptions = ? 
+            WHERE patient_id = ?";
+
+            if ($stmt2 = $conn->prepare($sql2)) {
+                $stmt2->bind_param(
+                    "sssssi",
+                    $medical_history,
+                    $insurance_provider,
+                    $allergies,
+                    $lifestyle,
+                    $prescriptions,
+                    $id
+                );
+
+                if (!$stmt2->execute()) {
+                    echo "Error updating medical_record: " . $stmt2->error;
+                }
+
+                $stmt2->close();
+            } else {
+                echo "Prepare failed for medical_record update: " . $conn->error;
+            }
+
+            // Redirect after both updates
             header("Location: ../View Patients(Nurse Dashboard).html");
             exit();
         } else {
             echo "Error updating patient: " . $stmt->error;
+            $stmt->close();
         }
-
-        $stmt->close();
     } else {
-        echo "Prepare failed: " . $conn->error;
+        echo "Prepare failed for patient update: " . $conn->error;
     }
 
     $conn->close();

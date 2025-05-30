@@ -20,7 +20,8 @@ $sql = "SELECT
             appointment.appointment_date, 
             appointment.status, 
             appointment.appointment_id,
-            appointment.reason
+            appointment.reason,
+            appointment.room_number
         FROM appointment
         JOIN patient ON appointment.patient_id = patient.patient_id
         WHERE appointment.doctor_id = ?";

@@ -11,6 +11,7 @@ try {
     $patientId      = isset($_POST['patientId'])     ? (int)$_POST['patientId']     : 0;
     $appointmentDate= $_POST['appointmentDate']      ?? '';
     $rawTime        = $_POST['appointmentTime']      ?? '';
+    $roomNumber        = $_POST['roomNumber']      ?? '';
     $time           = preg_match('/^\d{2}:\d{2}$/', $rawTime) ? "$rawTime:00" : $rawTime;
     $reason         = trim($_POST['reason']          ?? '');
 
@@ -38,19 +39,20 @@ try {
     $stmt = $conn->prepare("
         INSERT INTO appointment
           (appointment_id, patient_id, doctor_id,
-           appointment_date, time, status, reason)
-        VALUES (?, ?, ?, ?, ?, 1, ?)
+           appointment_date, time, room_number, status, reason)
+        VALUES (?, ?, ?, ?, ?, ?, 1, ?)
     ");
     if (!$stmt) {
         throw new Exception("Prepare failed: " . $conn->error);
     }
     $stmt->bind_param(
-        "iiisss",
+        "iiissss",
         $appointmentId,
         $patientId,
         $doctorId,
         $appointmentDate,
         $time,
+        $roomNumber,
         $reason
     );
 
